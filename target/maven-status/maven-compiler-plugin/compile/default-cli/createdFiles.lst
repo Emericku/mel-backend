@@ -1,0 +1,16 @@
+fr/polytech/melusine/exceptions/InternalServerErrorException.class
+fr/polytech/melusine/configurations/SpringSecurityConfiguration$1.class
+fr/polytech/melusine/models/entities/Login.class
+fr/polytech/melusine/models/dtos/AuthenticationResponse.class
+fr/polytech/melusine/repositories/LoginRepository.class
+fr/polytech/melusine/models/dtos/AuthenticationResponse$AuthenticationResponseBuilder.class
+fr/polytech/melusine/configurations/SpringSecurityConfiguration.class
+fr/polytech/melusine/exceptions/errors/AccountError.class
+fr/polytech/melusine/exceptions/ErrorCodeException.class
+fr/polytech/melusine/MelusineApplication.class
+fr/polytech/melusine/exceptions/errors/AuthorizationError.class
+fr/polytech/melusine/exceptions/UnauthorizedException.class
+fr/polytech/melusine/exceptions/errors/OrderError.class
+fr/polytech/melusine/models/entities/Login$LoginBuilder.class
+fr/polytech/melusine/exceptions/ForbiddenException.class
+fr/polytech/melusine/exceptions/errors/ErrorCode.class

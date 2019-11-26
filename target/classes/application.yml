@@ -1,0 +1,17 @@
+spring.datasource:
+  url: jdbc:mysql://localhost:3306/melusine
+  username: root
+  password: root
+  initialization-mode: always
+
+spring.jpa:
+  properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+  generate-ddl: true
+  hibernate.ddl-auto: create
+  show-sql: false
+
+melusine.jwt:
+  issuer: fr.polytech
+  sign-key: kgCBXKmroU9Y3zVYmEBY8IdHuVJEXF5XNLWY7zy1Q7WVDt1PYLHtx1s5qpoH
+  header-name: Authorization
+  time-to-live: 3600
