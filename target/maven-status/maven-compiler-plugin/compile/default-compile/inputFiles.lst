@@ -30,8 +30,11 @@
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/errors/ErrorMessage.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/services/AuthenticationService.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/errors/SystemError.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/controllers/UserController.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/repositories/UserRepository.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/requests/AccountRequest.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/configurations/JwtAuthenticationFilter.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/components/RandomStringGenerator.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/components/TokenManager.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/requests/UserRequest.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/BadRequestException.java

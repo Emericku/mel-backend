@@ -29,7 +29,7 @@ public class User {
     @NonNull
     private String lastName;
 
-    private String surname;
+    private String nickName;
 
     private long credit;
 
