@@ -1,14 +1,14 @@
 package fr.polytech.melusine.exceptions.errors;
 
-public enum OrderError implements ErrorCode {
+public enum UserError implements ErrorCode {
 
-    INVALID_ORDER_UUID("OR0001", "The order with the uuid: %s doesn't exists"),
-    INVALID_ORDER("OR0002", "The order has no products");
+    NOT_FOUND("US0001", "User is not found with ID: %s"),
+    CONFLICT("US0002", "User already exists with first name : %s, last name : %s and section : %s");
 
     private final String code;
     private final String description;
 
-    OrderError(String code, String description) {
+    UserError(String code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -25,10 +25,11 @@ public enum OrderError implements ErrorCode {
 
     @Override
     public String toString() {
-        return "OrderBusinessError{" +
+        return "UserBusinessError{" +
                 "code='" + code + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }
+
 
 }

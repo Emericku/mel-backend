@@ -69,11 +69,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         List<String> profiles = Arrays.asList(environment.getActiveProfiles());
 
-        if (profiles.isEmpty() || profiles.contains(LOCAL_PROFILE)) {
-            http.headers().frameOptions().disable();
-        } else {
+        if (profiles.isEmpty() || profiles.contains(LOCAL_PROFILE)) http.headers().frameOptions().disable();
+        else
             http.headers().frameOptions().sameOrigin();
-        }
 
         http
                 .csrf().disable()
@@ -95,7 +93,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/accounts").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/register").permitAll()
 
                 // All other requests need to be authenticated
                 .anyRequest().authenticated().and()
@@ -114,18 +112,16 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             log.error("Error authenticating user", authException);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             // test that header is not null else an error will be thrown (in integration tests we don't have an ORIGIN header)
-            if (request.getHeader(HttpHeaders.ORIGIN) != null) {
+            if (request.getHeader(HttpHeaders.ORIGIN) != null)
                 response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, request.getHeader(HttpHeaders.ORIGIN));
-            }
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             ErrorMessage errorMessage;
-            if (authException instanceof BadCredentialsException) {
-                // This error happens if the user from the JWT token cannot be found by AuthenticationService#authenticateWithToken
+            // This error happens if the user from the JWT token cannot be found by AuthenticationService#authenticateWithToken
+            // This error happens if there is no token in the JwtProperties#getHeaderName header
+            if (authException instanceof BadCredentialsException)
                 errorMessage = buildErrorMessage(AuthorizationError.JWT_INCOHERENT);
-            } else {
-                // This error happens if there is no token in the JwtProperties#getHeaderName header
+            else
                 errorMessage = buildErrorMessage(AuthorizationError.JWT_INVALID);
-            }
             objectMapper.writeValue(response.getOutputStream(), errorMessage);
         }
 

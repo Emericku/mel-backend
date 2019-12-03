@@ -1,17 +1,13 @@
 package fr.polytech.melusine.models.dtos.requests;
 
+import fr.polytech.melusine.models.enums.Section;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
-import java.time.OffsetDateTime;
-
 @Data
 @Builder
-public class UserRequest {
-
-    @NonNull
-    private String password;
+public class UserRegistrationRequest {
 
     @NonNull
     private String firstName;
@@ -22,8 +18,12 @@ public class UserRequest {
     private String nickName;
 
     @NonNull
+    private Section section;
+
     private long credit;
 
     private boolean isMembership;
+
+    private AccountRequest account;
 
 }

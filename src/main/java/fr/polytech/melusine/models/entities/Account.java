@@ -2,10 +2,8 @@ package fr.polytech.melusine.models.entities;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 
@@ -22,12 +20,19 @@ public class Account {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
 
+    @NonNull
+    @Column(unique = true)
     private String email;
 
     @NonNull
     private String password;
 
     private boolean isBarman;
+
+    @NonNull
+    @OneToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private User user;
 
     @NonNull
     private OffsetDateTime createdAt;

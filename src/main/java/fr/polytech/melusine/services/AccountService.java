@@ -7,45 +7,16 @@ import fr.polytech.melusine.models.dtos.requests.AccountRequest;
 import fr.polytech.melusine.models.entities.Account;
 import fr.polytech.melusine.repositories.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authc.credential.PasswordService;
 import org.springframework.stereotype.Service;
-
-import java.time.Clock;
-import java.time.OffsetDateTime;
 
 @Slf4j
 @Service
 public class AccountService {
 
     private final AccountRepository accountRepository;
-    private final PasswordService passwordService;
-    private final Clock clock;
 
-    public AccountService(AccountRepository accountRepository, PasswordService passwordService,
-                          Clock clock) {
+    public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-        this.passwordService = passwordService;
-        this.clock = clock;
-    }
-
-    /**
-     * Create an account.
-     *
-     * @param accountRequest
-     * @return
-     */
-    public void createAccount(AccountRequest accountRequest) {
-        String encryptedPassword = passwordService.encryptPassword(accountRequest.getPassword().trim());
-
-        Account account = Account.builder()
-                .email(accountRequest.getEmail().trim().toLowerCase())
-                .password(encryptedPassword)
-                .isBarman(accountRequest.isBarman())
-                .createdAt(OffsetDateTime.now(clock))
-                .updatedAt(OffsetDateTime.now(clock))
-                .build();
-
-        accountRepository.save(account);
     }
 
     /**
@@ -61,9 +32,7 @@ public class AccountService {
 
         String requestedEmail = accountRequest.getEmail().trim().toLowerCase();
         boolean emailAlreadyExists = accountRepository.existsByEmail(requestedEmail);
-        if (emailAlreadyExists) {
-            throw new ConflictException(AccountError.CONFLICT_EMAIL, requestedEmail);
-        }
+        if (emailAlreadyExists) throw new ConflictException(AccountError.CONFLICT_EMAIL, requestedEmail);
 
         Account updatedAccount = account.toBuilder()
                 .email(accountRequest.getEmail())

@@ -1,40 +1,32 @@
 package fr.polytech.melusine.models.entities;
 
-import fr.polytech.melusine.models.enums.Section;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "orderItems")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class User {
+public class OrderItem {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
 
-    @NonNull
-    private String firstName;
+    private long price;
 
-    @NonNull
-    private String lastName;
+    private int quantity;
 
-    private String nickName;
-
-    @NonNull
-    @Enumerated(EnumType.STRING)
-    private Section section;
-
-    private long credit;
-
-    private boolean isMembership;
+    private String orderId;
 
     @NonNull
     private OffsetDateTime createdAt;

@@ -1,6 +1,6 @@
 package fr.polytech.melusine.controllers;
 
-import fr.polytech.melusine.models.dtos.requests.UserRequest;
+import fr.polytech.melusine.models.dtos.requests.UserRegistrationRequest;
 import fr.polytech.melusine.models.dtos.responses.UserResponse;
 import fr.polytech.melusine.services.UserService;
 import org.springframework.data.domain.Page;
@@ -19,9 +19,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    public void createUser(@RequestBody UserRequest userRequest) {
-        userService.createUser(userRequest);
+    @PostMapping(path = "/register")
+    public void createUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
+        userService.createUser(userRegistrationRequest);
     }
 
     @GetMapping

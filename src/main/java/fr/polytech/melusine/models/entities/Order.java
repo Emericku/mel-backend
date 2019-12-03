@@ -1,6 +1,5 @@
 package fr.polytech.melusine.models.entities;
 
-import fr.polytech.melusine.models.enums.Section;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -8,38 +7,32 @@ import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class User {
+public class Order {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
 
-    @NonNull
-    private String firstName;
+    private String displayName;
 
-    @NonNull
-    private String lastName;
+    @OneToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = true)
+    private User user;
 
-    private String nickName;
-
-    @NonNull
-    @Enumerated(EnumType.STRING)
-    private Section section;
-
-    private long credit;
-
-    private boolean isMembership;
+    private long total;
 
     @NonNull
     private OffsetDateTime createdAt;
 
     @NonNull
     private OffsetDateTime updatedAt;
+
+    private boolean delivered;
 
 }

@@ -1,40 +1,39 @@
 package fr.polytech.melusine.models.entities;
 
-import fr.polytech.melusine.models.enums.Section;
+import fr.polytech.melusine.models.enums.Category;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "products")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class User {
+public class Product {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
 
-    @NonNull
-    private String firstName;
+    private String name;
 
-    @NonNull
-    private String lastName;
+    private long price;
 
-    private String nickName;
-
-    @NonNull
     @Enumerated(EnumType.STRING)
-    private Section section;
+    private Category category;
 
-    private long credit;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "id")
+    private List<Ingredient> ingredients;
 
-    private boolean isMembership;
+    private String image;
+
+    private boolean isOriginal;
 
     @NonNull
     private OffsetDateTime createdAt;

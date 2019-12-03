@@ -2,9 +2,9 @@ package fr.polytech.melusine.exceptions.errors;
 
 public enum AccountError implements ErrorCode {
 
-    INVALID_CLIENT_ID("LO0001", "Account is not found with client ID: %s"),
-    INVALID_EMAIL("LO0002", "Account is not found with email: %s"),
-    CONFLICT_EMAIL("LO0003", "An account already exists with  not email: %s");
+    INVALID_CLIENT_ID("AC0001", "Account is not found with client ID: %s"),
+    INVALID_EMAIL("AC0002", "Account is not found with email: %s"),
+    CONFLICT_EMAIL("AC0003", "An account already exists with this email: %s");
 
     private final String code;
     private final String description;
