@@ -2,53 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76929de5-78f5-41e0-a523-c4f754c760ff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/IngredientController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/OrderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/ProductController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/UserError.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/mappers/IngredientMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/mappers/ProductMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/IngredientRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/OrderRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/ProductRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/responses/IngredientResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/responses/ProductResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/Ingredient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/Order.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/OrderItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/enums/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/enums/Section.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/repositories/IngredientRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/repositories/OrderItemRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/repositories/OrderRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/repositories/ProductRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/IngredientService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/OrderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_schema_2_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger2_2_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger_common_2_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_swagger_annotations_1_5_20.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_swagger_models_1_5_20.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mapstruct_mapstruct_1_2_0_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SwaggerConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melusine.iml" beforeDir="false" afterPath="$PROJECT_DIR$/melusine.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SpringSecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SpringSecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/AccountError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/AccountError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/IngredientError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/IngredientError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/OrderError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/OrderError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/ProductError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/ProductError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AccountRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AccountRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AuthenticationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AuthenticationRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/UserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/UserRegistrationRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/responses/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/responses/UserResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -75,12 +40,46 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/data.sql">
           <provider editor-type-id="OdpsQlGraph" />
           <provider selected="true" editor-type-id="OdpsQlEditor">
             <state relative-caret-position="347">
-              <caret line="33" column="22" lean-forward="true" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
+              <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SwaggerConfiguration.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="550">
+              <caret line="52" column="75" selection-start-line="52" selection-start-column="75" selection-end-line="52" selection-end-column="75" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#845#871#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SpringSecurityConfiguration.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="266">
+              <caret line="100" column="16" selection-start-line="100" selection-start-column="16" selection-end-line="100" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="78" column="43" selection-start-line="78" selection-start-column="43" selection-end-line="78" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -110,24 +109,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/IngredientError.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="98" selection-start-line="5" selection-start-column="98" selection-end-line="5" selection-end-column="98" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/ProductError.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/IngredientRequest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
@@ -152,19 +133,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/Ingredient.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="259">
-              <caret line="28" column="25" lean-forward="true" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/repositories/OrderItemRepository.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+              <caret line="28" column="25" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -203,8 +172,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/LoginService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/responses/LoginResponse.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/LoginController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/AuthenticationService.java" />
@@ -230,7 +197,6 @@
         <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AccountRequest.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/AccountService.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AccountController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SpringSecurityConfiguration.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/UserController.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/Account.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/exceptions/errors/AccountError.java" />
@@ -254,6 +220,9 @@
         <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/IngredientService.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/ProductService.java" />
         <option value="$PROJECT_DIR$/src/main/resources/data.sql" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SwaggerConfiguration.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SpringSecurityConfiguration.java" />
       </list>
     </option>
   </component>
@@ -455,6 +424,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="settings.saveactions" />
   </component>
   <component name="RecentsManager">
@@ -553,8 +523,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2739628" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2739628" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -569,7 +540,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32891566" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3299363" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3746988" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.3746988" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -641,23 +612,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/AuthenticationService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="21" selection-start-line="21" selection-end-line="22" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/responses/AuthenticationResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="9" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/mappers/IngredientMapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -766,16 +720,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="191">
           <caret line="24" column="60" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SpringSecurityConfiguration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="95" column="62" selection-start-line="95" selection-start-column="62" selection-end-line="95" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1054,7 +998,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/entities/Ingredient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="259">
-          <caret line="28" column="25" lean-forward="true" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
+          <caret line="28" column="25" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1100,7 +1044,35 @@
       </provider>
       <provider selected="true" editor-type-id="OdpsQlEditor">
         <state relative-caret-position="347">
-          <caret line="33" column="22" lean-forward="true" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
+          <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="78" column="43" selection-start-line="78" selection-start-column="43" selection-end-line="78" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SwaggerConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="52" column="75" selection-start-line="52" selection-start-column="75" selection-end-line="52" selection-end-column="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#845#871#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SpringSecurityConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="100" column="16" selection-start-line="100" selection-start-column="16" selection-end-line="100" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

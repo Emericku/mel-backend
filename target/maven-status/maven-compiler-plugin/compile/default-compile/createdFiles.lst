@@ -15,8 +15,10 @@ fr/polytech/melusine/services/AuthenticationService.class
 fr/polytech/melusine/controllers/AccountController.class
 fr/polytech/melusine/exceptions/errors/ValidationError.class
 fr/polytech/melusine/exceptions/ConflictException.class
+fr/polytech/melusine/configurations/SwaggerConfiguration.class
 fr/polytech/melusine/models/dtos/requests/AuthenticationRequest.class
 fr/polytech/melusine/models/dtos/responses/AuthenticationResponse.class
+fr/polytech/melusine/configurations/SwaggerConfiguration$1.class
 fr/polytech/melusine/controllers/UserController.class
 fr/polytech/melusine/models/enums/Category.class
 fr/polytech/melusine/services/UserService.class

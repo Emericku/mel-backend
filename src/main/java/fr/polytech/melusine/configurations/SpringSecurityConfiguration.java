@@ -82,10 +82,14 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/auth/token").permitAll()
 
                 // Allow access to the Swagger documentation
-                .antMatchers(
+                .antMatchers("/v2/api-docs",
                         "/webjars/**",
                         "/configuration/ui",
-                        "/configuration/security"
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/swagger-resources",
+                        "/swagger-resources/configuration/ui",
+                        "/swagger-resources/configuration/security"
                 ).permitAll()
 
                 // Allow CORS OPTION methods

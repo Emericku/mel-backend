@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="melusine" target="1.11" />
+      <module name="melusine" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
