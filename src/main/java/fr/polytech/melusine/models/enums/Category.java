@@ -5,6 +5,7 @@ public enum Category {
     CUSTOM,
     HOT,
     COLD,
-    DRINK
+    DRINK,
+    DESSERT
 
 }

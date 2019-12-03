@@ -79,6 +79,12 @@ public class OrderService {
                 .total(total)
                 .build();
         orderRepository.save(updatedOrder);
+
+        User updatedUser = user.toBuilder()
+                .credit(user.getCredit() - total)
+                .updatedAt(OffsetDateTime.now(clock))
+                .build();
+        userRepository.save(updatedUser);
     }
 
 }

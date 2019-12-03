@@ -33,6 +33,7 @@
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/Item.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/InternalServerErrorException.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/errors/AuthorizationError.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/configurations/SwaggerConfiguration.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/MelusineApplication.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/ForbiddenException.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/controllers/AuthenticationController.java
