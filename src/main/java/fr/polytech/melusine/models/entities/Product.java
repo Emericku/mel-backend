@@ -35,6 +35,8 @@ public class Product {
 
     private boolean isOriginal;
 
+    private long quantity;
+
     @NonNull
     private OffsetDateTime createdAt;
 

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static fr.polytech.melusine.utils.PriceFormatter.formatPrice;
+
 @Component
 public class ProductMapper {
 
@@ -21,7 +23,8 @@ public class ProductMapper {
                 .productId(product.getId())
                 .name(product.getName())
                 .category(product.getCategory())
-                .price(product.getPrice())
+                .price(formatPrice(product.getPrice()))
+                .quantity(product.getQuantity())
                 .ingredients(product.getIngredients())
                 .build();
     }

@@ -27,4 +27,6 @@ public class ProductRequest {
 
     private boolean isOriginal;
 
+    private long quantity;
+
 }

@@ -79,6 +79,7 @@ public class ProductService {
                 .isOriginal(productRequest.isOriginal())
                 .image(productRequest.getImage())
                 .ingredients(ingredients)
+                .quantity(productRequest.getQuantity())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
@@ -128,6 +129,7 @@ public class ProductService {
                 .name(name)
                 .price(product.getPrice())
                 .image(image)
+                .quantity(productRequest.getQuantity())
                 .build();
 
         return productRepository.save(updatedProduct);

@@ -2,6 +2,7 @@ fr/polytech/melusine/models/dtos/responses/AuthenticationResponse$Authentication
 fr/polytech/melusine/exceptions/BadRequestException.class
 fr/polytech/melusine/configurations/JwtProperties.class
 fr/polytech/melusine/configurations/GenericConfiguration.class
+fr/polytech/melusine/utils/PriceFormatter.class
 fr/polytech/melusine/models/entities/Account.class
 fr/polytech/melusine/exceptions/errors/ErrorMessage.class
 fr/polytech/melusine/components/TokenManager.class

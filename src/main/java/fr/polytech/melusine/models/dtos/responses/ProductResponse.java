@@ -15,11 +15,11 @@ public class ProductResponse {
 
     private String name;
 
-    private Category category; // ENUM
+    private Category category;
 
-    private long price; // Reformat double
+    private double price;
 
-    // quantity
+    private long quantity;
 
     private List<Ingredient> ingredients;
 
