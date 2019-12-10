@@ -8,6 +8,7 @@ import fr.polytech.melusine.exceptions.errors.CreditError;
 import fr.polytech.melusine.exceptions.errors.UserError;
 import fr.polytech.melusine.models.dtos.requests.AccountRequest;
 import fr.polytech.melusine.models.dtos.requests.UserRegistrationRequest;
+import fr.polytech.melusine.models.dtos.requests.UserUpdateRequest;
 import fr.polytech.melusine.models.dtos.responses.UserResponse;
 import fr.polytech.melusine.models.entities.Account;
 import fr.polytech.melusine.models.entities.User;
@@ -46,7 +47,7 @@ public class UserService {
     public User createUser(UserRegistrationRequest userRegistrationRequest) {
         log.info("Creation of user with last name: " + userRegistrationRequest.getLastName() +
                 " first name: " + userRegistrationRequest.getFirstName());
-        ensureCreditUpperThanZero(userRegistrationRequest.getCredit());
+        ensureCreditUpperThanZero(formatToLong(userRegistrationRequest.getCredit()));
         String firstName = Strings.capitalize(userRegistrationRequest.getFirstName().toLowerCase().trim());
         String lastName = Strings.capitalize(userRegistrationRequest.getLastName().toLowerCase().trim());
         String nickName = Strings.capitalize(userRegistrationRequest.getNickName().toLowerCase().trim());
@@ -58,7 +59,7 @@ public class UserService {
                 .lastName(lastName)
                 .nickName(nickName)
                 .section(userRegistrationRequest.getSection())
-                .credit(userRegistrationRequest.getCredit())
+                .credit(formatToLong(userRegistrationRequest.getCredit()))
                 .isMembership(userRegistrationRequest.isMembership())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
@@ -94,8 +95,8 @@ public class UserService {
     /**
      * Get all accounts by page.
      *
-     * @param pageable
-     * @return
+     * @param pageable the page
+     * @return a page object of user response
      */
     public Page<UserResponse> getUsers(Pageable pageable) {
         log.debug("Find accounts order by last name");
@@ -112,12 +113,12 @@ public class UserService {
         );
     }
 
-    public User creditUser(String userId, double amount) {
-        log.debug("Credit a user with ID : " + userId + " and amount : " + amount);
+    public User creditUser(String userId, UserUpdateRequest request) {
+        log.debug("Credit a user with ID : " + userId + " and amount : " + request.getCredit());
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, userId));
 
-        long requestedCredit = formatToLong(amount);
+        long requestedCredit = formatToLong(request.getCredit());
         long newCredit = user.getCredit() + requestedCredit;
         User updatedUser = user.toBuilder()
                 .credit(newCredit)

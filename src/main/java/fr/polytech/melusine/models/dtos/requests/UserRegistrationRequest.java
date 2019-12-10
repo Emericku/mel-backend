@@ -20,7 +20,7 @@ public class UserRegistrationRequest {
     @NonNull
     private Section section;
 
-    private long credit;
+    private double credit;
 
     private boolean isMembership;
 

@@ -1,6 +1,7 @@
 package fr.polytech.melusine.controllers;
 
 import fr.polytech.melusine.models.dtos.requests.UserRegistrationRequest;
+import fr.polytech.melusine.models.dtos.requests.UserUpdateRequest;
 import fr.polytech.melusine.models.dtos.responses.UserResponse;
 import fr.polytech.melusine.models.entities.User;
 import fr.polytech.melusine.services.UserService;
@@ -32,9 +33,9 @@ public class UserController {
         return userService.getUsers(pageable);
     }
 
-    @PutMapping(path = "{userId}/credit/{amount}")
-    public User creditUser(@PathVariable String userId, @PathVariable double amount) {
-        return userService.creditUser(userId, amount);
+    @PatchMapping(path = "{userId}")
+    public User creditUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
+        return userService.creditUser(userId, request);
     }
 
 
