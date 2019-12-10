@@ -2,6 +2,7 @@ package fr.polytech.melusine.services;
 
 import fr.polytech.melusine.exceptions.BadRequestException;
 import fr.polytech.melusine.exceptions.ConflictException;
+import fr.polytech.melusine.exceptions.NotFoundException;
 import fr.polytech.melusine.exceptions.errors.AccountError;
 import fr.polytech.melusine.exceptions.errors.CreditError;
 import fr.polytech.melusine.exceptions.errors.UserError;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.Objects;
+
+import static fr.polytech.melusine.utils.PriceFormatter.formatToLong;
 
 @Slf4j
 @Service
@@ -107,6 +110,22 @@ public class UserService {
                 .createdAt(userPage.getCreatedAt())
                 .build()
         );
+    }
+
+    public User creditUser(String userId, double amount) {
+        log.debug("Credit a user with ID : " + userId + " and amount : " + amount);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, userId));
+
+        long requestedCredit = formatToLong(amount);
+        long newCredit = user.getCredit() + requestedCredit;
+        User updatedUser = user.toBuilder()
+                .credit(newCredit)
+                .updatedAt(OffsetDateTime.now(clock))
+                .build();
+
+        log.info("End of credit a user");
+        return userRepository.save(updatedUser);
     }
 
 }

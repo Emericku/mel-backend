@@ -32,4 +32,10 @@ public class UserController {
         return userService.getUsers(pageable);
     }
 
+    @PutMapping(path = "{userId}/credit/{amount}")
+    public User creditUser(@PathVariable String userId, @PathVariable double amount) {
+        return userService.creditUser(userId, amount);
+    }
+
+
 }

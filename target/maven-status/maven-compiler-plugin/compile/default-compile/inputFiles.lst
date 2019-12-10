@@ -47,6 +47,7 @@
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/responses/IngredientResponse.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/errors/UserError.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/errors/ValidationError.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/utils/PriceFormatter.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/repositories/AccountRepository.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/controllers/AccountController.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/entities/User.java

@@ -20,7 +20,7 @@ VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce85', 'Emeric', 'Hoerner', 'Mick', 'EX
 '2019-12-03 12:07:11');
 
 INSERT INTO melusine.ingredients
-(id, name, price, stock, image, created_at, updated_at)
+(id, name, price, quantity, image, created_at, updated_at)
 VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce88', 'Tomate', 50, 100, '/var/lib/tomate', '2019-12-03 12:07:11',
 '2019-12-03 12:07:11'),
 ('6509e418-a12a-4a8a-b7af-8df1f7bcce89', 'Oignon', 50, 100, '/var/lib/oignon', '2019-12-03 12:07:11',

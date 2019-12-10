@@ -52,7 +52,7 @@ public class OrderService {
      */
     @Transactional
     public Order createOrder(OrderRequest orderRequest) {
-        log.info("Create order : " + orderRequest.getName());
+        log.debug("Create order : " + orderRequest.getName());
         if (orderRequest.getItemList().isEmpty()) throw new BadRequestException(OrderError.INVALID_ORDER);
         String displayName = Strings.capitalize(orderRequest.getName().toLowerCase().trim());
         User user = userRepository.findById(orderRequest.getUserId())
@@ -87,28 +87,34 @@ public class OrderService {
                 .total(total)
                 .build();
         orderRepository.save(updatedOrder);
+        log.info("Order saved with ID : " + updatedOrder.getId());
 
+        long newCredit = user.getCredit() - total;
         User updatedUser = user.toBuilder()
-                .credit(user.getCredit() - total)
+                .credit(newCredit)
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
         userRepository.save(updatedUser);
+        log.info("User saved with ID : " + updatedUser.getId() + " and new credit = " + newCredit);
 
         return updatedOrder;
     }
 
 
+    /**
+     * Cancel an item from an order.
+     *
+     * @param orderId the order id
+     * @param itemId  the item id
+     * @return an order item
+     */
     public OrderItem cancelAnItem(String orderId, String itemId) {
         log.info("Remove an item with id : " + itemId);
         OrderItem orderItem = orderItemRepository.findByIdAndOrderId(itemId, orderId)
                 .orElseThrow(() -> new NotFoundException(OrderError.ORDER_ITEM_NOT_FOUND, itemId));
 
-        if (orderItem.isDelivered()) {
-            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_DELIVERED, itemId);
-        }
-        if (orderItem.isCancelled()) {
-            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_CANCELLED, itemId);
-        }
+        ensureOrderItemIsNotDelivered(orderItem);
+        ensureOrderItemIsNotCancelled(orderItem);
 
         OrderItem updatedOrderItem = orderItem.toBuilder()
                 .cancelled(true)
@@ -117,23 +123,38 @@ public class OrderService {
         return orderItemRepository.save(updatedOrderItem);
     }
 
+    /**
+     * Deliver an item from an order.
+     *
+     * @param orderId the order id
+     * @param itemId  the item id
+     * @return an order item
+     */
     public OrderItem deliverAnItem(String orderId, String itemId) {
         log.info("Deliver an item with id : " + itemId);
         OrderItem orderItem = orderItemRepository.findByIdAndOrderId(itemId, orderId)
                 .orElseThrow(() -> new NotFoundException(OrderError.ORDER_ITEM_NOT_FOUND, itemId));
 
-        if (orderItem.isDelivered()) {
-            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_DELIVERED, itemId);
-        }
-        if (orderItem.isCancelled()) {
-            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_CANCELLED, itemId);
-        }
+        ensureOrderItemIsNotDelivered(orderItem);
+        ensureOrderItemIsNotCancelled(orderItem);
 
         OrderItem updatedOrderItem = orderItem.toBuilder()
                 .delivered(true)
                 .build();
 
         return orderItemRepository.save(updatedOrderItem);
+    }
+
+    private void ensureOrderItemIsNotCancelled(OrderItem orderItem) {
+        if (orderItem.isCancelled()) {
+            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_CANCELLED, orderItem.getId());
+        }
+    }
+
+    private void ensureOrderItemIsNotDelivered(OrderItem orderItem) {
+        if (orderItem.isDelivered()) {
+            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_DELIVERED, orderItem.getId());
+        }
     }
 
 }
