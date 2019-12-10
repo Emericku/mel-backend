@@ -137,14 +137,14 @@ public class OrderService {
 
         OrderItem savedOrder = orderItemRepository.save(updatedOrderItem);
 
-        long newCredit = user.getCredit() + orderItem.getPrice();
+        long newCredit = user.getCredit() + orderItem.getPrice() * orderItem.getQuantity();
         User updatedUser = user.toBuilder()
                 .credit(newCredit)
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
 
         userRepository.save(updatedUser);
-        
+
         return savedOrder;
     }
 
