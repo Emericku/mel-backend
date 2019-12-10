@@ -68,7 +68,7 @@ public class IngredientService {
         return ingredientMapper.mapIngredientToIngredientResponse(ingredient);
     }
 
-    public void updateIngredient(String ingredientId, IngredientRequest ingredientRequest) {
+    public Ingredient updateIngredient(String ingredientId, IngredientRequest ingredientRequest) {
         log.debug("Update ingredient by UUID: {}", ingredientId);
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
         Ingredient ingredient = ingredientRepository.findById(ingredientId)
@@ -84,7 +84,7 @@ public class IngredientService {
                 .image(image)
                 .build();
 
-        ingredientRepository.save(updatedIngredient);
+        return ingredientRepository.save(updatedIngredient);
     }
 
     private void ensurePriceUpperThanZero(long price) {

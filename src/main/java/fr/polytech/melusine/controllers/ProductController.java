@@ -2,6 +2,7 @@ package fr.polytech.melusine.controllers;
 
 import fr.polytech.melusine.models.dtos.requests.ProductRequest;
 import fr.polytech.melusine.models.dtos.responses.ProductResponse;
+import fr.polytech.melusine.models.entities.Product;
 import fr.polytech.melusine.services.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,8 +37,8 @@ public class ProductController {
     }
 
     @PutMapping(path = "/{productId}")
-    public void updateProduct(@PathVariable String productId, @RequestBody ProductRequest productRequest) {
-        productService.updateProduct(productId, productRequest);
+    public Product updateProduct(@PathVariable String productId, @RequestBody ProductRequest productRequest) {
+        return productService.updateProduct(productId, productRequest);
     }
 
 }

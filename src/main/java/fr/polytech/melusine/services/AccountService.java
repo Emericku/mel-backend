@@ -24,8 +24,9 @@ public class AccountService {
      *
      * @param id
      * @param accountRequest
+     * @return
      */
-    public void updateAccount(String id, AccountRequest accountRequest) {
+    public Account updateAccount(String id, AccountRequest accountRequest) {
         log.debug("Update account with client ID: {} ", id);
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(AccountError.INVALID_CLIENT_ID, id));
@@ -39,7 +40,7 @@ public class AccountService {
                 .isBarman(accountRequest.isBarman())
                 .build();
 
-        accountRepository.save(updatedAccount);
+        return accountRepository.save(updatedAccount);
     }
 
 }

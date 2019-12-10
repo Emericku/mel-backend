@@ -45,7 +45,7 @@ public class OrderService {
 
 
     @Transactional
-    public void createOrder(OrderRequest orderRequest) {
+    public User createOrder(OrderRequest orderRequest) {
         log.info("Create order : " + orderRequest.getName());
         if (orderRequest.getItemList().isEmpty()) throw new BadRequestException(OrderError.INVALID_ORDER);
         String displayName = Strings.capitalize(orderRequest.getName().toLowerCase().trim());
@@ -84,7 +84,7 @@ public class OrderService {
                 .credit(user.getCredit() - total)
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
-        userRepository.save(updatedUser);
+        return userRepository.save(updatedUser);
     }
 
 }

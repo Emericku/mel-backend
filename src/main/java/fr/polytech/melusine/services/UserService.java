@@ -40,7 +40,7 @@ public class UserService {
         this.clock = clock;
     }
 
-    public void createUser(UserRegistrationRequest userRegistrationRequest) {
+    public User createUser(UserRegistrationRequest userRegistrationRequest) {
         log.info("Creation of user with last name: " + userRegistrationRequest.getLastName() +
                 " first name: " + userRegistrationRequest.getFirstName());
         ensureCreditUpperThanZero(userRegistrationRequest.getCredit());
@@ -80,7 +80,8 @@ public class UserService {
                     .build();
             accountRepository.save(account);
         }
-        log.info("Creation success ! ");
+        log.info("Creation success");
+        return user;
     }
 
     private void ensureCreditUpperThanZero(Long credit) {

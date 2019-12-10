@@ -95,7 +95,7 @@ public class ProductService {
         return productMapper.mapProductToProductResponse(product);
     }
 
-    public void updateProduct(String productId, ProductRequest productRequest) {
+    public Product updateProduct(String productId, ProductRequest productRequest) {
         log.debug("Update product by id: {}", productId);
         ensurePriceUpperThanZero(productRequest.getPrice());
         Product product = productRepository.findById(productId)
@@ -110,7 +110,7 @@ public class ProductService {
                 .image(image)
                 .build();
 
-        productRepository.save(updatedProduct);
+        return productRepository.save(updatedProduct);
     }
 
     private void ensurePriceUpperThanZero(long price) {

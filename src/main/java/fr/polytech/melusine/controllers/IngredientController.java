@@ -2,6 +2,7 @@ package fr.polytech.melusine.controllers;
 
 import fr.polytech.melusine.models.dtos.requests.IngredientRequest;
 import fr.polytech.melusine.models.dtos.responses.IngredientResponse;
+import fr.polytech.melusine.models.entities.Ingredient;
 import fr.polytech.melusine.services.IngredientService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,8 +36,8 @@ public class IngredientController {
     }
 
     @PutMapping(path = "/{ingredientId}")
-    public void updateIngredient(@PathVariable String ingredientId, @RequestBody IngredientRequest ingredientRequest) {
-        ingredientService.updateIngredient(ingredientId, ingredientRequest);
+    public Ingredient updateIngredient(@PathVariable String ingredientId, @RequestBody IngredientRequest ingredientRequest) {
+        return ingredientService.updateIngredient(ingredientId, ingredientRequest);
     }
 
 }
