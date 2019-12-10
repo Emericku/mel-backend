@@ -15,6 +15,6 @@ public class IngredientRequest {
 
     private String image;
 
-    private long stock;
+    private long quantity;
 
 }

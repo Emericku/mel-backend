@@ -16,6 +16,7 @@ public class IngredientMapper {
                 .name(ingredient.getName())
                 .price(ingredient.getPrice())
                 .image(ingredient.getImage())
+                .quantity(ingredient.getQuantity())
                 .build();
     }
 

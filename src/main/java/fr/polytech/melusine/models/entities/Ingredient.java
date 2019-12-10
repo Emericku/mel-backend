@@ -24,7 +24,7 @@ public class Ingredient {
 
     private long price;
 
-    private long stock;
+    private long quantity;
 
     private String image;
 

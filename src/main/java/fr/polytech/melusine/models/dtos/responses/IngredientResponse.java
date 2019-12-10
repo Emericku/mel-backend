@@ -13,6 +13,8 @@ public class IngredientResponse {
 
     private long price;
 
+    private long quantity;
+
     private String image;
 
 }

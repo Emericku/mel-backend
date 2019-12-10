@@ -12,12 +12,11 @@ import fr.polytech.melusine.models.entities.Ingredient;
 import fr.polytech.melusine.repositories.IngredientRepository;
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -47,7 +46,7 @@ public class IngredientService {
                 .name(name)
                 .price(ingredientRequest.getPrice())
                 .image(ingredientRequest.getImage())
-                .stock(ingredientRequest.getStock())
+                .quantity(ingredientRequest.getQuantity())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
@@ -55,13 +54,13 @@ public class IngredientService {
         ingredientRepository.save(ingredient);
     }
 
-    public Page<IngredientResponse> getIngredients(Pageable pageable) {
+    public List<IngredientResponse> getIngredients() {
         log.debug("Find ingredients by page");
-        Page<Ingredient> ingredientPages = ingredientRepository.findAll(pageable);
-        return ingredientPages.map(ingredientMapper::mapIngredientToIngredientResponse);
+        List<Ingredient> ingredients = ingredientRepository.findAll();
+        return ingredientMapper.mapIngredientsToIngredientsResponse(ingredients);
     }
 
-    public IngredientResponse getIngredient(String ingredientId, IngredientRequest ingredientRequest) {
+    public IngredientResponse getIngredient(String ingredientId) {
         log.debug("Find ingredient by UUID: {}", ingredientId);
         Ingredient ingredient = ingredientRepository.findById(ingredientId)
                 .orElseThrow(() -> new NotFoundException(IngredientError.INVALID_INGREDIENT_UUID));

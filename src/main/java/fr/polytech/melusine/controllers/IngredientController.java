@@ -4,11 +4,9 @@ import fr.polytech.melusine.models.dtos.requests.IngredientRequest;
 import fr.polytech.melusine.models.dtos.responses.IngredientResponse;
 import fr.polytech.melusine.models.entities.Ingredient;
 import fr.polytech.melusine.services.IngredientService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/ingredients", produces = "application/json; charset=UTF-8")
@@ -26,13 +24,13 @@ public class IngredientController {
     }
 
     @GetMapping
-    public Page<IngredientResponse> getIngredients(@PageableDefault(size = 20, page = 0, sort = "name", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ingredientService.getIngredients(pageable);
+    public List<IngredientResponse> getIngredients() {
+        return ingredientService.getIngredients();
     }
 
     @GetMapping(path = "/{ingredientId}")
     public IngredientResponse getIngredient(@PathVariable String ingredientId, @RequestBody IngredientRequest ingredientRequest) {
-        return ingredientService.getIngredient(ingredientId, ingredientRequest);
+        return ingredientService.getIngredient(ingredientId);
     }
 
     @PutMapping(path = "/{ingredientId}")
