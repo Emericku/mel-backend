@@ -1,6 +1,8 @@
 package fr.polytech.melusine.repositories;
 
 import fr.polytech.melusine.models.entities.OrderItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -24,5 +26,12 @@ public interface OrderItemRepository extends CrudRepository<OrderItem, String> {
      * @return a list of order item
      */
     List<OrderItem> findAllByOrderId(String orderId);
+
+    /**
+     * Find all item from an order.
+     *
+     * @return a page of item
+     */
+    Page<OrderItem> findAll(Pageable pageable);
 
 }

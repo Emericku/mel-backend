@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.OffsetDateTime;
+
 @Data
 @Builder
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class IngredientResponse {
+public class OrderItemResponse {
 
-    private String ingredientId;
+    private String id;
 
     private String name;
 
@@ -18,6 +20,14 @@ public class IngredientResponse {
 
     private long quantity;
 
-    private String image;
+    private String orderId;
+
+    private boolean delivered;
+
+    private boolean cancelled;
+
+    private OffsetDateTime createdAt;
+
+    private OffsetDateTime updatedAt;
 
 }

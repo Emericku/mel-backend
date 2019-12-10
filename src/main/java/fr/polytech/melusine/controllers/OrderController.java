@@ -1,9 +1,14 @@
 package fr.polytech.melusine.controllers;
 
 import fr.polytech.melusine.models.dtos.requests.OrderRequest;
+import fr.polytech.melusine.models.dtos.responses.OrderItemResponse;
 import fr.polytech.melusine.models.entities.Order;
 import fr.polytech.melusine.models.entities.OrderItem;
 import fr.polytech.melusine.services.OrderService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,6 +34,13 @@ public class OrderController {
     @PostMapping(path = "/deliver/{itemId}")
     public OrderItem deliverOrderItem(@PathVariable String itemId) {
         return orderService.deliverOrderItem(itemId);
+    }
+
+    @GetMapping
+    public Page<OrderItemResponse> getOrderItems(
+            @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return orderService.getOrderItems(pageable);
     }
 
 }

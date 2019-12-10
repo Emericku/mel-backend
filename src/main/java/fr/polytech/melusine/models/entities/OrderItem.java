@@ -24,7 +24,7 @@ public class OrderItem {
 
     private long price;
 
-    private int quantity;
+    private long quantity;
 
     private String orderId;
 

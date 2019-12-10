@@ -5,8 +5,10 @@ import fr.polytech.melusine.exceptions.NotFoundException;
 import fr.polytech.melusine.exceptions.errors.OrderError;
 import fr.polytech.melusine.exceptions.errors.ProductError;
 import fr.polytech.melusine.exceptions.errors.UserError;
+import fr.polytech.melusine.mappers.OrderItemMapper;
 import fr.polytech.melusine.models.Item;
 import fr.polytech.melusine.models.dtos.requests.OrderRequest;
+import fr.polytech.melusine.models.dtos.responses.OrderItemResponse;
 import fr.polytech.melusine.models.entities.Order;
 import fr.polytech.melusine.models.entities.OrderItem;
 import fr.polytech.melusine.models.entities.Product;
@@ -17,6 +19,8 @@ import fr.polytech.melusine.repositories.ProductRepository;
 import fr.polytech.melusine.repositories.UserRepository;
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,15 +35,17 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final OrderItemRepository orderItemRepository;
     private final UserRepository userRepository;
+    private final OrderItemMapper orderItemMapper;
     private final Clock clock;
 
 
     public OrderService(OrderRepository orderRepository, ProductRepository productRepository,
-                        OrderItemRepository orderItemRepository, UserRepository userRepository, Clock clock) {
+                        OrderItemRepository orderItemRepository, UserRepository userRepository, OrderItemMapper orderItemMapper, Clock clock) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.orderItemRepository = orderItemRepository;
         this.userRepository = userRepository;
+        this.orderItemMapper = orderItemMapper;
         this.clock = clock;
     }
 
@@ -118,15 +124,28 @@ public class OrderService {
         log.info("Remove an item with id : " + itemId);
         OrderItem orderItem = orderItemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException(OrderError.ORDER_ITEM_NOT_FOUND, itemId));
-
         ensureOrderItemIsNotDelivered(orderItem);
         ensureOrderItemIsNotCancelled(orderItem);
+        Order order = orderRepository.findById(orderItem.getOrderId())
+                .orElseThrow(() -> new NotFoundException(OrderError.ORDER_NOT_FOUND, orderItem.getId()));
+        User user = userRepository.findById(order.getUser().getId())
+                .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, order.getUser().getId()));
 
         OrderItem updatedOrderItem = orderItem.toBuilder()
                 .cancelled(true)
                 .build();
 
-        return orderItemRepository.save(updatedOrderItem);
+        OrderItem savedOrder = orderItemRepository.save(updatedOrderItem);
+
+        long newCredit = user.getCredit() + orderItem.getPrice();
+        User updatedUser = user.toBuilder()
+                .credit(newCredit)
+                .updatedAt(OffsetDateTime.now(clock))
+                .build();
+
+        userRepository.save(updatedUser);
+        
+        return savedOrder;
     }
 
     /**
@@ -162,4 +181,13 @@ public class OrderService {
         }
     }
 
+    public Page<OrderItemResponse> getOrderItems(Pageable pageable) {
+        log.debug("Find all order items");
+        Page<OrderItem> orderItems = orderItemRepository.findAll(pageable);
+        return orderItems.map(item -> {
+            Order order = orderRepository.findById(item.getOrderId())
+                    .orElseThrow(() -> new NotFoundException(OrderError.ORDER_NOT_FOUND, item.getId()));
+            return orderItemMapper.mapToOrderItemResponse(item, order.getDisplayName());
+        });
+    }
 }
