@@ -9,6 +9,7 @@ public class UserMapper {
 
     public UserSearchResponse mapToUserSearchResponse(User user) {
         return UserSearchResponse.builder()
+                .userId(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .nickName(user.getNickName())
