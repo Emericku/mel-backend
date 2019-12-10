@@ -3,6 +3,7 @@ package fr.polytech.melusine.repositories;
 import fr.polytech.melusine.models.entities.Product;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends PagingAndSortingRepository<Product, String> {
@@ -21,5 +22,13 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, S
      * @return
      */
     boolean existsByNameAndIsOriginalTrue(String name);
+
+    /**
+     * Find all product.
+     *
+     * @return a list of product
+     */
+    @Override
+    List<Product> findAll();
 
 }

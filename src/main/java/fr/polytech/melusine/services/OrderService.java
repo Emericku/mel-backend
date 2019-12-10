@@ -44,19 +44,25 @@ public class OrderService {
     }
 
 
+    /**
+     * Creation of an order.
+     *
+     * @param orderRequest the request
+     * @return the order
+     */
     @Transactional
-    public User createOrder(OrderRequest orderRequest) {
+    public Order createOrder(OrderRequest orderRequest) {
         log.info("Create order : " + orderRequest.getName());
         if (orderRequest.getItemList().isEmpty()) throw new BadRequestException(OrderError.INVALID_ORDER);
         String displayName = Strings.capitalize(orderRequest.getName().toLowerCase().trim());
         User user = userRepository.findById(orderRequest.getUserId())
                 .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, orderRequest.getUserId()));
+
         Order order = Order.builder()
                 .displayName(displayName)
                 .user(user)
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
-                .delivered(false)
                 .build();
         Order savedOrder = orderRepository.save(order);
 
@@ -70,6 +76,8 @@ public class OrderService {
                     .quantity(item.getQuantity())
                     .createdAt(OffsetDateTime.now(clock))
                     .updatedAt(OffsetDateTime.now(clock))
+                    .delivered(false)
+                    .cancelled(false)
                     .build();
             total = total + orderItem.getQuantity() * orderItem.getPrice();
             orderItemRepository.save(orderItem);
@@ -84,7 +92,48 @@ public class OrderService {
                 .credit(user.getCredit() - total)
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
-        return userRepository.save(updatedUser);
+        userRepository.save(updatedUser);
+
+        return updatedOrder;
+    }
+
+
+    public OrderItem cancelAnItem(String orderId, String itemId) {
+        log.info("Remove an item with id : " + itemId);
+        OrderItem orderItem = orderItemRepository.findByIdAndOrderId(itemId, orderId)
+                .orElseThrow(() -> new NotFoundException(OrderError.ORDER_ITEM_NOT_FOUND, itemId));
+
+        if (orderItem.isDelivered()) {
+            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_DELIVERED, itemId);
+        }
+        if (orderItem.isCancelled()) {
+            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_CANCELLED, itemId);
+        }
+
+        OrderItem updatedOrderItem = orderItem.toBuilder()
+                .cancelled(true)
+                .build();
+
+        return orderItemRepository.save(updatedOrderItem);
+    }
+
+    public OrderItem deliverAnItem(String orderId, String itemId) {
+        log.info("Deliver an item with id : " + itemId);
+        OrderItem orderItem = orderItemRepository.findByIdAndOrderId(itemId, orderId)
+                .orElseThrow(() -> new NotFoundException(OrderError.ORDER_ITEM_NOT_FOUND, itemId));
+
+        if (orderItem.isDelivered()) {
+            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_DELIVERED, itemId);
+        }
+        if (orderItem.isCancelled()) {
+            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_CANCELLED, itemId);
+        }
+
+        OrderItem updatedOrderItem = orderItem.toBuilder()
+                .delivered(true)
+                .build();
+
+        return orderItemRepository.save(updatedOrderItem);
     }
 
 }

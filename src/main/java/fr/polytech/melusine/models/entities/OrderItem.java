@@ -28,6 +28,10 @@ public class OrderItem {
 
     private String orderId;
 
+    private boolean delivered;
+
+    private boolean cancelled;
+
     @NonNull
     private OffsetDateTime createdAt;
 

@@ -33,6 +33,4 @@ public class Order {
     @NonNull
     private OffsetDateTime updatedAt;
 
-    private boolean delivered;
-
 }

@@ -42,7 +42,13 @@ public class ProductService {
         this.clock = clock;
     }
 
-    public void createProduct(ProductRequest productRequest) {
+    /**
+     * Create a product.
+     *
+     * @param productRequest the request
+     * @return a product
+     */
+    public Product createProduct(ProductRequest productRequest) {
         log.info("Create product : " + productRequest.getName());
         if (productRepository.existsByNameAndIsOriginalTrue(productRequest.getName())) {
             throw new ConflictException(ProductError.CONFLICT, productRequest.getName());
@@ -77,10 +83,11 @@ public class ProductService {
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
 
-        productRepository.save(product);
         log.info("Creation success : " + productRequest.getName() + " category : " + category);
+        return productRepository.save(product);
     }
 
+    @Deprecated
     public Page<ProductResponse> getProducts(Pageable pageable) {
         log.debug("Find product by page");
         Page<Product> productPages = productRepository.findAll(pageable);
@@ -88,6 +95,12 @@ public class ProductService {
         return productPages.map(productMapper::mapProductToProductResponse);
     }
 
+    /**
+     * Get a product by his id.
+     *
+     * @param productId the product id
+     * @return a product response
+     */
     public ProductResponse getProduct(String productId) {
         log.debug("Find product by id: {}", productId);
         Product product = productRepository.findById(productId)
@@ -95,6 +108,13 @@ public class ProductService {
         return productMapper.mapProductToProductResponse(product);
     }
 
+    /**
+     * Update a product.
+     *
+     * @param productId      the product ID
+     * @param productRequest the request
+     * @return the product
+     */
     public Product updateProduct(String productId, ProductRequest productRequest) {
         log.debug("Update product by id: {}", productId);
         ensurePriceUpperThanZero(productRequest.getPrice());
@@ -118,4 +138,15 @@ public class ProductService {
             throw new BadRequestException(CreditError.INVALID_CREDIT, price);
     }
 
+    /**
+     * Get all products.
+     *
+     * @return a list of products response
+     */
+    public List<ProductResponse> getProducts() {
+        log.debug("Find all products");
+        List<Product> products = productRepository.findAll();
+
+        return productMapper.mapProductsToProductsResponse(products);
+    }
 }

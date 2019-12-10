@@ -1,6 +1,7 @@
 package fr.polytech.melusine.models.dtos.responses;
 
 import fr.polytech.melusine.models.entities.Ingredient;
+import fr.polytech.melusine.models.enums.Category;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,9 +15,11 @@ public class ProductResponse {
 
     private String name;
 
-    private String category;
+    private Category category; // ENUM
 
-    private long price;
+    private long price; // Reformat double
+
+    // quantity
 
     private List<Ingredient> ingredients;
 

@@ -1,7 +1,7 @@
 package fr.polytech.melusine.controllers;
 
 import fr.polytech.melusine.models.dtos.requests.OrderRequest;
-import fr.polytech.melusine.models.entities.User;
+import fr.polytech.melusine.models.entities.Order;
 import fr.polytech.melusine.services.OrderService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public User createOrder(@RequestBody OrderRequest orderRequest) {
+    public Order createOrder(@RequestBody OrderRequest orderRequest) {
         return orderService.createOrder(orderRequest);
     }
 
