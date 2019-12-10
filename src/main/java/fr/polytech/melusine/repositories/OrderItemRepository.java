@@ -25,7 +25,4 @@ public interface OrderItemRepository extends CrudRepository<OrderItem, String> {
      */
     List<OrderItem> findAllByOrderId(String orderId);
 
-
-    boolean existsByOrderIdAndCancelledFalseOrDeliveredFalse(String orderId);
-
 }

@@ -12,11 +12,12 @@ VALUES ('8fa3aca1-c0bf-4586-b519-a7878d6577c0', 'emeric.hoerner@gmail.com',
 
 INSERT INTO melusine.users
 (id, first_name, last_name, nick_name, section, credit, is_membership, created_at, updated_at)
-VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce85', 'Emeric', 'Hoerner', 'Mick', 'EXTERNAL', 100, 1, '2019-12-03 12:07:11',
+VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce85', 'Emeric', 'Hoerner', 'Mick', 'EXTERNAL', 10000, 1, '2019-12-03 12:07:11'
+,
 '2019-12-03 12:07:11'),
-('6509e418-a12a-4a8a-b7af-8df1f7bcce86', 'Jason', 'Mangin', 'Jazzy', 'EXTERNAL', 100, 1, '2019-12-03 12:07:11',
+('6509e418-a12a-4a8a-b7af-8df1f7bcce86', 'Jason', 'Mangin', 'Jazzy', 'EXTERNAL', 10000, 1, '2019-12-03 12:07:11',
 '2019-12-03 12:07:11'),
-('6509e418-a12a-4a8a-b7af-8df1f7bcce87', 'Stephane', 'Mazzei', 'Maze', 'EXTERNAL', 100, 1, '2019-12-03 12:07:11',
+('6509e418-a12a-4a8a-b7af-8df1f7bcce87', 'Stephane', 'Mazzei', 'Maze', 'EXTERNAL', 10000, 1, '2019-12-03 12:07:11',
 '2019-12-03 12:07:11');
 
 INSERT INTO melusine.ingredients

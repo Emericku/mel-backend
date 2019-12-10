@@ -19,6 +19,6 @@ public class OrderRequest {
     private String userId;
 
     @NonNull
-    private List<Item> itemList;
+    private List<Item> items;
 
 }

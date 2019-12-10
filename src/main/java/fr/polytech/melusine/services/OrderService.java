@@ -53,10 +53,11 @@ public class OrderService {
     @Transactional
     public Order createOrder(OrderRequest orderRequest) {
         log.debug("Create order : " + orderRequest.getName());
-        if (orderRequest.getItemList().isEmpty()) throw new BadRequestException(OrderError.INVALID_ORDER);
+        if (orderRequest.getItems().isEmpty()) throw new BadRequestException(OrderError.INVALID_ORDER);
         String displayName = Strings.capitalize(orderRequest.getName().toLowerCase().trim());
         User user = userRepository.findById(orderRequest.getUserId())
                 .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, orderRequest.getUserId()));
+        ensureUserCreditIsUpperThanZero(user);
 
         Order order = Order.builder()
                 .displayName(displayName)
@@ -67,7 +68,7 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
 
         long total = 0;
-        for (Item item : orderRequest.getItemList()) {
+        for (Item item : orderRequest.getItems()) {
             Product product = productRepository.findById(item.getProductId())
                     .orElseThrow(() -> new NotFoundException(ProductError.INVALID_PRODUCT_ID));
             OrderItem orderItem = OrderItem.builder()
@@ -100,17 +101,22 @@ public class OrderService {
         return updatedOrder;
     }
 
+    private void ensureUserCreditIsUpperThanZero(User user) {
+        if (user.getCredit() <= 0) {
+            throw new BadRequestException(UserError.USER_CREDIT_UNDER_ZERO, user.getId());
+        }
+    }
+
 
     /**
      * Cancel an item from an order.
      *
-     * @param orderId the order id
-     * @param itemId  the item id
+     * @param itemId the item id
      * @return an order item
      */
-    public OrderItem cancelAnItem(String orderId, String itemId) {
+    public OrderItem cancelOrderItem(String itemId) {
         log.info("Remove an item with id : " + itemId);
-        OrderItem orderItem = orderItemRepository.findByIdAndOrderId(itemId, orderId)
+        OrderItem orderItem = orderItemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException(OrderError.ORDER_ITEM_NOT_FOUND, itemId));
 
         ensureOrderItemIsNotDelivered(orderItem);
@@ -126,13 +132,12 @@ public class OrderService {
     /**
      * Deliver an item from an order.
      *
-     * @param orderId the order id
-     * @param itemId  the item id
+     * @param itemId the item id
      * @return an order item
      */
-    public OrderItem deliverAnItem(String orderId, String itemId) {
+    public OrderItem deliverOrderItem(String itemId) {
         log.info("Deliver an item with id : " + itemId);
-        OrderItem orderItem = orderItemRepository.findByIdAndOrderId(itemId, orderId)
+        OrderItem orderItem = orderItemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException(OrderError.ORDER_ITEM_NOT_FOUND, itemId));
 
         ensureOrderItemIsNotDelivered(orderItem);
