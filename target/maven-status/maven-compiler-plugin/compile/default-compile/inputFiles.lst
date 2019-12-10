@@ -14,6 +14,7 @@
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/components/AuthenticationToken.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/controllers/OrderController.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/repositories/OrderRepository.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/requests/UserUpdateRequest.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/controllers/ProductController.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/repositories/IngredientRepository.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/responses/ProductResponse.java
@@ -26,6 +27,7 @@
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/errors/SystemError.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/services/OrderService.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/repositories/UserRepository.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/responses/UserSearchResponse.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/configurations/JwtAuthenticationFilter.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/requests/OrderRequest.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/requests/UserRegistrationRequest.java
@@ -63,6 +65,7 @@
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/controllers/UserController.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/requests/AccountRequest.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/mappers/ProductMapper.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/mappers/UserMapper.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/components/RandomStringGenerator.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/components/TokenManager.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/BadRequestException.java

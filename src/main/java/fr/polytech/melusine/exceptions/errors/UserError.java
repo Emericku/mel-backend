@@ -2,7 +2,7 @@ package fr.polytech.melusine.exceptions.errors;
 
 public enum UserError implements ErrorCode {
 
-    NOT_FOUND("US0001", "User is not found with ID: %s"),
+    NOT_FOUND("US0001", "User is not found with ID : %s"),
     CONFLICT("US0002", "User already exists with first name : %s, last name : %s and section : %s");
 
     private final String code;

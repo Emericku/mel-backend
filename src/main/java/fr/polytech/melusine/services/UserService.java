@@ -6,10 +6,12 @@ import fr.polytech.melusine.exceptions.NotFoundException;
 import fr.polytech.melusine.exceptions.errors.AccountError;
 import fr.polytech.melusine.exceptions.errors.CreditError;
 import fr.polytech.melusine.exceptions.errors.UserError;
+import fr.polytech.melusine.mappers.UserMapper;
 import fr.polytech.melusine.models.dtos.requests.AccountRequest;
 import fr.polytech.melusine.models.dtos.requests.UserRegistrationRequest;
 import fr.polytech.melusine.models.dtos.requests.UserUpdateRequest;
 import fr.polytech.melusine.models.dtos.responses.UserResponse;
+import fr.polytech.melusine.models.dtos.responses.UserSearchResponse;
 import fr.polytech.melusine.models.entities.Account;
 import fr.polytech.melusine.models.entities.User;
 import fr.polytech.melusine.repositories.AccountRepository;
@@ -34,13 +36,16 @@ public class UserService {
     private UserRepository userRepository;
     private AccountRepository accountRepository;
     private PasswordService passwordService;
+    private UserMapper userMapper;
     private Clock clock;
 
 
-    public UserService(UserRepository userRepository, AccountRepository accountRepository, PasswordService passwordService, Clock clock) {
+    public UserService(UserRepository userRepository, AccountRepository accountRepository, PasswordService passwordService,
+                       UserMapper userMapper, Clock clock) {
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
         this.passwordService = passwordService;
+        this.userMapper = userMapper;
         this.clock = clock;
     }
 
@@ -129,4 +134,15 @@ public class UserService {
         return userRepository.save(updatedUser);
     }
 
+    public Page<UserSearchResponse> searchUser(String name, Pageable pageable) {
+        log.debug("Search user by this char : " + name);
+        String formattedName = name.toLowerCase().trim();
+        Page<User> users = userRepository.findAllByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContainingOrNickNameIgnoreCaseContaining(
+                pageable,
+                formattedName,
+                formattedName,
+                formattedName
+        );
+        return users.map(user -> userMapper.mapToUserSearchResponse(user));
+    }
 }
