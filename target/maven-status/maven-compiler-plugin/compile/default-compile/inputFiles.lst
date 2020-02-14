@@ -13,6 +13,7 @@
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/enums/Category.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/components/AuthenticationToken.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/controllers/OrderController.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/mappers/OrderItemMapper.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/repositories/OrderRepository.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/requests/UserUpdateRequest.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/controllers/ProductController.java
@@ -46,6 +47,7 @@
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/entities/OrderItem.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/NotFoundException.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/mappers/IngredientMapper.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/responses/OrderItemResponse.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/responses/IngredientResponse.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/errors/UserError.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/errors/ValidationError.java
@@ -57,6 +59,7 @@
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/configurations/GenericConfiguration.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/models/dtos/requests/IngredientRequest.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/configurations/JwtProperties.java
+/Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/configurations/PathProperties.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/ConflictException.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/errors/ErrorCode.java
 /Users/emerichoerner/Documents/Melusine/mel-backend/src/main/java/fr/polytech/melusine/exceptions/errors/ProductError.java

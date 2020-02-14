@@ -45,7 +45,7 @@ public class AuthenticationService {
      * @return
      */
     public AuthenticationResponse withPassword(String email, String password) {
-        log.trace("Authentication with username: {}", email);
+        log.debug("Authentication with username: {}", email);
         Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException(AccountError.INVALID_EMAIL, email));
 

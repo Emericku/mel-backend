@@ -22,9 +22,9 @@ public class AccountService {
     /**
      * Update an account.
      *
-     * @param id
-     * @param accountRequest
-     * @return
+     * @param id             the id
+     * @param accountRequest the request
+     * @return the account
      */
     public Account updateAccount(String id, AccountRequest accountRequest) {
         log.debug("Update account with client ID: {} ", id);

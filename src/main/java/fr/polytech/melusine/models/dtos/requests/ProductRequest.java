@@ -21,8 +21,6 @@ public class ProductRequest {
 
     private long price;
 
-    private String image;
-
     private List<String> ingredients;
 
     private boolean isOriginal;

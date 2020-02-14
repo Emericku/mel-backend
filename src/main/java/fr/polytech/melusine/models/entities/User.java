@@ -7,6 +7,9 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 
+/**
+ * The model of the client.
+ */
 @Entity
 @Table(name = "users")
 @Data

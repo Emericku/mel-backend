@@ -34,8 +34,13 @@ public class IngredientService {
         this.clock = clock;
     }
 
+    private Ingredient findIngredientById(String id) {
+        return ingredientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(IngredientError.NOT_FOUND, id));
+    }
+
     public void createIngredient(IngredientRequest ingredientRequest) {
-        log.info("Create ingredient : " + ingredientRequest.getName());
+        log.debug("Create ingredient : " + ingredientRequest.getName());
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
         String name = Strings.capitalize(ingredientRequest.getName().toLowerCase().trim());
         if (ingredientRepository.existsByName(ingredientRequest.getName())) {
@@ -51,6 +56,7 @@ public class IngredientService {
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
 
+        log.info("End of creation of an ingredient");
         ingredientRepository.save(ingredient);
     }
 
@@ -62,16 +68,14 @@ public class IngredientService {
 
     public IngredientResponse getIngredient(String ingredientId) {
         log.debug("Find ingredient by UUID: {}", ingredientId);
-        Ingredient ingredient = ingredientRepository.findById(ingredientId)
-                .orElseThrow(() -> new NotFoundException(IngredientError.INVALID_INGREDIENT_UUID));
+        Ingredient ingredient = findIngredientById(ingredientId);
         return ingredientMapper.mapIngredientToIngredientResponse(ingredient);
     }
 
     public Ingredient updateIngredient(String ingredientId, IngredientRequest ingredientRequest) {
         log.debug("Update ingredient by UUID: {}", ingredientId);
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
-        Ingredient ingredient = ingredientRepository.findById(ingredientId)
-                .orElseThrow(() -> new NotFoundException(IngredientError.INVALID_INGREDIENT_UUID));
+        Ingredient ingredient = findIngredientById(ingredientId);
 
         String name = ingredientRequest.getName().isEmpty() ? ingredient.getName() : ingredientRequest.getName();
         String image = ingredientRequest.getImage().isEmpty() ||
@@ -83,6 +87,7 @@ public class IngredientService {
                 .image(image)
                 .build();
 
+        log.info("End of the update of an ingredient");
         return ingredientRepository.save(updatedIngredient);
     }
 

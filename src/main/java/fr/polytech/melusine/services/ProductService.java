@@ -1,5 +1,6 @@
 package fr.polytech.melusine.services;
 
+import fr.polytech.melusine.configurations.PathProperties;
 import fr.polytech.melusine.exceptions.BadRequestException;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.exceptions.NotFoundException;
@@ -15,10 +16,19 @@ import fr.polytech.melusine.repositories.IngredientRepository;
 import fr.polytech.melusine.repositories.ProductRepository;
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -28,17 +38,20 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@EnableConfigurationProperties({PathProperties.class})
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final IngredientRepository ingredientRepository;
     private final ProductMapper productMapper;
+    private final PathProperties pathProperties;
     private final Clock clock;
 
-    public ProductService(ProductRepository productRepository, IngredientRepository ingredientRepository, ProductMapper productMapper, Clock clock) {
+    public ProductService(ProductRepository productRepository, IngredientRepository ingredientRepository, ProductMapper productMapper, PathProperties pathProperties, Clock clock) {
         this.productRepository = productRepository;
         this.ingredientRepository = ingredientRepository;
         this.productMapper = productMapper;
+        this.pathProperties = pathProperties;
         this.clock = clock;
     }
 
@@ -46,9 +59,10 @@ public class ProductService {
      * Create a product.
      *
      * @param productRequest the request
+     * @param image
      * @return a product
      */
-    public Product createProduct(ProductRequest productRequest) {
+    public Product createProduct(ProductRequest productRequest, MultipartFile image) {
         log.info("Create product : " + productRequest.getName());
         if (productRepository.existsByNameAndIsOriginalTrue(productRequest.getName())) {
             throw new ConflictException(ProductError.CONFLICT, productRequest.getName());
@@ -65,11 +79,15 @@ public class ProductService {
         if (Objects.nonNull(ingredientRequest) && !ingredientRequest.isEmpty()) {
             ingredients.addAll(ingredientRequest.stream()
                     .map(ingredientName -> ingredientRepository.findByName(ingredientName)
-                            .orElseThrow(() -> new NotFoundException(ProductError.INVALID_PRODUCT_NAME, ingredientName)))
+                            .orElseThrow(() -> new NotFoundException(ProductError.INVALID_NAME, ingredientName)))
                     .collect(Collectors.toList()));
             for (Ingredient ingredient : ingredients) {
                 price = price + ingredient.getPrice();
             }
+        }
+        String imagePath = null;
+        if (Objects.nonNull(image)) {
+            imagePath = uploadImage(image);
         }
 
         Product product = Product.builder()
@@ -77,8 +95,8 @@ public class ProductService {
                 .category(category)
                 .price(price)
                 .isOriginal(productRequest.isOriginal())
-                .image(productRequest.getImage())
                 .ingredients(ingredients)
+                .image(imagePath)
                 .quantity(productRequest.getQuantity())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
@@ -86,6 +104,21 @@ public class ProductService {
 
         log.info("Creation success : " + productRequest.getName() + " category : " + category);
         return productRepository.save(product);
+
+    }
+
+    private String uploadImage(MultipartFile image) {
+        String fileName = StringUtils.cleanPath(image.getOriginalFilename());
+        Path path = Paths.get(pathProperties.getBase() + fileName);
+        try {
+            Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/image/")
+                .path(fileName)
+                .toUriString();
     }
 
     @Deprecated
@@ -105,7 +138,7 @@ public class ProductService {
     public ProductResponse getProduct(String productId) {
         log.debug("Find product by id: {}", productId);
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new NotFoundException(ProductError.INVALID_PRODUCT_ID));
+                .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, productId));
         return productMapper.mapProductToProductResponse(product);
     }
 
@@ -114,24 +147,30 @@ public class ProductService {
      *
      * @param productId      the product ID
      * @param productRequest the request
+     * @param image
      * @return the product
      */
-    public Product updateProduct(String productId, ProductRequest productRequest) {
+    public Product updateProduct(String productId, ProductRequest productRequest, MultipartFile image) {
         log.debug("Update product by id: {}", productId);
         ensurePriceUpperThanZero(productRequest.getPrice());
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new NotFoundException(ProductError.INVALID_PRODUCT_ID));
+                .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, productId));
 
         String name = productRequest.getName().isEmpty() ? product.getName() : productRequest.getName();
-        String image = productRequest.getImage().isEmpty() || !Objects.nonNull(productRequest.getImage()) ? product.getImage() : productRequest.getImage();
 
+        String imagePath = null;
+        if (Objects.nonNull(image)) {
+            imagePath = uploadImage(image);
+        }
         Product updatedProduct = product.toBuilder()
                 .name(name)
                 .price(product.getPrice())
-                .image(image)
+                .image(imagePath)
                 .quantity(productRequest.getQuantity())
                 .build();
 
+
+        log.info("End of update a product");
         return productRepository.save(updatedProduct);
     }
 

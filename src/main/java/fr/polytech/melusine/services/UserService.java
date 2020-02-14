@@ -50,7 +50,7 @@ public class UserService {
     }
 
     public User createUser(UserRegistrationRequest userRegistrationRequest) {
-        log.info("Creation of user with last name: " + userRegistrationRequest.getLastName() +
+        log.debug("Creation of user with last name: " + userRegistrationRequest.getLastName() +
                 " first name: " + userRegistrationRequest.getFirstName());
         ensureCreditUpperThanZero(formatToLong(userRegistrationRequest.getCredit()));
         String firstName = Strings.capitalize(userRegistrationRequest.getFirstName().toLowerCase().trim());
@@ -89,7 +89,7 @@ public class UserService {
                     .build();
             accountRepository.save(account);
         }
-        log.info("Creation success");
+        log.info("End of the creation of a user");
         return user;
     }
 

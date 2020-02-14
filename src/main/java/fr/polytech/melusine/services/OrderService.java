@@ -49,6 +49,29 @@ public class OrderService {
         this.clock = clock;
     }
 
+    /**
+     * Find method.
+     */
+
+    private User findUserById(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, id));
+    }
+
+    private OrderItem findOrderItemById(String id) {
+        return orderItemRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(OrderError.ORDER_ITEM_NOT_FOUND, id));
+    }
+
+    private Order findOrderById(String id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(OrderError.ORDER_NOT_FOUND, id));
+    }
+
+    private Product findProductById(String id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ProductError.INVALID_NAME, id));
+    }
 
     /**
      * Creation of an order.
@@ -61,8 +84,7 @@ public class OrderService {
         log.debug("Create order : " + orderRequest.getName());
         if (orderRequest.getItems().isEmpty()) throw new BadRequestException(OrderError.INVALID_ORDER);
         String displayName = Strings.capitalize(orderRequest.getName().toLowerCase().trim());
-        User user = userRepository.findById(orderRequest.getUserId())
-                .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, orderRequest.getUserId()));
+        User user = findUserById(orderRequest.getUserId());
         ensureUserCreditIsUpperThanZero(user);
 
         Order order = Order.builder()
@@ -75,8 +97,7 @@ public class OrderService {
 
         long total = 0;
         for (Item item : orderRequest.getItems()) {
-            Product product = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new NotFoundException(ProductError.INVALID_PRODUCT_ID));
+            Product product = findProductById(item.getProductId());
             OrderItem orderItem = OrderItem.builder()
                     .orderId(savedOrder.getId())
                     .price(product.getPrice())
@@ -121,15 +142,12 @@ public class OrderService {
      * @return an order item
      */
     public OrderItem cancelOrderItem(String itemId) {
-        log.info("Remove an item with id : " + itemId);
-        OrderItem orderItem = orderItemRepository.findById(itemId)
-                .orElseThrow(() -> new NotFoundException(OrderError.ORDER_ITEM_NOT_FOUND, itemId));
+        log.debug("Remove an item with id : " + itemId);
+        OrderItem orderItem = findOrderItemById(itemId);
         ensureOrderItemIsNotDelivered(orderItem);
         ensureOrderItemIsNotCancelled(orderItem);
-        Order order = orderRepository.findById(orderItem.getOrderId())
-                .orElseThrow(() -> new NotFoundException(OrderError.ORDER_NOT_FOUND, orderItem.getId()));
-        User user = userRepository.findById(order.getUser().getId())
-                .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, order.getUser().getId()));
+        Order order = findOrderById(orderItem.getOrderId());
+        User user = findUserById(order.getUser().getId());
 
         OrderItem updatedOrderItem = orderItem.toBuilder()
                 .cancelled(true)
@@ -145,6 +163,7 @@ public class OrderService {
 
         userRepository.save(updatedUser);
 
+        log.info("End of cancel an order item");
         return savedOrder;
     }
 
@@ -155,17 +174,15 @@ public class OrderService {
      * @return an order item
      */
     public OrderItem deliverOrderItem(String itemId) {
-        log.info("Deliver an item with id : " + itemId);
-        OrderItem orderItem = orderItemRepository.findById(itemId)
-                .orElseThrow(() -> new NotFoundException(OrderError.ORDER_ITEM_NOT_FOUND, itemId));
-
+        log.debug("Deliver an item with id : " + itemId);
+        OrderItem orderItem = findOrderItemById(itemId);
         ensureOrderItemIsNotDelivered(orderItem);
         ensureOrderItemIsNotCancelled(orderItem);
 
         OrderItem updatedOrderItem = orderItem.toBuilder()
                 .delivered(true)
                 .build();
-
+        log.info("End of deliver an order item");
         return orderItemRepository.save(updatedOrderItem);
     }
 
@@ -185,9 +202,9 @@ public class OrderService {
         log.debug("Find all order items");
         Page<OrderItem> orderItems = orderItemRepository.findAll(pageable);
         return orderItems.map(item -> {
-            Order order = orderRepository.findById(item.getOrderId())
-                    .orElseThrow(() -> new NotFoundException(OrderError.ORDER_NOT_FOUND, item.getId()));
+            Order order = findOrderById(item.getOrderId());
             return orderItemMapper.mapToOrderItemResponse(item, order.getDisplayName());
         });
     }
+
 }
