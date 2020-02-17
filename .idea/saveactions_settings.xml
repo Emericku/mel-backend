@@ -8,6 +8,7 @@
         <option value="organizeImports" />
         <option value="reformat" />
         <option value="missingOverrideAnnotation" />
+        <option value="unnecessaryThis" />
         <option value="unnecessaryFinalOnLocalVariableOrParameter" />
         <option value="unnecessarySemicolon" />
       </set>

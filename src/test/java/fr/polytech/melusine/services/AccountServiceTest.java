@@ -19,7 +19,7 @@ import java.time.ZoneOffset;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -102,9 +102,9 @@ public class AccountServiceTest {
         when(accountRepository.findById(eq(accountId))).thenReturn(Optional.of(account));
         when(accountRepository.existsByEmail(eq(request.getEmail()))).thenReturn(true);
 
-        assertThrows(ConflictException.class,
-                () -> accountService.updateAccount(accountId, request),
-                "wtf");
+        assertThatExceptionOfType(ConflictException.class)
+                .isThrownBy(() -> accountService.updateAccount(accountId, request))
+                .withMessage("An account already exists with this email: bruce.wayne@gmail.com");
     }
 
 }
