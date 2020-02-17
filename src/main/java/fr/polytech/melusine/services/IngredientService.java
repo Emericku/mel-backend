@@ -92,9 +92,7 @@ public class IngredientService {
     }
 
     private void ensurePriceUpperThanZero(long price) {
-        if (price <= 0)
-            throw new BadRequestException(CreditError.INVALID_CREDIT, price);
+        if (price <= 0) throw new BadRequestException(CreditError.INVALID_CREDIT, price);
     }
-
 
 }

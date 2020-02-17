@@ -7,6 +7,6 @@ import lombok.Data;
 @Builder
 public class UserUpdateRequest {
 
-    private long credit;
+    private double credit;
 
 }

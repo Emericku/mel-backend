@@ -1,6 +1,5 @@
 package fr.polytech.melusine.services;
 
-import fr.polytech.melusine.configurations.PathProperties;
 import fr.polytech.melusine.exceptions.BadRequestException;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.exceptions.NotFoundException;
@@ -16,42 +15,32 @@ import fr.polytech.melusine.repositories.IngredientRepository;
 import fr.polytech.melusine.repositories.ProductRepository;
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.Clock;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@EnableConfigurationProperties({PathProperties.class})
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final IngredientRepository ingredientRepository;
     private final ProductMapper productMapper;
-    private final PathProperties pathProperties;
+    private final ImageManager imageManager;
     private final Clock clock;
 
-    public ProductService(ProductRepository productRepository, IngredientRepository ingredientRepository, ProductMapper productMapper, PathProperties pathProperties, Clock clock) {
+    public ProductService(ProductRepository productRepository, IngredientRepository ingredientRepository, ProductMapper productMapper, ImageManager imageManager, Clock clock) {
         this.productRepository = productRepository;
         this.ingredientRepository = ingredientRepository;
         this.productMapper = productMapper;
-        this.pathProperties = pathProperties;
+        this.imageManager = imageManager;
         this.clock = clock;
     }
 
@@ -59,35 +48,37 @@ public class ProductService {
      * Create a product.
      *
      * @param productRequest the request
-     * @param image
+     * @param image          the image file
      * @return a product
      */
     public Product createProduct(ProductRequest productRequest, MultipartFile image) {
-        log.info("Create product : " + productRequest.getName());
+        log.info("Create a product with name : " + productRequest.getName());
         if (productRepository.existsByNameAndIsOriginalTrue(productRequest.getName())) {
             throw new ConflictException(ProductError.CONFLICT, productRequest.getName());
         }
 
-        long price = productRequest.getPrice();
-        ensurePriceUpperThanZero(price);
+        long productPrice = productRequest.getPrice();
+        ensurePriceUpperThanZero(productPrice);
 
         String name = Strings.capitalize(productRequest.getName().toLowerCase().trim());
         Category category = productRequest.getCategory();
         List<String> ingredientRequest = productRequest.getIngredients();
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
 
-        if (Objects.nonNull(ingredientRequest) && !ingredientRequest.isEmpty()) {
-            ingredients.addAll(ingredientRequest.stream()
-                    .map(ingredientName -> ingredientRepository.findByName(ingredientName)
-                            .orElseThrow(() -> new NotFoundException(ProductError.INVALID_NAME, ingredientName)))
-                    .collect(Collectors.toList()));
-            for (Ingredient ingredient : ingredients) {
-                price = price + ingredient.getPrice();
-            }
-        }
+        List<Ingredient> ingredients = ingredientRequest.stream()
+                .map(ingredientName -> ingredientRepository.findByName(ingredientName)
+                        .orElseThrow(() -> new NotFoundException(ProductError.INVALID_NAME, ingredientName)))
+                .collect(Collectors.toList());
+
+        long ingredientsPrice = ingredients.stream()
+                .map(Ingredient::getPrice)
+                .mapToLong(Long::longValue)
+                .sum();
+
+        long price = productPrice + ingredientsPrice;
+
         String imagePath = null;
         if (Objects.nonNull(image)) {
-            imagePath = uploadImage(image);
+            imagePath = imageManager.uploadImage(image);
         }
 
         Product product = Product.builder()
@@ -102,30 +93,15 @@ public class ProductService {
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
 
-        log.info("Creation success : " + productRequest.getName() + " category : " + category);
+        log.info("End of product's creation with name : " + productRequest.getName() + " and category : " + category);
         return productRepository.save(product);
 
-    }
-
-    private String uploadImage(MultipartFile image) {
-        String fileName = StringUtils.cleanPath(image.getOriginalFilename());
-        Path path = Paths.get(pathProperties.getBase() + fileName);
-        try {
-            Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/image/")
-                .path(fileName)
-                .toUriString();
     }
 
     @Deprecated
     public Page<ProductResponse> getProducts(Pageable pageable) {
         log.debug("Find product by page");
         Page<Product> productPages = productRepository.findAll(pageable);
-
         return productPages.map(productMapper::mapProductToProductResponse);
     }
 
@@ -147,7 +123,7 @@ public class ProductService {
      *
      * @param productId      the product ID
      * @param productRequest the request
-     * @param image
+     * @param image          the image file
      * @return the product
      */
     public Product updateProduct(String productId, ProductRequest productRequest, MultipartFile image) {
@@ -160,7 +136,7 @@ public class ProductService {
 
         String imagePath = null;
         if (Objects.nonNull(image)) {
-            imagePath = uploadImage(image);
+            imagePath = imageManager.uploadImage(image);
         }
         Product updatedProduct = product.toBuilder()
                 .name(name)
@@ -187,7 +163,7 @@ public class ProductService {
     public List<ProductResponse> getProducts() {
         log.debug("Find all products");
         List<Product> products = productRepository.findAll();
-
         return productMapper.mapProductsToProductsResponse(products);
     }
+
 }

@@ -25,7 +25,8 @@ public class Order {
     @JoinColumn(name = "userId", referencedColumnName = "id", nullable = true)
     private User user;
 
-    private long total;
+    @Builder.Default
+    private long total = 0;
 
     @NonNull
     private OffsetDateTime createdAt;

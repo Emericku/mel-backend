@@ -124,7 +124,7 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, userId));
 
         long requestedCredit = formatToLong(request.getCredit());
-        long newCredit = user.getCredit() + requestedCredit;
+        long newCredit = formatToLong(user.getCredit() + requestedCredit);
         User updatedUser = user.toBuilder()
                 .credit(newCredit)
                 .updatedAt(OffsetDateTime.now(clock))

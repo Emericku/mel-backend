@@ -38,7 +38,6 @@ public class OrderService {
     private final OrderItemMapper orderItemMapper;
     private final Clock clock;
 
-
     public OrderService(OrderRepository orderRepository, ProductRepository productRepository,
                         OrderItemRepository orderItemRepository, UserRepository userRepository, OrderItemMapper orderItemMapper, Clock clock) {
         this.orderRepository = orderRepository;
@@ -48,10 +47,6 @@ public class OrderService {
         this.orderItemMapper = orderItemMapper;
         this.clock = clock;
     }
-
-    /**
-     * Find method.
-     */
 
     private User findUserById(String id) {
         return userRepository.findById(id)
@@ -142,7 +137,7 @@ public class OrderService {
      * @return an order item
      */
     public OrderItem cancelOrderItem(String itemId) {
-        log.debug("Remove an item with id : " + itemId);
+        log.debug("Cancel an item from with item id : " + itemId);
         OrderItem orderItem = findOrderItemById(itemId);
         ensureOrderItemIsNotDelivered(orderItem);
         ensureOrderItemIsNotCancelled(orderItem);
@@ -163,7 +158,7 @@ public class OrderService {
 
         userRepository.save(updatedUser);
 
-        log.info("End of cancel an order item");
+        log.info("End of cancel");
         return savedOrder;
     }
 
