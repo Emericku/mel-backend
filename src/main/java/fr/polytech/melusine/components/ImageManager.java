@@ -1,4 +1,4 @@
-package fr.polytech.melusine.services;
+package fr.polytech.melusine.components;
 
 import fr.polytech.melusine.configurations.PathProperties;
 import lombok.extern.slf4j.Slf4j;

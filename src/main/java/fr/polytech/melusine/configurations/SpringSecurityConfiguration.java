@@ -99,6 +99,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.POST, "/users/register").permitAll()
 
+                .antMatchers(HttpMethod.POST, "/account/resend/**").permitAll()
+
                 // All other requests need to be authenticated
                 .anyRequest().authenticated().and()
 

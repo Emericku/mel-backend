@@ -1,5 +1,6 @@
 package fr.polytech.melusine.services;
 
+import fr.polytech.melusine.components.ImageManager;
 import fr.polytech.melusine.exceptions.BadRequestException;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.exceptions.NotFoundException;

@@ -20,4 +20,9 @@ public class AccountController {
         return accountService.updateAccount(clientId, accountRequest);
     }
 
+    @PostMapping(path = "/resend/{email}")
+    public void resendPassword(@PathVariable String email) {
+        accountService.resendPassword(email);
+    }
+
 }

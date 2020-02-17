@@ -1,5 +1,7 @@
 fr/polytech/melusine/models/dtos/requests/UserUpdateRequest.class
 fr/polytech/melusine/models/dtos/responses/OrderItemResponse.class
+fr/polytech/melusine/components/EmailManager.class
+fr/polytech/melusine/components/ImageManager.class
 fr/polytech/melusine/models/dtos/responses/UserSearchResponse.class
 fr/polytech/melusine/mappers/OrderItemMapper.class
 fr/polytech/melusine/models/dtos/responses/OrderItemResponse$OrderItemResponseBuilder.class

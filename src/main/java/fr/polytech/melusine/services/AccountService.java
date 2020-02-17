@@ -1,5 +1,6 @@
 package fr.polytech.melusine.services;
 
+import fr.polytech.melusine.components.EmailManager;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.exceptions.NotFoundException;
 import fr.polytech.melusine.exceptions.errors.AccountError;
@@ -14,9 +15,11 @@ import org.springframework.stereotype.Service;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private EmailManager emailManager;
 
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository, EmailManager emailManager) {
         this.accountRepository = accountRepository;
+        this.emailManager = emailManager;
     }
 
     /**
@@ -41,6 +44,16 @@ public class AccountService {
                 .build();
 
         return accountRepository.save(updatedAccount);
+    }
+
+    /**
+     * Resend the password via email.
+     *
+     * @param email the email.
+     */
+    public void resendPassword(String email) {
+        log.debug("Resend password", email);
+        emailManager.resendPassword(email, "blarf");
     }
 
 }
