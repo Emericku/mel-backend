@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  pull_request:
+    
+jobs:
+  tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: action-maven
+      uses: comchangs/action-maven@v0.4-beta
+    - name: Run a mvn install without executing test
+      run:  mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+    - name: Run tests
+      run:  mvn test -B
