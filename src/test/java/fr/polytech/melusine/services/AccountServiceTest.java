@@ -1,11 +1,10 @@
 package fr.polytech.melusine.services;
 
+import fr.polytech.melusine.TestData;
 import fr.polytech.melusine.components.EmailManager;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.models.dtos.requests.AccountRequest;
 import fr.polytech.melusine.models.entities.Account;
-import fr.polytech.melusine.models.entities.User;
-import fr.polytech.melusine.models.enums.Section;
 import fr.polytech.melusine.repositories.AccountRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,43 +40,13 @@ public class AccountServiceTest {
         accountService = new AccountService(accountRepository, emailManager);
     }
 
-    private Account givenAccount(String accountId) {
-        User user = User.builder()
-                .id("userId")
-                .firstName("Burce")
-                .lastName("Wayne")
-                .nickName("Batman")
-                .section(Section.EXTERNAL)
-                .credit(1000)
-                .isMembership(true)
-                .createdAt(OFFSET_DATE_TIME)
-                .updatedAt(OFFSET_DATE_TIME)
-                .build();
-
-        return Account.builder()
-                .id(accountId)
-                .email("brce.wayne@gmail.com")
-                .password("botmon")
-                .isBarman(false)
-                .user(user)
-                .createdAt(OFFSET_DATE_TIME)
-                .updatedAt(OFFSET_DATE_TIME)
-                .build();
-    }
-
-    private AccountRequest givenAccountRequest() {
-        return AccountRequest.builder()
-                .email("bruce.wayne@gmail.com")
-                .isBarman(true)
-                .password("batman")
-                .build();
-    }
-
     @Test
     public void test_updateAccount() {
         String accountId = "accountId";
-        AccountRequest request = givenAccountRequest();
-        Account account = givenAccount(accountId);
+        AccountRequest request = TestData.ACCOUNT_REQUEST_BRUCE_WAYNE;
+        Account account = TestData.ACCOUNT_BRUCE_WAYNE.toBuilder()
+                .password("botmon")
+                .build();
 
         when(accountRepository.findById(eq(accountId))).thenReturn(Optional.of(account));
         when(accountRepository.existsByEmail(eq(request.getEmail()))).thenReturn(false);
@@ -96,8 +65,8 @@ public class AccountServiceTest {
     @Test
     public void test_updateAccount_throwException() {
         String accountId = "accountId";
-        AccountRequest request = givenAccountRequest();
-        Account account = givenAccount(accountId);
+        AccountRequest request = TestData.ACCOUNT_REQUEST_BRUCE_WAYNE;
+        Account account = TestData.ACCOUNT_BRUCE_WAYNE;
 
         when(accountRepository.findById(eq(accountId))).thenReturn(Optional.of(account));
         when(accountRepository.existsByEmail(eq(request.getEmail()))).thenReturn(true);

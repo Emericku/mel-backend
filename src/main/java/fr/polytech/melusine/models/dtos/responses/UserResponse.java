@@ -1,5 +1,6 @@
 package fr.polytech.melusine.models.dtos.responses;
 
+import fr.polytech.melusine.models.enums.Section;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,6 +15,8 @@ public class UserResponse {
     private String lastName;
 
     private String nickName;
+
+    private Section section;
 
     private long credit;
 

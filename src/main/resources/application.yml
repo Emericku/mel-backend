@@ -22,7 +22,7 @@ melusine.jwt:
   issuer: fr.polytech
   sign-key: kgCBXKmroU9Y3zVYmEBY8IdHuVJEXF5XNLWY7zy1Q7WVDt1PYLHtx1s5qpoH
   header-name: Authorization
-  time-to-live: 3600
+  time-to-live: 36000
 
 melusine.path:
   base: /tmp

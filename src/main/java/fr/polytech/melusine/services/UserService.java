@@ -111,6 +111,7 @@ public class UserService {
                 .lastName(userPage.getLastName())
                 .nickName(userPage.getNickName())
                 .credit(userPage.getCredit())
+                .section(userPage.getSection())
                 .isMembership(userPage.isMembership())
                 .updatedAt(userPage.getUpdatedAt())
                 .createdAt(userPage.getCreatedAt())

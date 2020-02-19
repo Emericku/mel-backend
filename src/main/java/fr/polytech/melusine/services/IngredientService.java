@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -61,30 +60,30 @@ public class IngredientService {
     }
 
     public List<IngredientResponse> getIngredients() {
-        log.debug("Find ingredients by page");
+        log.debug("Find ingredients");
         List<Ingredient> ingredients = ingredientRepository.findAll();
         return ingredientMapper.mapIngredientsToIngredientsResponse(ingredients);
     }
 
     public IngredientResponse getIngredient(String ingredientId) {
-        log.debug("Find ingredient by UUID: {}", ingredientId);
+        log.debug("Find ingredient by id: {}", ingredientId);
         Ingredient ingredient = findIngredientById(ingredientId);
         return ingredientMapper.mapIngredientToIngredientResponse(ingredient);
     }
 
     public Ingredient updateIngredient(String ingredientId, IngredientRequest ingredientRequest) {
-        log.debug("Update ingredient by UUID: {}", ingredientId);
+        log.debug("Update ingredient by id: {}", ingredientId);
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
         Ingredient ingredient = findIngredientById(ingredientId);
 
         String name = ingredientRequest.getName().isEmpty() ? ingredient.getName() : ingredientRequest.getName();
-        String image = ingredientRequest.getImage().isEmpty() ||
-                !Objects.nonNull(ingredientRequest.getImage()) ? ingredient.getImage() : ingredientRequest.getImage();
+        //String image = ingredientRequest.getImage().isEmpty() ||
+        //!Objects.nonNull(ingredientRequest.getImage()) ? ingredient.getImage() : ingredientRequest.getImage();
 
         Ingredient updatedIngredient = ingredient.toBuilder()
                 .name(name)
-                .price(ingredient.getPrice())
-                .image(image)
+                .price(ingredientRequest.getPrice())
+                .quantity(ingredientRequest.getQuantity())
                 .build();
 
         log.info("End of the update of an ingredient");

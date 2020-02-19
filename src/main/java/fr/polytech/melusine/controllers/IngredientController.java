@@ -6,6 +6,7 @@ import fr.polytech.melusine.models.entities.Ingredient;
 import fr.polytech.melusine.services.IngredientService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,12 +30,12 @@ public class IngredientController {
     }
 
     @GetMapping(path = "/{ingredientId}")
-    public IngredientResponse getIngredient(@PathVariable String ingredientId, @RequestBody IngredientRequest ingredientRequest) {
+    public IngredientResponse getIngredient(@PathVariable String ingredientId) {
         return ingredientService.getIngredient(ingredientId);
     }
 
     @PutMapping(path = "/{ingredientId}")
-    public Ingredient updateIngredient(@PathVariable String ingredientId, @RequestBody IngredientRequest ingredientRequest) {
+    public Ingredient updateIngredient(@PathVariable String ingredientId, @RequestBody @Valid IngredientRequest ingredientRequest) {
         return ingredientService.updateIngredient(ingredientId, ingredientRequest);
     }
 

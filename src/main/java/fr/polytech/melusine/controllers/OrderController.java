@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/orders", produces = "application/json; charset=UTF-8")
 public class OrderController {
@@ -22,7 +24,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public Order createOrder(@RequestBody OrderRequest orderRequest) {
+    public Order createOrder(@RequestBody @Valid OrderRequest orderRequest) {
         return orderService.createOrder(orderRequest);
     }
 
