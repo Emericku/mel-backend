@@ -25,14 +25,13 @@ public class AccountService {
     /**
      * Update an account.
      *
-     * @param id             the id
      * @param accountRequest the request
      * @return the account
      */
-    public Account updateAccount(String id, AccountRequest accountRequest) {
-        log.debug("Update account with client ID: {} ", id);
-        Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(AccountError.INVALID_CLIENT_ID, id));
+    public Account updateAccount(AccountRequest accountRequest) {
+        log.debug("Update account with client ID: {} ", accountRequest.getClientId());
+        Account account = accountRepository.findById(accountRequest.getClientId())
+                .orElseThrow(() -> new NotFoundException(AccountError.INVALID_CLIENT_ID, accountRequest.getClientId()));
 
         String requestedEmail = accountRequest.getEmail().trim().toLowerCase();
         boolean emailAlreadyExists = accountRepository.existsByEmail(requestedEmail);

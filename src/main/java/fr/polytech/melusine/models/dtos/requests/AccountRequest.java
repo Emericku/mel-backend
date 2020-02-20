@@ -2,6 +2,7 @@ package fr.polytech.melusine.models.dtos.requests;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -10,6 +11,9 @@ import javax.validation.constraints.Size;
 @Data
 @Builder
 public class AccountRequest {
+
+    @NonNull
+    private String clientId;
 
     @NotEmpty
     @Size(min = 8)

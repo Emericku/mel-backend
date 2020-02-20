@@ -29,14 +29,14 @@ public class IngredientController {
         return ingredientService.getIngredients();
     }
 
-    @GetMapping(path = "/{ingredientId}")
-    public IngredientResponse getIngredient(@PathVariable String ingredientId) {
-        return ingredientService.getIngredient(ingredientId);
+    @GetMapping(path = "/{id}")
+    public IngredientResponse getIngredient(@PathVariable String id) {
+        return ingredientService.getIngredient(id);
     }
 
-    @PutMapping(path = "/{ingredientId}")
-    public Ingredient updateIngredient(@PathVariable String ingredientId, @RequestBody @Valid IngredientRequest ingredientRequest) {
-        return ingredientService.updateIngredient(ingredientId, ingredientRequest);
+    @PutMapping
+    public Ingredient updateIngredient(@RequestBody @Valid IngredientRequest ingredientRequest) {
+        return ingredientService.updateIngredient(ingredientRequest);
     }
 
 }

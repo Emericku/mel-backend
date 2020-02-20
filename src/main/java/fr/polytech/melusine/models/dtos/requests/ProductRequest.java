@@ -13,6 +13,9 @@ import java.util.List;
 public class ProductRequest {
 
     @NonNull
+    private String id;
+
+    @NonNull
     @Size(min = 2)
     private String name;
 

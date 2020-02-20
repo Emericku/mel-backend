@@ -27,27 +27,27 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/register")
+    @PostMapping
     public User createUser(@RequestBody @Valid UserRegistrationRequest userRegistrationRequest) {
         return userService.createUser(userRegistrationRequest);
     }
 
-    @GetMapping(path = "/all")
+    @GetMapping
     public Page<UserResponse> getUsers(
             @PageableDefault(size = 50, page = 0, sort = "lastName", direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return userService.getUsers(pageable);
     }
 
-    @PatchMapping(path = "{userId}")
-    public User creditUser(@PathVariable String userId, @RequestBody @Valid UserUpdateRequest request) {
-        return userService.creditUser(userId, request);
+    @PatchMapping(path = "/{id}")
+    public User creditUser(@PathVariable String id, @RequestBody @Valid UserUpdateRequest request) {
+        return userService.creditUser(id, request);
     }
 
-    @GetMapping
+    @GetMapping(path = "/{name}")
     public Page<UserSearchResponse> searchUser(
             @PageableDefault(size = 20, page = 0, sort = "lastName", direction = Sort.Direction.ASC) Pageable pageable,
-            @RequestParam @Size(min = 3, max = 50) String name) {
+            @PathVariable @Size(min = 3, max = 50) String name) {
         return userService.searchUser(name, pageable);
     }
 

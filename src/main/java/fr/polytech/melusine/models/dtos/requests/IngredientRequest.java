@@ -9,6 +9,9 @@ import lombok.NonNull;
 public class IngredientRequest {
 
     @NonNull
+    private String id;
+
+    @NonNull
     private String name;
 
     private long price;

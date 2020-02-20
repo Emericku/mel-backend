@@ -26,14 +26,14 @@ public class ProductController {
         return productService.createProduct(productRequest, image);
     }
 
-    @GetMapping(path = "/{productId}")
-    public ProductResponse getProduct(@PathVariable String productId) {
-        return productService.getProduct(productId);
+    @GetMapping(path = "/{id}")
+    public ProductResponse getProduct(@PathVariable String id) {
+        return productService.getProduct(id);
     }
 
-    @PutMapping(path = "/{productId}")
-    public Product updateProduct(@PathVariable String productId, @RequestBody @Valid ProductRequest productRequest, MultipartFile image) {
-        return productService.updateProduct(productId, productRequest, image);
+    @PutMapping
+    public Product updateProduct(@RequestBody @Valid ProductRequest productRequest, MultipartFile image) {
+        return productService.updateProduct(productRequest, image);
     }
 
     @GetMapping

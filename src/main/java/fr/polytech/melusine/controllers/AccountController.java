@@ -15,12 +15,12 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping(path = "/{clientId}")
-    public Account updateAccount(@PathVariable String clientId, @RequestBody AccountRequest accountRequest) {
-        return accountService.updateAccount(clientId, accountRequest);
+    @PostMapping
+    public Account updateAccount(@RequestBody AccountRequest accountRequest) {
+        return accountService.updateAccount(accountRequest);
     }
 
-    @PostMapping(path = "/resend/{email}")
+    @PostMapping(path = "/{email}/resend")
     public void resendPassword(@PathVariable String email) {
         accountService.resendPassword(email);
     }

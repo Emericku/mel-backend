@@ -28,12 +28,12 @@ public class OrderController {
         return orderService.createOrder(orderRequest);
     }
 
-    @PostMapping(path = "/cancel/{itemId}")
+    @PostMapping(path = "/{itemId}/cancel")
     public OrderItem cancelOrderItem(@PathVariable String itemId) {
         return orderService.cancelOrderItem(itemId);
     }
 
-    @PostMapping(path = "/deliver/{itemId}")
+    @PostMapping(path = "/{itemId}/deliver")
     public OrderItem deliverOrderItem(@PathVariable String itemId) {
         return orderService.deliverOrderItem(itemId);
     }

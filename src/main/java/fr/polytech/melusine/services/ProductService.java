@@ -122,16 +122,15 @@ public class ProductService {
     /**
      * Update a product.
      *
-     * @param productId      the product ID
      * @param productRequest the request
      * @param image          the image file
      * @return the product
      */
-    public Product updateProduct(String productId, ProductRequest productRequest, MultipartFile image) {
-        log.debug("Update product by id: {}", productId);
+    public Product updateProduct(ProductRequest productRequest, MultipartFile image) {
+        log.debug("Update product by id: {}", productRequest.getId());
         ensurePriceUpperThanZero(productRequest.getPrice());
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, productId));
+        Product product = productRepository.findById(productRequest.getId())
+                .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, productRequest.getId()));
 
         String name = productRequest.getName().isEmpty() ? product.getName() : productRequest.getName();
 

@@ -71,10 +71,10 @@ public class IngredientService {
         return ingredientMapper.mapIngredientToIngredientResponse(ingredient);
     }
 
-    public Ingredient updateIngredient(String ingredientId, IngredientRequest ingredientRequest) {
-        log.debug("Update ingredient by id: {}", ingredientId);
+    public Ingredient updateIngredient(IngredientRequest ingredientRequest) {
+        log.debug("Update ingredient by id: {}", ingredientRequest.getId());
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
-        Ingredient ingredient = findIngredientById(ingredientId);
+        Ingredient ingredient = findIngredientById(ingredientRequest.getId());
 
         String name = ingredientRequest.getName().isEmpty() ? ingredient.getName() : ingredientRequest.getName();
         //String image = ingredientRequest.getImage().isEmpty() ||

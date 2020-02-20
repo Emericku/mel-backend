@@ -2,24 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76929de5-78f5-41e0-a523-c4f754c760ff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/TestData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/OrderServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AccountController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AuthenticationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/IngredientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/IngredientController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/ProductController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AuthenticationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AuthenticationRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/responses/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/responses/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AccountRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AccountRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/IngredientRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/IngredientRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/ProductRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/ProductRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/AccountService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/IngredientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/IngredientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/AccountServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/AccountServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/IngredientServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/IngredientServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/ProductService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,42 +252,42 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="304" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1581953494315" />
-    <state width="1638" height="284" key="GridCell.Tab.0.bottom" timestamp="1582122187148">
+    <state width="1638" height="284" key="GridCell.Tab.0.bottom" timestamp="1582184242739">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1582122187148" />
+    <state width="1638" height="284" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242739" />
     <state width="1638" height="293" key="GridCell.Tab.0.bottom/0.23.1680.947@0.23.1680.947" timestamp="1581951462137" />
-    <state width="1638" height="284" key="GridCell.Tab.0.center" timestamp="1582122187147">
+    <state width="1638" height="284" key="GridCell.Tab.0.center" timestamp="1582184242738">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1582122187147" />
+    <state width="1638" height="284" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242738" />
     <state width="1638" height="293" key="GridCell.Tab.0.center/0.23.1680.947@0.23.1680.947" timestamp="1581951462136" />
-    <state width="1638" height="284" key="GridCell.Tab.0.left" timestamp="1582122187146">
+    <state width="1638" height="284" key="GridCell.Tab.0.left" timestamp="1582184242738">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1582122187146" />
+    <state width="1638" height="284" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242738" />
     <state width="1638" height="293" key="GridCell.Tab.0.left/0.23.1680.947@0.23.1680.947" timestamp="1581951462136" />
-    <state width="1638" height="284" key="GridCell.Tab.0.right" timestamp="1582122187148">
+    <state width="1638" height="284" key="GridCell.Tab.0.right" timestamp="1582184242739">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1582122187148" />
+    <state width="1638" height="284" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242739" />
     <state width="1638" height="293" key="GridCell.Tab.0.right/0.23.1680.947@0.23.1680.947" timestamp="1581951462137" />
-    <state width="1638" height="284" key="GridCell.Tab.1.bottom" timestamp="1582122187048">
+    <state width="1638" height="284" key="GridCell.Tab.1.bottom" timestamp="1582184242634">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1582122187048" />
-    <state width="1638" height="284" key="GridCell.Tab.1.center" timestamp="1582122187047">
+    <state width="1638" height="284" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242634" />
+    <state width="1638" height="284" key="GridCell.Tab.1.center" timestamp="1582184242634">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1582122187047" />
-    <state width="1638" height="284" key="GridCell.Tab.1.left" timestamp="1582122187047">
+    <state width="1638" height="284" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242634" />
+    <state width="1638" height="284" key="GridCell.Tab.1.left" timestamp="1582184242633">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1582122187047" />
-    <state width="1638" height="284" key="GridCell.Tab.1.right" timestamp="1582122187048">
+    <state width="1638" height="284" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242633" />
+    <state width="1638" height="284" key="GridCell.Tab.1.right" timestamp="1582184242634">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1582122187048" />
+    <state width="1638" height="284" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242634" />
     <state x="378" y="187" key="Maven.ArtifactSearchDialog" timestamp="1581949871375">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
