@@ -32,4 +32,6 @@ public interface IngredientRepository extends PagingAndSortingRepository<Ingredi
     @Override
     List<Ingredient> findAll();
 
+    List<Ingredient> findByIdIn(List<String> ids);
+
 }

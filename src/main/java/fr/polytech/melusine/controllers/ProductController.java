@@ -5,7 +5,6 @@ import fr.polytech.melusine.models.dtos.responses.ProductResponse;
 import fr.polytech.melusine.models.entities.Product;
 import fr.polytech.melusine.services.ProductService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,8 +21,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody @Valid ProductRequest productRequest, MultipartFile image) {
-        return productService.createProduct(productRequest, image);
+    public Product createProduct(@RequestBody @Valid ProductRequest productRequest) {
+        return productService.createProduct(productRequest);
     }
 
     @GetMapping(path = "/{id}")
@@ -32,8 +31,8 @@ public class ProductController {
     }
 
     @PutMapping
-    public Product updateProduct(@RequestBody @Valid ProductRequest productRequest, MultipartFile image) {
-        return productService.updateProduct(productRequest, image);
+    public Product updateProduct(@RequestBody @Valid ProductRequest productRequest) {
+        return productService.updateProduct(productRequest);
     }
 
     @GetMapping

@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class IngredientResponse {
 
-    private String ingredientId;
+    private String id;
 
     private String name;
 

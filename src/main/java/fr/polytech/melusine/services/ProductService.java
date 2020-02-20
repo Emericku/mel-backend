@@ -1,6 +1,5 @@
 package fr.polytech.melusine.services;
 
-import fr.polytech.melusine.components.ImageManager;
 import fr.polytech.melusine.exceptions.BadRequestException;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.exceptions.NotFoundException;
@@ -19,13 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,14 +31,12 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final IngredientRepository ingredientRepository;
     private final ProductMapper productMapper;
-    private final ImageManager imageManager;
     private final Clock clock;
 
-    public ProductService(ProductRepository productRepository, IngredientRepository ingredientRepository, ProductMapper productMapper, ImageManager imageManager, Clock clock) {
+    public ProductService(ProductRepository productRepository, IngredientRepository ingredientRepository, ProductMapper productMapper, Clock clock) {
         this.productRepository = productRepository;
         this.ingredientRepository = ingredientRepository;
         this.productMapper = productMapper;
-        this.imageManager = imageManager;
         this.clock = clock;
     }
 
@@ -49,38 +44,29 @@ public class ProductService {
      * Create a product.
      *
      * @param productRequest the request
-     * @param image          the image file
      * @return a product
      */
-    public Product createProduct(ProductRequest productRequest, MultipartFile image) {
-        log.info("Create a product with name : " + productRequest.getName());
-        if (productRepository.existsByNameAndIsOriginalTrue(productRequest.getName())) {
+    public Product createProduct(ProductRequest productRequest) {
+        String name = Strings.capitalize(productRequest.getName().toLowerCase().trim());
+        log.info("Create a product with name : " + name);
+
+        if (productRepository.existsByNameAndIsOriginalTrue(name)) {
             throw new ConflictException(ProductError.CONFLICT, productRequest.getName());
         }
+        ensurePriceUpperThanZero(productRequest.getPrice());
 
-        long productPrice = productRequest.getPrice();
-        ensurePriceUpperThanZero(productPrice);
-
-        String name = Strings.capitalize(productRequest.getName().toLowerCase().trim());
         Category category = productRequest.getCategory();
-        List<String> ingredientRequest = productRequest.getIngredients();
-
-        List<Ingredient> ingredients = ingredientRequest.stream()
-                .map(ingredientName -> ingredientRepository.findByName(ingredientName)
-                        .orElseThrow(() -> new NotFoundException(ProductError.INVALID_NAME, ingredientName)))
-                .collect(Collectors.toList());
+        List<Ingredient> ingredients = List.of();
+        if (Objects.nonNull(productRequest.getIngredients()) && !productRequest.getIngredients().isEmpty()) {
+            ingredients = ingredientRepository.findByIdIn(productRequest.getIngredients());
+        }
 
         long ingredientsPrice = ingredients.stream()
                 .map(Ingredient::getPrice)
                 .mapToLong(Long::longValue)
                 .sum();
 
-        long price = productPrice + ingredientsPrice;
-
-        String imagePath = null;
-        if (Objects.nonNull(image)) {
-            imagePath = imageManager.uploadImage(image);
-        }
+        long price = productRequest.getPrice() + ingredientsPrice;
 
         Product product = Product.builder()
                 .name(name)
@@ -88,7 +74,7 @@ public class ProductService {
                 .price(price)
                 .isOriginal(productRequest.isOriginal())
                 .ingredients(ingredients)
-                .image(imagePath)
+                .image(productRequest.getImage())
                 .quantity(productRequest.getQuantity())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
@@ -123,10 +109,9 @@ public class ProductService {
      * Update a product.
      *
      * @param productRequest the request
-     * @param image          the image file
      * @return the product
      */
-    public Product updateProduct(ProductRequest productRequest, MultipartFile image) {
+    public Product updateProduct(ProductRequest productRequest) {
         log.debug("Update product by id: {}", productRequest.getId());
         ensurePriceUpperThanZero(productRequest.getPrice());
         Product product = productRepository.findById(productRequest.getId())
@@ -134,14 +119,10 @@ public class ProductService {
 
         String name = productRequest.getName().isEmpty() ? product.getName() : productRequest.getName();
 
-        String imagePath = null;
-        if (Objects.nonNull(image)) {
-            imagePath = imageManager.uploadImage(image);
-        }
         Product updatedProduct = product.toBuilder()
                 .name(name)
                 .price(product.getPrice())
-                .image(imagePath)
+                .image(productRequest.getImage())
                 .quantity(productRequest.getQuantity())
                 .build();
 

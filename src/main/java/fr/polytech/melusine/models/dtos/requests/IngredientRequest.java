@@ -18,4 +18,6 @@ public class IngredientRequest {
 
     private long quantity;
 
+    private String image;
+
 }

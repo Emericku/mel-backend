@@ -12,7 +12,7 @@ public class IngredientMapper {
 
     public IngredientResponse mapIngredientToIngredientResponse(Ingredient ingredient) {
         return IngredientResponse.builder()
-                .ingredientId(ingredient.getId())
+                .id(ingredient.getId())
                 .name(ingredient.getName())
                 .price(ingredient.getPrice())
                 .image(ingredient.getImage())

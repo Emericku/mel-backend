@@ -1,7 +1,6 @@
 package fr.polytech.melusine.services;
 
 import fr.polytech.melusine.TestData;
-import fr.polytech.melusine.components.ImageManager;
 import fr.polytech.melusine.exceptions.NotFoundException;
 import fr.polytech.melusine.mappers.IngredientMapper;
 import fr.polytech.melusine.models.dtos.requests.IngredientRequest;
@@ -34,8 +33,6 @@ public class IngredientServiceTest {
     @Mock
     private IngredientMapper ingredientMapper;
     @Mock
-    private ImageManager imageManager;
-    @Mock
     private Clock clock;
 
     private IngredientService ingredientService;
@@ -44,7 +41,7 @@ public class IngredientServiceTest {
     public void setUp() throws Exception {
         when(clock.getZone()).thenReturn(ZoneOffset.UTC);
         when(clock.instant()).thenReturn(TestData.INSTANT_1.toInstant());
-        ingredientService = new IngredientService(ingredientRepository, ingredientMapper, imageManager, clock);
+        ingredientService = new IngredientService(ingredientRepository, ingredientMapper, clock);
     }
 
     @Test
@@ -58,7 +55,7 @@ public class IngredientServiceTest {
 
         when(ingredientRepository.existsByName(eq(request.getName()))).thenReturn(false);
 
-        ingredientService.createIngredient(request, null);
+        ingredientService.createIngredient(request);
 
         ArgumentCaptor<Ingredient> captor = ArgumentCaptor.forClass(Ingredient.class);
         verify(ingredientRepository).save(captor.capture());
@@ -73,7 +70,7 @@ public class IngredientServiceTest {
         Ingredient ingredient = TestData.INGREDIENT_CHEESE;
 
         IngredientResponse response = IngredientResponse.builder()
-                .ingredientId(ingredient.getId())
+                .id(ingredient.getId())
                 .name(ingredient.getName())
                 .price(ingredient.getPrice())
                 .quantity(ingredient.getQuantity())
@@ -95,7 +92,7 @@ public class IngredientServiceTest {
         Ingredient ingredient = TestData.INGREDIENT_CHEESE;
 
         IngredientResponse expected = IngredientResponse.builder()
-                .ingredientId(ingredient.getId())
+                .id(ingredient.getId())
                 .name(ingredient.getName())
                 .price(ingredient.getPrice())
                 .quantity(ingredient.getQuantity())
