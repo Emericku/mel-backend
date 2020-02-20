@@ -20,7 +20,6 @@ public class Ingredient {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
 
-    @Column(unique = true)
     private String name;
 
     private long price;

@@ -1,7 +1,6 @@
 package fr.polytech.melusine.services;
 
 import fr.polytech.melusine.exceptions.BadRequestException;
-import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.exceptions.NotFoundException;
 import fr.polytech.melusine.exceptions.errors.CreditError;
 import fr.polytech.melusine.exceptions.errors.IngredientError;
@@ -42,9 +41,6 @@ public class IngredientService {
         log.debug("Create ingredient : " + ingredientRequest.getName());
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
         String name = Strings.capitalize(ingredientRequest.getName().toLowerCase().trim());
-        if (ingredientRepository.existsByName(ingredientRequest.getName())) {
-            throw new ConflictException(IngredientError.CONFLICT, ingredientRequest.getName());
-        }
 
         Ingredient ingredient = Ingredient.builder()
                 .name(name)

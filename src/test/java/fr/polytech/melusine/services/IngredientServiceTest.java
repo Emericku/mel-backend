@@ -53,8 +53,6 @@ public class IngredientServiceTest {
                 .quantity(1)
                 .build();
 
-        when(ingredientRepository.existsByName(eq(request.getName()))).thenReturn(false);
-
         ingredientService.createIngredient(request);
 
         ArgumentCaptor<Ingredient> captor = ArgumentCaptor.forClass(Ingredient.class);
