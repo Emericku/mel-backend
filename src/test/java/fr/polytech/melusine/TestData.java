@@ -49,6 +49,7 @@ public class TestData {
             .build();
 
     public static final AccountRequest ACCOUNT_REQUEST_BRUCE_WAYNE = AccountRequest.builder()
+            .clientId("clientId")
             .email("bruce.wayne@gmail.com")
             .isBarman(true)
             .password("batman")

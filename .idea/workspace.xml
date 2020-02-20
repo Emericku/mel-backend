@@ -3,18 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="76929de5-78f5-41e0-a523-c4f754c760ff" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/IngredientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/IngredientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AccountRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/AccountRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/IngredientRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/IngredientRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/ProductRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/ProductRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/IngredientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/IngredientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/TestData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/TestData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/AccountServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/AccountServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/IngredientServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/IngredientServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,8 +72,8 @@
       <recent name="fr.polytech.melusine.models.dtos" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.melusine [spring-boot:run]">
-    <configuration name="IngredientServiceTest.createIngredient" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.IngredientServiceTest">
+    <configuration name="AccountServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="melusine" />
       <extension name="coverage">
         <pattern>
@@ -91,14 +82,29 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="fr.polytech.melusine.services" />
-      <option name="MAIN_CLASS_NAME" value="fr.polytech.melusine.services.IngredientServiceTest" />
-      <option name="METHOD_NAME" value="createIngredient" />
+      <option name="MAIN_CLASS_NAME" value="fr.polytech.melusine.services.AccountServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AccountServiceTest.test_updateAccount" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="melusine" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.polytech.melusine.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fr.polytech.melusine.services" />
+      <option name="MAIN_CLASS_NAME" value="fr.polytech.melusine.services.AccountServiceTest" />
+      <option name="METHOD_NAME" value="test_updateAccount" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IngredientServiceTest.getIngredient" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="IngredientServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="melusine" />
       <extension name="coverage">
         <pattern>
@@ -108,8 +114,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="fr.polytech.melusine.services" />
       <option name="MAIN_CLASS_NAME" value="fr.polytech.melusine.services.IngredientServiceTest" />
-      <option name="METHOD_NAME" value="getIngredient" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -130,22 +135,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IngredientServiceTest.getIngredients" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="melusine" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="fr.polytech.melusine.services.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="fr.polytech.melusine.services" />
-      <option name="MAIN_CLASS_NAME" value="fr.polytech.melusine.services.IngredientServiceTest" />
-      <option name="METHOD_NAME" value="getIngredients" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="IngredientServiceTest.updateIngredient" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="melusine" />
       <extension name="coverage">
@@ -158,6 +147,18 @@
       <option name="MAIN_CLASS_NAME" value="fr.polytech.melusine.services.IngredientServiceTest" />
       <option name="METHOD_NAME" value="updateIngredient" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UT" type="JUnit" factoryName="JUnit">
+      <module name="melusine" />
+      <useClassPathOnly />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="directory" />
+      <option name="PARAMETERS" value="" />
+      <dir value="$PROJECT_DIR$/src/test" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -213,20 +214,21 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="JUnit.IngredientServiceTest.createIngredient" />
-      <item itemvalue="Maven.melusine [spring-boot:run]" />
-      <item itemvalue="JUnit.IngredientServiceTest.getIngredients" />
-      <item itemvalue="JUnit.IngredientServiceTest.getIngredient" />
+      <item itemvalue="JUnit.UT" />
       <item itemvalue="JUnit.IngredientServiceTest.getIngredient_throwException" />
       <item itemvalue="JUnit.IngredientServiceTest.updateIngredient" />
+      <item itemvalue="Maven.melusine [spring-boot:run]" />
+      <item itemvalue="JUnit.AccountServiceTest" />
+      <item itemvalue="JUnit.AccountServiceTest.test_updateAccount" />
+      <item itemvalue="JUnit.IngredientServiceTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.IngredientServiceTest" />
+        <item itemvalue="JUnit.AccountServiceTest" />
+        <item itemvalue="JUnit.AccountServiceTest.test_updateAccount" />
         <item itemvalue="JUnit.IngredientServiceTest.updateIngredient" />
         <item itemvalue="JUnit.IngredientServiceTest.getIngredient_throwException" />
-        <item itemvalue="JUnit.IngredientServiceTest.getIngredient" />
-        <item itemvalue="JUnit.IngredientServiceTest.getIngredients" />
-        <item itemvalue="JUnit.IngredientServiceTest.createIngredient" />
       </list>
     </recent_temporary>
   </component>
@@ -248,46 +250,46 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="440" y="190" key="#Auto_Import/0.0.1680.1050@0.0.1680.1050" timestamp="1582098649728" />
-    <state x="304" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581953494315">
+    <state x="304" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582184956574">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="304" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1581953494315" />
-    <state width="1638" height="284" key="GridCell.Tab.0.bottom" timestamp="1582184242739">
+    <state x="304" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1582184956574" />
+    <state width="1638" height="284" key="GridCell.Tab.0.bottom" timestamp="1582185250245">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242739" />
+    <state width="1638" height="284" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1582185250245" />
     <state width="1638" height="293" key="GridCell.Tab.0.bottom/0.23.1680.947@0.23.1680.947" timestamp="1581951462137" />
-    <state width="1638" height="284" key="GridCell.Tab.0.center" timestamp="1582184242738">
+    <state width="1638" height="284" key="GridCell.Tab.0.center" timestamp="1582185250244">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242738" />
+    <state width="1638" height="284" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1582185250244" />
     <state width="1638" height="293" key="GridCell.Tab.0.center/0.23.1680.947@0.23.1680.947" timestamp="1581951462136" />
-    <state width="1638" height="284" key="GridCell.Tab.0.left" timestamp="1582184242738">
+    <state width="1638" height="284" key="GridCell.Tab.0.left" timestamp="1582185250243">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242738" />
+    <state width="1638" height="284" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1582185250243" />
     <state width="1638" height="293" key="GridCell.Tab.0.left/0.23.1680.947@0.23.1680.947" timestamp="1581951462136" />
-    <state width="1638" height="284" key="GridCell.Tab.0.right" timestamp="1582184242739">
+    <state width="1638" height="284" key="GridCell.Tab.0.right" timestamp="1582185250245">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242739" />
+    <state width="1638" height="284" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1582185250245" />
     <state width="1638" height="293" key="GridCell.Tab.0.right/0.23.1680.947@0.23.1680.947" timestamp="1581951462137" />
-    <state width="1638" height="284" key="GridCell.Tab.1.bottom" timestamp="1582184242634">
+    <state width="1638" height="284" key="GridCell.Tab.1.bottom" timestamp="1582185179280">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242634" />
-    <state width="1638" height="284" key="GridCell.Tab.1.center" timestamp="1582184242634">
+    <state width="1638" height="284" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1582185179280" />
+    <state width="1638" height="284" key="GridCell.Tab.1.center" timestamp="1582185179279">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242634" />
-    <state width="1638" height="284" key="GridCell.Tab.1.left" timestamp="1582184242633">
+    <state width="1638" height="284" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1582185179279" />
+    <state width="1638" height="284" key="GridCell.Tab.1.left" timestamp="1582185179278">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242633" />
-    <state width="1638" height="284" key="GridCell.Tab.1.right" timestamp="1582184242634">
+    <state width="1638" height="284" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1582185179278" />
+    <state width="1638" height="284" key="GridCell.Tab.1.right" timestamp="1582185179279">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="284" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1582184242634" />
+    <state width="1638" height="284" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1582185179279" />
     <state x="378" y="187" key="Maven.ArtifactSearchDialog" timestamp="1581949871375">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
@@ -330,6 +332,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/UserController.java</url>
           <line>39</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/AccountService.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

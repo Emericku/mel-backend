@@ -47,6 +47,7 @@ public class IngredientServiceTest {
     @Test
     public void createIngredient() {
         IngredientRequest request = IngredientRequest.builder()
+                .id("ingredientId")
                 .name("Jambon")
                 .price(1)
                 .quantity(1)
@@ -120,6 +121,7 @@ public class IngredientServiceTest {
         String ingredientId = "ingredientId";
         Ingredient ingredient = TestData.INGREDIENT_CHEESE;
         IngredientRequest request = IngredientRequest.builder()
+                .id("ingredientId")
                 .name("cheese")
                 .price(2)
                 .quantity(15)
@@ -127,7 +129,7 @@ public class IngredientServiceTest {
 
         when(ingredientRepository.findById(eq(ingredientId))).thenReturn(Optional.of(ingredient));
 
-        ingredientService.updateIngredient(ingredientId, request);
+        ingredientService.updateIngredient(request);
 
         ArgumentCaptor<Ingredient> captor = ArgumentCaptor.forClass(Ingredient.class);
         verify(ingredientRepository).save(captor.capture());
