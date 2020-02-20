@@ -24,11 +24,11 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, S
     boolean existsByNameAndIsOriginalTrue(String name);
 
     /**
-     * Find all product.
+     * Find product by original true.
      *
      * @return a list of product
      */
-    @Override
-    List<Product> findAll();
+    List<Product> findByIsOriginalTrue();
+
 
 }

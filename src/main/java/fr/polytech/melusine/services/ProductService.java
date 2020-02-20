@@ -7,6 +7,7 @@ import fr.polytech.melusine.exceptions.errors.CreditError;
 import fr.polytech.melusine.exceptions.errors.ProductError;
 import fr.polytech.melusine.mappers.ProductMapper;
 import fr.polytech.melusine.models.dtos.requests.ProductRequest;
+import fr.polytech.melusine.models.dtos.responses.CategoryResponse;
 import fr.polytech.melusine.models.dtos.responses.ProductResponse;
 import fr.polytech.melusine.models.entities.Ingredient;
 import fr.polytech.melusine.models.entities.Product;
@@ -15,19 +16,24 @@ import fr.polytech.melusine.repositories.IngredientRepository;
 import fr.polytech.melusine.repositories.ProductRepository;
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class ProductService {
 
+    public static final String ASSETS_ICONS_CYCLONE_SVG = "/assets/icons/cyclone.svg";
+    public static final String ASSETS_ICONS_BELL_COVERING_HOT_DISH_SVG = "/assets/icons/bell-covering-hot-dish.svg";
+    public static final String ASSETS_ICONS_RESTAURANT_SVG = "/assets/icons/restaurant.svg";
+    public static final String ASSETS_ICONS_ORANGE_JUICE_SVG = "/assets/icons/orange-juice.svg";
+    public static final String ASSETS_ICONS_CUP_CAKE_SVG = "/assets/icons/cup-cake.svg";
     private final ProductRepository productRepository;
     private final IngredientRepository ingredientRepository;
     private final ProductMapper productMapper;
@@ -55,11 +61,10 @@ public class ProductService {
         }
         ensurePriceUpperThanZero(productRequest.getPrice());
 
-        Category category = productRequest.getCategory();
-        List<Ingredient> ingredients = List.of();
-        if (Objects.nonNull(productRequest.getIngredients()) && !productRequest.getIngredients().isEmpty()) {
-            ingredients = ingredientRepository.findByIdIn(productRequest.getIngredients());
-        }
+        List<Ingredient> ingredients = Optional.ofNullable(productRequest.getIngredients())
+                .filter(Predicate.not(List::isEmpty))
+                .map(ingredientRepository::findByIdIn)
+                .orElse(List.of());
 
         long ingredientsPrice = ingredients.stream()
                 .map(Ingredient::getPrice)
@@ -70,7 +75,7 @@ public class ProductService {
 
         Product product = Product.builder()
                 .name(name)
-                .category(category)
+                .category(productRequest.getCategory())
                 .price(price)
                 .isOriginal(productRequest.isOriginal())
                 .ingredients(ingredients)
@@ -80,16 +85,9 @@ public class ProductService {
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
 
-        log.info("End of product's creation with name : " + productRequest.getName() + " and category : " + category);
+        log.info("End of product's creation with name : " + productRequest.getName() + " and category : " + productRequest.getCategory());
         return productRepository.save(product);
 
-    }
-
-    @Deprecated
-    public Page<ProductResponse> getProducts(Pageable pageable) {
-        log.debug("Find product by page");
-        Page<Product> productPages = productRepository.findAll(pageable);
-        return productPages.map(productMapper::mapProductToProductResponse);
     }
 
     /**
@@ -142,9 +140,54 @@ public class ProductService {
      * @return a list of products response
      */
     public List<ProductResponse> getProducts() {
-        log.debug("Find all products");
-        List<Product> products = productRepository.findAll();
+        log.debug("Find all products by original true");
+        List<Product> products = productRepository.findByIsOriginalTrue();
         return productMapper.mapProductsToProductsResponse(products);
     }
 
+    public List<CategoryResponse> getCategories() {
+        log.debug("Find all products by original true");
+        List<Category> categories = List.of(Category.values());
+        return categories.stream()
+                .map(this::getCategoryResponse)
+                .collect(Collectors.toList());
+
+    }
+
+    private CategoryResponse getCategoryResponse(Category category) {
+        CategoryResponse response = CategoryResponse.builder()
+                .category(category)
+                .build();
+        if (category.equals(Category.FROID)) {
+            return response.toBuilder()
+                    .icon(ASSETS_ICONS_CYCLONE_SVG)
+                    .color("#26A1CE")
+                    .build();
+        }
+        if (category.equals(Category.CHAUD)) {
+            return response.toBuilder()
+                    .icon(ASSETS_ICONS_BELL_COVERING_HOT_DISH_SVG)
+                    .color("#ED6E35")
+                    .build();
+        }
+        if (category.equals(Category.CUSTOM)) {
+            return response.toBuilder()
+                    .icon(ASSETS_ICONS_RESTAURANT_SVG)
+                    .color("#EAB72E")
+                    .build();
+        }
+        if (category.equals(Category.BOISSON)) {
+            return response.toBuilder()
+                    .icon(ASSETS_ICONS_ORANGE_JUICE_SVG)
+                    .color("#E82D67")
+                    .build();
+        }
+        if (category.equals(Category.DESSERT)) {
+            return response.toBuilder()
+                    .icon(ASSETS_ICONS_CUP_CAKE_SVG)
+                    .color("#9A2AE0")
+                    .build();
+        }
+        return null;
+    }
 }

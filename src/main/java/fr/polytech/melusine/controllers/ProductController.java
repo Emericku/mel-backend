@@ -1,6 +1,7 @@
 package fr.polytech.melusine.controllers;
 
 import fr.polytech.melusine.models.dtos.requests.ProductRequest;
+import fr.polytech.melusine.models.dtos.responses.CategoryResponse;
 import fr.polytech.melusine.models.dtos.responses.ProductResponse;
 import fr.polytech.melusine.models.entities.Product;
 import fr.polytech.melusine.services.ProductService;
@@ -38,6 +39,11 @@ public class ProductController {
     @GetMapping
     public List<ProductResponse> getProducts() {
         return productService.getProducts();
+    }
+
+    @GetMapping(path = "/categories")
+    public List<CategoryResponse> getCategories() {
+        return productService.getCategories();
     }
 
 }
