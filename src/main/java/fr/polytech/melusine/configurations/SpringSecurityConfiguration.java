@@ -79,7 +79,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 // Allow access to token distribution and validation endpoints
-                .antMatchers(HttpMethod.POST, "/auth/token").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth").permitAll()
 
                 // Allow access to the Swagger documentation
                 .antMatchers("/v2/api-docs",
@@ -97,9 +97,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/users/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/account/resend/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/account/**/resend").permitAll()
 
                 // All other requests need to be authenticated
                 .anyRequest().authenticated().and()

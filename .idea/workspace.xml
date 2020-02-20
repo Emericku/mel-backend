@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="76929de5-78f5-41e0-a523-c4f754c760ff" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/IngredientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/controllers/IngredientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/IngredientRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/models/dtos/requests/IngredientRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/IngredientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/services/IngredientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/IngredientServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/polytech/melusine/services/IngredientServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SpringSecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/polytech/melusine/configurations/SpringSecurityConfiguration.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
