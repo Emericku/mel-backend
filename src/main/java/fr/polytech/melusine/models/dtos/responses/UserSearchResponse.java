@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class UserSearchResponse {
 
-    private String userId;
+    private String id;
 
     private String firstName;
 
