@@ -2,13 +2,13 @@ package fr.polytech.melusine;
 
 import fr.polytech.melusine.models.Item;
 import fr.polytech.melusine.models.dtos.requests.AccountRequest;
-import fr.polytech.melusine.models.entities.Account;
-import fr.polytech.melusine.models.entities.Ingredient;
-import fr.polytech.melusine.models.entities.User;
+import fr.polytech.melusine.models.entities.*;
+import fr.polytech.melusine.models.enums.Category;
 import fr.polytech.melusine.models.enums.Section;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
 public class TestData {
 
@@ -56,8 +56,28 @@ public class TestData {
             .build();
 
     public static final Item ITEM_1 = Item.builder()
-            .productId("productId_1")
+            .productId("productId")
             .quantity(1)
+            .build();
+
+    public static final Order ODER_1 = Order.builder()
+            .id("orderId")
+            .displayName("displayName")
+            .user(USER_BRUCE_WAYNE)
+            .createdAt(INSTANT_1)
+            .updatedAt(INSTANT_1)
+            .build();
+
+    public static final Product PRODUCT_1 = Product.builder()
+            .id("productId")
+            .name("Mitch")
+            .category(Category.FROID)
+            .price(120)
+            .isOriginal(true)
+            .ingredients(List.of(INGREDIENT_CHEESE))
+            .quantity(3)
+            .createdAt(INSTANT_1)
+            .updatedAt(INSTANT_1)
             .build();
 
 }

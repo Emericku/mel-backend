@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -82,35 +83,25 @@ public class OrderService {
         User user = findUserById(orderRequest.getUserId());
         ensureUserCreditIsUpperThanZero(user);
 
+        String orderId = UUID.randomUUID().toString();
+
+
+        long total = orderRequest.getItems().stream()
+                .map(item -> getPriceForItems(orderId, item))
+                .mapToLong(Long::valueOf)
+                .sum();
+
         Order order = Order.builder()
+                .id(orderId)
                 .displayName(displayName)
                 .user(user)
+                .total(total)
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
-        Order savedOrder = orderRepository.save(order);
 
-        long total = 0;
-        for (Item item : orderRequest.getItems()) {
-            Product product = findProductById(item.getProductId());
-            OrderItem orderItem = OrderItem.builder()
-                    .orderId(savedOrder.getId())
-                    .price(product.getPrice())
-                    .quantity(item.getQuantity())
-                    .createdAt(OffsetDateTime.now(clock))
-                    .updatedAt(OffsetDateTime.now(clock))
-                    .delivered(false)
-                    .cancelled(false)
-                    .build();
-            total = total + orderItem.getQuantity() * orderItem.getPrice();
-            orderItemRepository.save(orderItem);
-        }
-
-        Order updatedOrder = savedOrder.toBuilder()
-                .total(total)
-                .build();
-        orderRepository.save(updatedOrder);
-        log.info("Order saved with ID : " + updatedOrder.getId());
+        orderRepository.save(order);
+        log.info("Order saved with ID : " + order.getId());
 
         long newCredit = user.getCredit() - total;
         User updatedUser = user.toBuilder()
@@ -120,7 +111,23 @@ public class OrderService {
         userRepository.save(updatedUser);
         log.info("User saved with ID : " + updatedUser.getId() + " and new credit = " + newCredit);
 
-        return updatedOrder;
+        return order;
+    }
+
+    private Long getPriceForItems(String orderId, Item item) {
+        Product product = findProductById(item.getProductId());
+        OrderItem orderItem = OrderItem.builder()
+                .orderId(orderId)
+                .price(product.getPrice())
+                .quantity(item.getQuantity())
+                .createdAt(OffsetDateTime.now(clock))
+                .updatedAt(OffsetDateTime.now(clock))
+                .delivered(false)
+                .cancelled(false)
+                .build();
+        orderItemRepository.save(orderItem);
+        log.info("Order item saved with order ID : " + orderId);
+        return item.getQuantity() * product.getPrice();
     }
 
     private void ensureUserCreditIsUpperThanZero(User user) {
