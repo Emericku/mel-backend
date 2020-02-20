@@ -2,16 +2,17 @@ package fr.polytech.melusine.models.dtos.requests;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
 public class AuthenticationRequest {
 
-    @NonNull
+    @NotNull
     private String email;
 
-    @NonNull
+    @NotNull
     private String password;
 
 }

@@ -44,10 +44,10 @@ public class UserController {
         return userService.creditUser(id, request);
     }
 
-    @GetMapping(path = "/{name}")
+    @GetMapping(path = "/search")
     public Page<UserSearchResponse> searchUser(
             @PageableDefault(size = 20, page = 0, sort = "lastName", direction = Sort.Direction.ASC) Pageable pageable,
-            @PathVariable @Size(min = 3, max = 50) String name) {
+            @RequestParam @Size(min = 3, max = 50) String name) {
         return userService.searchUser(name, pageable);
     }
 
