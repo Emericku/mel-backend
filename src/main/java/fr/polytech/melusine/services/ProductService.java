@@ -156,7 +156,7 @@ public class ProductService {
 
     private CategoryResponse getCategoryResponse(Category category) {
         CategoryResponse response = CategoryResponse.builder()
-                .category(category)
+                .name(category)
                 .build();
         if (category.equals(Category.FROID)) {
             return response.toBuilder()

@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder(toBuilder = true)
 public class CategoryResponse {
 
-    private Category category;
+    private Category name;
 
     private String icon;
 
