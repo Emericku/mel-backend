@@ -1,5 +1,6 @@
 package fr.polytech.melusine.services;
 
+import fr.polytech.melusine.components.ImageManager;
 import fr.polytech.melusine.exceptions.BadRequestException;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.exceptions.NotFoundException;
@@ -13,10 +14,12 @@ import fr.polytech.melusine.repositories.IngredientRepository;
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -24,12 +27,14 @@ public class IngredientService {
 
     private final IngredientRepository ingredientRepository;
     private final IngredientMapper ingredientMapper;
+    private final ImageManager imageManager;
     private final Clock clock;
 
 
-    public IngredientService(IngredientRepository ingredientRepository, IngredientMapper ingredientMapper, Clock clock) {
+    public IngredientService(IngredientRepository ingredientRepository, IngredientMapper ingredientMapper, ImageManager imageManager, Clock clock) {
         this.ingredientRepository = ingredientRepository;
         this.ingredientMapper = ingredientMapper;
+        this.imageManager = imageManager;
         this.clock = clock;
     }
 
@@ -38,18 +43,22 @@ public class IngredientService {
                 .orElseThrow(() -> new NotFoundException(IngredientError.NOT_FOUND, id));
     }
 
-    public void createIngredient(IngredientRequest ingredientRequest) {
+    public void createIngredient(IngredientRequest ingredientRequest, MultipartFile image) {
         log.debug("Create ingredient : " + ingredientRequest.getName());
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
         String name = Strings.capitalize(ingredientRequest.getName().toLowerCase().trim());
         if (ingredientRepository.existsByName(ingredientRequest.getName())) {
             throw new ConflictException(IngredientError.CONFLICT, ingredientRequest.getName());
         }
+        String imagePath = null;
+        if (Objects.nonNull(image)) {
+            imagePath = imageManager.uploadImage(image);
+        }
 
         Ingredient ingredient = Ingredient.builder()
                 .name(name)
                 .price(ingredientRequest.getPrice())
-                .image(ingredientRequest.getImage())
+                .image(imagePath)
                 .quantity(ingredientRequest.getQuantity())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))

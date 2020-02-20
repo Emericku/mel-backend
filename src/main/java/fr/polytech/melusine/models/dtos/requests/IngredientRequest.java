@@ -16,8 +16,6 @@ public class IngredientRequest {
 
     private long price;
 
-    private String image;
-
     private long quantity;
 
 }

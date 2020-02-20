@@ -5,6 +5,7 @@ import fr.polytech.melusine.models.dtos.responses.IngredientResponse;
 import fr.polytech.melusine.models.entities.Ingredient;
 import fr.polytech.melusine.services.IngredientService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,8 +21,8 @@ public class IngredientController {
     }
 
     @PostMapping
-    public void createIngredient(@RequestBody IngredientRequest ingredientRequest) {
-        ingredientService.createIngredient(ingredientRequest);
+    public void createIngredient(@RequestBody IngredientRequest ingredientRequest, MultipartFile image) {
+        ingredientService.createIngredient(ingredientRequest, image);
     }
 
     @GetMapping

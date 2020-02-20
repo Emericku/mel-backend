@@ -1,6 +1,7 @@
 package fr.polytech.melusine.services;
 
 import fr.polytech.melusine.TestData;
+import fr.polytech.melusine.components.ImageManager;
 import fr.polytech.melusine.exceptions.NotFoundException;
 import fr.polytech.melusine.mappers.IngredientMapper;
 import fr.polytech.melusine.models.dtos.requests.IngredientRequest;
@@ -33,6 +34,8 @@ public class IngredientServiceTest {
     @Mock
     private IngredientMapper ingredientMapper;
     @Mock
+    private ImageManager imageManager;
+    @Mock
     private Clock clock;
 
     private IngredientService ingredientService;
@@ -41,7 +44,7 @@ public class IngredientServiceTest {
     public void setUp() throws Exception {
         when(clock.getZone()).thenReturn(ZoneOffset.UTC);
         when(clock.instant()).thenReturn(TestData.INSTANT_1.toInstant());
-        ingredientService = new IngredientService(ingredientRepository, ingredientMapper, clock);
+        ingredientService = new IngredientService(ingredientRepository, ingredientMapper, imageManager, clock);
     }
 
     @Test
@@ -51,12 +54,11 @@ public class IngredientServiceTest {
                 .name("Jambon")
                 .price(1)
                 .quantity(1)
-                .image("blarf")
                 .build();
 
         when(ingredientRepository.existsByName(eq(request.getName()))).thenReturn(false);
 
-        ingredientService.createIngredient(request);
+        ingredientService.createIngredient(request, null);
 
         ArgumentCaptor<Ingredient> captor = ArgumentCaptor.forClass(Ingredient.class);
         verify(ingredientRepository).save(captor.capture());
@@ -64,7 +66,6 @@ public class IngredientServiceTest {
         assertThat(captor.getValue().getName()).isEqualTo(request.getName());
         assertThat(captor.getValue().getPrice()).isEqualTo(request.getPrice());
         assertThat(captor.getValue().getQuantity()).isEqualTo(request.getQuantity());
-        assertThat(captor.getValue().getImage()).isEqualTo(request.getImage());
     }
 
     @Test
