@@ -61,12 +61,14 @@ VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce85', 'Emeric', 'Hoerner', 'Mick', 'EX
 '2019-12-03 12:07:11');
 
 INSERT INTO melusine.ingredients
-(id, name, price, quantity, image, created_at, updated_at)
-VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce88', 'Tomate', 50, 100, '/var/lib/tomate', '2019-12-03 12:07:11',
+(id, name, price, quantity, image, type, created_at, updated_at)
+VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce88', 'Tomate', 50, 100, '/var/lib/tomate', 'SUPPLEMENT', '2019-12-03 12:07:11',
 '2019-12-03 12:07:11'),
-('6509e418-a12a-4a8a-b7af-8df1f7bcce89', 'Oignon', 50, 100, '/var/lib/oignon', '2019-12-03 12:07:11',
+('6509e418-a12a-4a8a-b7af-8df1f7bcce89', 'Oignon', 50, 100, '/var/lib/oignon',  'SUPPLEMENT', '2019-12-03 12:07:11',
 '2019-12-03 12:07:11'),
-('6509e418-a12a-4a8a-b7af-8df1f7bcce90', 'Salade', 50, 100, '/var/lib/salade', '2019-12-03 12:07:11',
+('6509e418-a12a-4a8a-b7af-8df1f7bcce90', 'Salade', 50, 100, '/var/lib/salade',  'SUPPLEMENT', '2019-12-03 12:07:11',
+'2019-12-03 12:07:11'),
+('6509e418-a12a-4a8a-b7af-8df1f7bdre90', 'Thon', 50, 100, '/var/lib/thon',  'VIANDE', '2019-12-03 12:07:11',
 '2019-12-03 12:07:11');
 
 INSERT INTO melusine.products
@@ -134,3 +136,7 @@ VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce91', 'CUSTOM', 'Sandwich froid', '/as
 ('6527e418-a12a-4a8a-b7af-8df1f7bcce91', 'DESSERT', 'Kinder Bueno', '/assets/thumbnails/kinder-bueno.png', 120, 1, 50,
 '2019-12-03 12:07:11',
 '2019-12-03 12:07:11');
+
+INSERT INTO melusine.products_ingredients
+(product_id, ingredient_id )
+VALUES ('6516e418-a12a-4a8a-b7af-8df1f7bcce91', '6509e418-a12a-4a8a-b7af-8df1f7bdre90');

@@ -28,7 +28,12 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "id")
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "products_ingredients",
+            joinColumns = {@JoinColumn(name = "product_id")},
+            inverseJoinColumns = {@JoinColumn(name = "ingredient_id")}
+    )
     private List<Ingredient> ingredients;
 
     private String image;

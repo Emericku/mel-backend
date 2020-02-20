@@ -1,5 +1,6 @@
 package fr.polytech.melusine.models.entities;
 
+import fr.polytech.melusine.models.IngredientType;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -25,6 +26,9 @@ public class Ingredient {
     private long price;
 
     private long quantity;
+
+    @Enumerated(EnumType.STRING)
+    private IngredientType type;
 
     private String image;
 

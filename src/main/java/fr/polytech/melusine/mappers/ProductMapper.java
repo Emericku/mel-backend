@@ -20,7 +20,7 @@ public class ProductMapper {
      */
     public ProductResponse mapProductToProductResponse(Product product) {
         return ProductResponse.builder()
-                .productId(product.getId())
+                .id(product.getId())
                 .name(product.getName())
                 .category(product.getCategory())
                 .price(formatToDouble(product.getPrice()))

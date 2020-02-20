@@ -51,6 +51,7 @@ public class IngredientService {
                 .price(ingredientRequest.getPrice())
                 .image(ingredientRequest.getImage())
                 .quantity(ingredientRequest.getQuantity())
+                .type(ingredientRequest.getType())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
@@ -77,13 +78,12 @@ public class IngredientService {
         Ingredient ingredient = findIngredientById(ingredientRequest.getId());
 
         String name = ingredientRequest.getName().isEmpty() ? ingredient.getName() : ingredientRequest.getName();
-        //String image = ingredientRequest.getImage().isEmpty() ||
-        //!Objects.nonNull(ingredientRequest.getImage()) ? ingredient.getImage() : ingredientRequest.getImage();
 
         Ingredient updatedIngredient = ingredient.toBuilder()
                 .name(name)
                 .price(ingredientRequest.getPrice())
                 .quantity(ingredientRequest.getQuantity())
+                .type(ingredientRequest.getType())
                 .build();
 
         log.info("End of the update of an ingredient");
