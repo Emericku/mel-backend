@@ -1,4 +1,4 @@
-package fr.polytech.melusine.models;
+package fr.polytech.melusine.models.enums;
 
 public enum IngredientType {
 

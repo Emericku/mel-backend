@@ -1,6 +1,6 @@
 package fr.polytech.melusine.models.dtos.requests;
 
-import fr.polytech.melusine.models.IngredientType;
+import fr.polytech.melusine.models.enums.IngredientType;
 import lombok.Builder;
 import lombok.Data;
 

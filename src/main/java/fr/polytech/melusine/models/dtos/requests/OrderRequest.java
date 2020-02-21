@@ -3,8 +3,8 @@ package fr.polytech.melusine.models.dtos.requests;
 import fr.polytech.melusine.models.Item;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -12,13 +12,13 @@ import java.util.List;
 @Builder
 public class OrderRequest {
 
-    @NonNull
+    @NotNull
     @Size(min = 1)
     private String name;
 
     private String userId;
 
-    @NonNull
+    @NotNull
     private List<Item> items;
 
 }

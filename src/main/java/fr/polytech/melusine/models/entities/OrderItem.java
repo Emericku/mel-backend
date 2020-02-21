@@ -1,12 +1,10 @@
 package fr.polytech.melusine.models.entities;
 
+import fr.polytech.melusine.models.enums.ValidationStatus;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -28,9 +26,8 @@ public class OrderItem {
 
     private String orderId;
 
-    private boolean delivered;
-
-    private boolean cancelled;
+    @Enumerated(EnumType.STRING)
+    private ValidationStatus status;
 
     @NonNull
     private OffsetDateTime createdAt;

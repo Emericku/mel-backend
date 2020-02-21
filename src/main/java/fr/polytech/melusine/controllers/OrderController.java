@@ -1,5 +1,6 @@
 package fr.polytech.melusine.controllers;
 
+import fr.polytech.melusine.models.dtos.requests.OrderItemRequest;
 import fr.polytech.melusine.models.dtos.requests.OrderRequest;
 import fr.polytech.melusine.models.dtos.responses.OrderItemResponse;
 import fr.polytech.melusine.models.entities.Order;
@@ -28,17 +29,12 @@ public class OrderController {
         return orderService.createOrder(orderRequest);
     }
 
-    @PostMapping(path = "/{itemId}/cancel")
-    public OrderItem cancelOrderItem(@PathVariable String itemId) {
-        return orderService.cancelOrderItem(itemId);
+    @PostMapping(path = "/items/{itemId}")
+    public OrderItem updateValidationStatus(@PathVariable String itemId, @RequestBody OrderItemRequest request) {
+        return orderService.updateValidationStatus(itemId, request);
     }
 
-    @PostMapping(path = "/{itemId}/deliver")
-    public OrderItem deliverOrderItem(@PathVariable String itemId) {
-        return orderService.deliverOrderItem(itemId);
-    }
-
-    @GetMapping
+    @GetMapping(path = "/items")
     public Page<OrderItemResponse> getOrderItems(
             @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {

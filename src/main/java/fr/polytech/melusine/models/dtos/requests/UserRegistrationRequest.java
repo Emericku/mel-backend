@@ -3,21 +3,22 @@ package fr.polytech.melusine.models.dtos.requests;
 import fr.polytech.melusine.models.enums.Section;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
 public class UserRegistrationRequest {
 
-    @NonNull
+    @NotNull
     private String firstName;
 
-    @NonNull
+    @NotNull
     private String lastName;
 
     private String nickName;
 
-    @NonNull
+    @NotNull
     private Section section;
 
     private double credit;

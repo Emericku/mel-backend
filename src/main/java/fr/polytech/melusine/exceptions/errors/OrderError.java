@@ -7,8 +7,7 @@ public enum OrderError implements ErrorCode {
     ORDER_NOT_FOUND("OR0003", "The order with id %s is not found"),
     ORDER_ITEM_NOT_FOUND("OR0004", "The order item with id %s is not found"),
     ORDER_ALREADY_DELIVERED("OR0005", "The order with id : %s is already delivered"),
-    ORDER_ITEM_ALREADY_DELIVERED("OR0006", "The order item with id : %s is already delivered"),
-    ORDER_ITEM_ALREADY_CANCELLED("OR0007", "The order item with id : %s is already cancelled");
+    ORDER_ITEM_IS_NOT_PENDING("OR0006", "The order item with id : %s is already delivered or cancelled");
 
     private final String code;
     private final String description;

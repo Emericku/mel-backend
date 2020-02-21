@@ -7,12 +7,14 @@ import fr.polytech.melusine.exceptions.errors.ProductError;
 import fr.polytech.melusine.exceptions.errors.UserError;
 import fr.polytech.melusine.mappers.OrderItemMapper;
 import fr.polytech.melusine.models.Item;
+import fr.polytech.melusine.models.dtos.requests.OrderItemRequest;
 import fr.polytech.melusine.models.dtos.requests.OrderRequest;
 import fr.polytech.melusine.models.dtos.responses.OrderItemResponse;
 import fr.polytech.melusine.models.entities.Order;
 import fr.polytech.melusine.models.entities.OrderItem;
 import fr.polytech.melusine.models.entities.Product;
 import fr.polytech.melusine.models.entities.User;
+import fr.polytech.melusine.models.enums.ValidationStatus;
 import fr.polytech.melusine.repositories.OrderItemRepository;
 import fr.polytech.melusine.repositories.OrderRepository;
 import fr.polytech.melusine.repositories.ProductRepository;
@@ -122,8 +124,7 @@ public class OrderService {
                 .quantity(item.getQuantity())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
-                .delivered(false)
-                .cancelled(false)
+                .status(ValidationStatus.PENDING)
                 .build();
         orderItemRepository.save(orderItem);
         log.info("Order item saved with order ID : " + orderId);
@@ -143,16 +144,21 @@ public class OrderService {
      * @param itemId the item id
      * @return an order item
      */
-    public OrderItem cancelOrderItem(String itemId) {
+    public OrderItem updateValidationStatus(String itemId, OrderItemRequest request) {
         log.debug("Cancel an item from with item id : " + itemId);
         OrderItem orderItem = findOrderItemById(itemId);
-        ensureOrderItemIsNotDelivered(orderItem);
-        ensureOrderItemIsNotCancelled(orderItem);
+        ensureOrderItemIsPending(orderItem);
         Order order = findOrderById(orderItem.getOrderId());
         User user = findUserById(order.getUser().getId());
 
+        Order updatedOrder = order.toBuilder()
+                .updatedAt(OffsetDateTime.now(clock))
+                .build();
+        orderRepository.save(updatedOrder);
+
         OrderItem updatedOrderItem = orderItem.toBuilder()
-                .cancelled(true)
+                .status(request.getStatus())
+                .updatedAt(OffsetDateTime.now(clock))
                 .build();
 
         OrderItem savedOrder = orderItemRepository.save(updatedOrderItem);
@@ -169,34 +175,9 @@ public class OrderService {
         return savedOrder;
     }
 
-    /**
-     * Deliver an item from an order.
-     *
-     * @param itemId the item id
-     * @return an order item
-     */
-    public OrderItem deliverOrderItem(String itemId) {
-        log.debug("Deliver an item with id : " + itemId);
-        OrderItem orderItem = findOrderItemById(itemId);
-        ensureOrderItemIsNotDelivered(orderItem);
-        ensureOrderItemIsNotCancelled(orderItem);
-
-        OrderItem updatedOrderItem = orderItem.toBuilder()
-                .delivered(true)
-                .build();
-        log.info("End of deliver an order item");
-        return orderItemRepository.save(updatedOrderItem);
-    }
-
-    private void ensureOrderItemIsNotCancelled(OrderItem orderItem) {
-        if (orderItem.isCancelled()) {
-            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_CANCELLED, orderItem.getId());
-        }
-    }
-
-    private void ensureOrderItemIsNotDelivered(OrderItem orderItem) {
-        if (orderItem.isDelivered()) {
-            throw new BadRequestException(OrderError.ORDER_ITEM_ALREADY_DELIVERED, orderItem.getId());
+    private void ensureOrderItemIsPending(OrderItem orderItem) {
+        if (!orderItem.getStatus().equals(ValidationStatus.PENDING)) {
+            throw new BadRequestException(OrderError.ORDER_ITEM_IS_NOT_PENDING, orderItem.getId());
         }
     }
 

@@ -14,10 +14,10 @@ public class OrderItemMapper {
                 .price(orderItem.getPrice())
                 .quantity(orderItem.getQuantity())
                 .orderId(orderItem.getOrderId())
-                .delivered(orderItem.isDelivered())
-                .cancelled(orderItem.isCancelled())
+                .status(orderItem.getStatus())
                 .createdAt(orderItem.getCreatedAt())
                 .updatedAt(orderItem.getUpdatedAt())
                 .build();
     }
+    
 }

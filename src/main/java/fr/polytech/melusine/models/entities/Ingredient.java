@@ -1,6 +1,6 @@
 package fr.polytech.melusine.models.entities;
 
-import fr.polytech.melusine.models.IngredientType;
+import fr.polytech.melusine.models.enums.IngredientType;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
