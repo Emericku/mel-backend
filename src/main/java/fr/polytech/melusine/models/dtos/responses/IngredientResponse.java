@@ -1,5 +1,6 @@
 package fr.polytech.melusine.models.dtos.responses;
 
+import fr.polytech.melusine.models.IngredientType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,5 +17,7 @@ public class IngredientResponse {
     private long quantity;
 
     private String image;
+
+    private IngredientType type;
 
 }
