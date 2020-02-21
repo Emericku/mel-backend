@@ -10,8 +10,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class IngredientRequest {
 
-    private String id;
-
     @NotNull
     private String name;
 

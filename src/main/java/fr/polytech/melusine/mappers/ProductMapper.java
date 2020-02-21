@@ -4,9 +4,6 @@ import fr.polytech.melusine.models.dtos.responses.ProductResponse;
 import fr.polytech.melusine.models.entities.Product;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static fr.polytech.melusine.utils.PriceFormatter.formatToDouble;
 
 @Component
@@ -18,27 +15,15 @@ public class ProductMapper {
      * @param product
      * @return
      */
-    public ProductResponse mapProductToProductResponse(Product product) {
+    public ProductResponse mapProductToProductResponse(Product product, long quantity) {
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .category(product.getCategory())
                 .price(formatToDouble(product.getPrice()))
-                .quantity(product.getQuantity())
+                .quantity(quantity)
                 .ingredients(product.getIngredients())
                 .build();
     }
-
-    /**
-     * Map a list of product to a list of product response.
-     *
-     * @param products
-     * @return
-     */
-    public List<ProductResponse> mapProductsToProductsResponse(List<Product> products) {
-        return products.stream()
-                .map(this::mapProductToProductResponse)
-                .collect(Collectors.toList());
-    }
-
+    
 }

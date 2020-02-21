@@ -68,10 +68,10 @@ public class IngredientService {
         return ingredientMapper.mapIngredientToIngredientResponse(ingredient);
     }
 
-    public Ingredient updateIngredient(IngredientRequest ingredientRequest) {
-        log.debug("Update ingredient by id: {}", ingredientRequest.getId());
+    public Ingredient updateIngredient(String id, IngredientRequest ingredientRequest) {
+        log.debug("Update ingredient by id: {}", id);
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
-        Ingredient ingredient = findIngredientById(ingredientRequest.getId());
+        Ingredient ingredient = findIngredientById(id);
 
         String name = ingredientRequest.getName().isEmpty() ? ingredient.getName() : ingredientRequest.getName();
 

@@ -34,9 +34,9 @@ public class IngredientController {
         return ingredientService.getIngredient(id);
     }
 
-    @PutMapping
-    public Ingredient updateIngredient(@RequestBody @Valid IngredientRequest ingredientRequest) {
-        return ingredientService.updateIngredient(ingredientRequest);
+    @PutMapping(path = "/{id}")
+    public Ingredient updateIngredient(@PathVariable String id, @RequestBody @Valid IngredientRequest ingredientRequest) {
+        return ingredientService.updateIngredient(id, ingredientRequest);
     }
 
 }

@@ -12,8 +12,6 @@ import java.util.List;
 @Builder
 public class ProductRequest {
 
-    private String id;
-
     @NotNull
     @Size(min = 2)
     private String name;
@@ -21,13 +19,11 @@ public class ProductRequest {
     @NotNull
     private Category category;
 
-    private long price;
+    private Long price;
 
     private List<String> ingredients;
 
     private boolean isOriginal;
-
-    private long quantity;
 
     private String image;
 

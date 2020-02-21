@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -71,7 +73,7 @@ public class ProductService {
                 .mapToLong(Long::longValue)
                 .sum();
 
-        long price = productRequest.getPrice() + ingredientsPrice;
+        long price = Objects.nonNull(productRequest.getPrice()) ? productRequest.getPrice() : ingredientsPrice;
 
         Product product = Product.builder()
                 .name(name)
@@ -80,7 +82,6 @@ public class ProductService {
                 .isOriginal(productRequest.isOriginal())
                 .ingredients(ingredients)
                 .image(productRequest.getImage())
-                .quantity(productRequest.getQuantity())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
@@ -100,7 +101,7 @@ public class ProductService {
         log.debug("Find product by id: {}", productId);
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, productId));
-        return productMapper.mapProductToProductResponse(product);
+        return getProductResponse(product);
     }
 
     /**
@@ -109,11 +110,11 @@ public class ProductService {
      * @param productRequest the request
      * @return the product
      */
-    public Product updateProduct(ProductRequest productRequest) {
-        log.debug("Update product by id: {}", productRequest.getId());
+    public Product updateProduct(String id, ProductRequest productRequest) {
+        log.debug("Update product by id: {}", id);
         ensurePriceUpperThanZero(productRequest.getPrice());
-        Product product = productRepository.findById(productRequest.getId())
-                .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, productRequest.getId()));
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, id));
 
         String name = productRequest.getName().isEmpty() ? product.getName() : productRequest.getName();
 
@@ -121,7 +122,6 @@ public class ProductService {
                 .name(name)
                 .price(product.getPrice())
                 .image(productRequest.getImage())
-                .quantity(productRequest.getQuantity())
                 .build();
 
 
@@ -142,7 +142,18 @@ public class ProductService {
     public List<ProductResponse> getProducts() {
         log.debug("Find all products by original true");
         List<Product> products = productRepository.findByIsOriginalTrue();
-        return productMapper.mapProductsToProductsResponse(products);
+
+        return products.stream()
+                .map(this::getProductResponse)
+                .collect(Collectors.toList());
+    }
+
+    private ProductResponse getProductResponse(Product product) {
+        long quantity = product.getIngredients().stream()
+                .min(Comparator.comparingLong(Ingredient::getQuantity))
+                .map(Ingredient::getQuantity)
+                .orElse(0L);
+        return productMapper.mapProductToProductResponse(product, quantity);
     }
 
     public List<CategoryResponse> getCategories() {

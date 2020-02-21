@@ -29,6 +29,7 @@ public class Ingredient {
     @Enumerated(EnumType.STRING)
     private IngredientType type;
 
+    @Column(columnDefinition = "TEXT")
     private String image;
 
     @NonNull

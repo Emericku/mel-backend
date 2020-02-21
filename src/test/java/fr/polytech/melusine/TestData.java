@@ -75,7 +75,6 @@ public class TestData {
             .price(120)
             .isOriginal(true)
             .ingredients(List.of(INGREDIENT_CHEESE))
-            .quantity(3)
             .createdAt(INSTANT_1)
             .updatedAt(INSTANT_1)
             .build();

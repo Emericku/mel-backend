@@ -36,11 +36,10 @@ public class Product {
     )
     private List<Ingredient> ingredients;
 
+    @Column(columnDefinition = "TEXT")
     private String image;
 
     private boolean isOriginal;
-
-    private long quantity;
 
     @NonNull
     private OffsetDateTime createdAt;
