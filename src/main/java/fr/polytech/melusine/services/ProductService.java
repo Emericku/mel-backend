@@ -1,9 +1,7 @@
 package fr.polytech.melusine.services;
 
-import fr.polytech.melusine.exceptions.BadRequestException;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.exceptions.NotFoundException;
-import fr.polytech.melusine.exceptions.errors.CreditError;
 import fr.polytech.melusine.exceptions.errors.ProductError;
 import fr.polytech.melusine.mappers.ProductMapper;
 import fr.polytech.melusine.models.dtos.requests.ProductRequest;
@@ -61,7 +59,6 @@ public class ProductService {
         if (productRepository.existsByNameAndIsOriginalTrue(name)) {
             throw new ConflictException(ProductError.CONFLICT, productRequest.getName());
         }
-        ensurePriceUpperThanZero(productRequest.getPrice());
 
         List<Ingredient> ingredients = Optional.ofNullable(productRequest.getIngredients())
                 .filter(Predicate.not(List::isEmpty))
@@ -88,7 +85,6 @@ public class ProductService {
 
         log.info("End of product's creation with name : " + productRequest.getName() + " and category : " + productRequest.getCategory());
         return productRepository.save(product);
-
     }
 
     /**
@@ -112,7 +108,6 @@ public class ProductService {
      */
     public Product updateProduct(String id, ProductRequest productRequest) {
         log.debug("Update product by id: {}", id);
-        ensurePriceUpperThanZero(productRequest.getPrice());
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, id));
 
@@ -127,11 +122,6 @@ public class ProductService {
 
         log.info("End of update a product");
         return productRepository.save(updatedProduct);
-    }
-
-    private void ensurePriceUpperThanZero(long price) {
-        if (price <= 0)
-            throw new BadRequestException(CreditError.INVALID_CREDIT, price);
     }
 
     /**
