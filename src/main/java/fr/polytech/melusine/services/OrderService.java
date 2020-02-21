@@ -14,7 +14,7 @@ import fr.polytech.melusine.models.entities.Order;
 import fr.polytech.melusine.models.entities.OrderItem;
 import fr.polytech.melusine.models.entities.Product;
 import fr.polytech.melusine.models.entities.User;
-import fr.polytech.melusine.models.enums.ValidationStatus;
+import fr.polytech.melusine.models.enums.OrderStatus;
 import fr.polytech.melusine.repositories.OrderItemRepository;
 import fr.polytech.melusine.repositories.OrderRepository;
 import fr.polytech.melusine.repositories.ProductRepository;
@@ -28,7 +28,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -82,53 +85,68 @@ public class OrderService {
         log.debug("Create order : " + orderRequest.getName());
         if (orderRequest.getItems().isEmpty()) throw new BadRequestException(OrderError.INVALID_ORDER);
         String displayName = Strings.capitalize(orderRequest.getName().toLowerCase().trim());
-        User user = findUserById(orderRequest.getUserId());
-        ensureUserCreditIsUpperThanZero(user);
-
-        String orderId = UUID.randomUUID().toString();
-
-
-        long total = orderRequest.getItems().stream()
-                .map(item -> getPriceForItems(orderId, item))
-                .mapToLong(Long::valueOf)
-                .sum();
+        User user = null;
+        if (Objects.nonNull(orderRequest.getUserId())) {
+            user = findUserById(orderRequest.getUserId());
+            ensureUserCreditIsUpperThanZero(user);
+        }
 
         Order order = Order.builder()
-                .id(orderId)
+                .id(UUID.randomUUID().toString())
                 .displayName(displayName)
                 .user(user)
-                .total(total)
+                .total(0L)
+                .status(OrderStatus.PENDING)
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
 
-        orderRepository.save(order);
-        log.info("Order saved with ID : " + order.getId());
+        List<OrderItem> items = orderRequest.getItems().stream()
+                .map(item -> saveOrderItem(order, item))
+                .collect(Collectors.toList());
 
-        long newCredit = user.getCredit() - total;
-        User updatedUser = user.toBuilder()
-                .credit(newCredit)
-                .updatedAt(OffsetDateTime.now(clock))
+        long total = items.stream()
+                .map(item -> item.getPrice() * item.getQuantity())
+                .mapToLong(Long::valueOf)
+                .sum();
+
+        Order savedOrder = order.toBuilder()
+                .items(items)
+                .total(total)
                 .build();
-        userRepository.save(updatedUser);
-        log.info("User saved with ID : " + updatedUser.getId() + " and new credit = " + newCredit);
 
-        return order;
+        log.info("Order saved with ID : " + savedOrder.getId());
+
+        updateUserCredit(user, total);
+
+        return orderRepository.save(savedOrder);
     }
 
-    private Long getPriceForItems(String orderId, Item item) {
+    private void updateUserCredit(User user, long total) {
+        if (Objects.nonNull(user)) {
+            long newCredit = user.getCredit() - total;
+            User updatedUser = user.toBuilder()
+                    .credit(newCredit)
+                    .updatedAt(OffsetDateTime.now(clock))
+                    .build();
+            userRepository.save(updatedUser);
+            log.info("User saved with ID : " + updatedUser.getId() + " and new credit : " + newCredit);
+        }
+    }
+
+    private OrderItem saveOrderItem(Order order, Item item) {
         Product product = findProductById(item.getProductId());
         OrderItem orderItem = OrderItem.builder()
-                .orderId(orderId)
+                .order(order)
                 .price(product.getPrice())
                 .quantity(item.getQuantity())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
-                .status(ValidationStatus.PENDING)
+                .status(OrderStatus.PENDING)
                 .build();
-        orderItemRepository.save(orderItem);
-        log.info("Order item saved with order ID : " + orderId);
-        return item.getQuantity() * product.getPrice();
+        log.info("Order item saved with order ID : " + order.getId());
+
+        return orderItemRepository.save(orderItem);
     }
 
     private void ensureUserCreditIsUpperThanZero(User user) {
@@ -144,17 +162,12 @@ public class OrderService {
      * @param itemId the item id
      * @return an order item
      */
-    public OrderItem updateValidationStatus(String itemId, OrderItemRequest request) {
+    public OrderItem updateOrderStatus(String itemId, OrderItemRequest request) {
         log.debug("Cancel an item from with item id : " + itemId);
         OrderItem orderItem = findOrderItemById(itemId);
         ensureOrderItemIsPending(orderItem);
-        Order order = findOrderById(orderItem.getOrderId());
+        Order order = findOrderById(orderItem.getOrder().getId());
         User user = findUserById(order.getUser().getId());
-
-        Order updatedOrder = order.toBuilder()
-                .updatedAt(OffsetDateTime.now(clock))
-                .build();
-        orderRepository.save(updatedOrder);
 
         OrderItem updatedOrderItem = orderItem.toBuilder()
                 .status(request.getStatus())
@@ -162,6 +175,8 @@ public class OrderService {
                 .build();
 
         OrderItem savedOrder = orderItemRepository.save(updatedOrderItem);
+
+        calculateAndSaveOrderStatus(order);
 
         long newCredit = user.getCredit() + orderItem.getPrice() * orderItem.getQuantity();
         User updatedUser = user.toBuilder()
@@ -175,8 +190,38 @@ public class OrderService {
         return savedOrder;
     }
 
+    private void calculateAndSaveOrderStatus(Order order) {
+        Order orderToUpdate = findOrderById(order.getId());
+        boolean isPending = orderToUpdate.getItems().stream()
+                .map(OrderItem::getStatus)
+                .anyMatch(status -> status.equals(OrderStatus.PENDING));
+        if (!isPending) {
+            boolean isDeliver = orderToUpdate.getItems().stream()
+                    .map(OrderItem::getStatus)
+                    .anyMatch(status -> status.equals(OrderStatus.DELIVER));
+            if (isDeliver) {
+                Order updatedOrder = orderToUpdate.toBuilder()
+                        .status(OrderStatus.DELIVER)
+                        .updatedAt(OffsetDateTime.now(clock))
+                        .build();
+                orderRepository.save(updatedOrder);
+            } else {
+                Order updatedOrder = orderToUpdate.toBuilder()
+                        .status(OrderStatus.CANCEL)
+                        .updatedAt(OffsetDateTime.now(clock))
+                        .build();
+                orderRepository.save(updatedOrder);
+            }
+        } else {
+            Order updatedOrder = orderToUpdate.toBuilder()
+                    .updatedAt(OffsetDateTime.now(clock))
+                    .build();
+            orderRepository.save(updatedOrder);
+        }
+    }
+
     private void ensureOrderItemIsPending(OrderItem orderItem) {
-        if (!orderItem.getStatus().equals(ValidationStatus.PENDING)) {
+        if (!orderItem.getStatus().equals(OrderStatus.PENDING)) {
             throw new BadRequestException(OrderError.ORDER_ITEM_IS_NOT_PENDING, orderItem.getId());
         }
     }
@@ -185,7 +230,7 @@ public class OrderService {
         log.debug("Find all order items");
         Page<OrderItem> orderItems = orderItemRepository.findAll(pageable);
         return orderItems.map(item -> {
-            Order order = findOrderById(item.getOrderId());
+            Order order = findOrderById(item.getOrder().getId());
             return orderItemMapper.mapToOrderItemResponse(item, order.getDisplayName());
         });
     }

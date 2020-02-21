@@ -1,6 +1,6 @@
 package fr.polytech.melusine.models.dtos.requests;
 
-import fr.polytech.melusine.models.enums.ValidationStatus;
+import fr.polytech.melusine.models.enums.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,6 +8,6 @@ import lombok.Data;
 @Builder
 public class OrderItemRequest {
 
-    private ValidationStatus status;
+    private OrderStatus status;
 
 }

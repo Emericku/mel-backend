@@ -30,8 +30,8 @@ public class OrderController {
     }
 
     @PostMapping(path = "/items/{itemId}")
-    public OrderItem updateValidationStatus(@PathVariable String itemId, @RequestBody OrderItemRequest request) {
-        return orderService.updateValidationStatus(itemId, request);
+    public OrderItem updateOrderStatus(@PathVariable String itemId, @RequestBody OrderItemRequest request) {
+        return orderService.updateOrderStatus(itemId, request);
     }
 
     @GetMapping(path = "/items")

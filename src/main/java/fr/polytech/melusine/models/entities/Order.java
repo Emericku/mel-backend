@@ -1,10 +1,12 @@
 package fr.polytech.melusine.models.entities;
 
+import fr.polytech.melusine.models.enums.OrderStatus;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -27,6 +29,12 @@ public class Order {
 
     @Builder.Default
     private long total = 0;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> items;
 
     @NonNull
     private OffsetDateTime createdAt;

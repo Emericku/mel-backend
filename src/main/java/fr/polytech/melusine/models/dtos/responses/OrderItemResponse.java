@@ -1,6 +1,6 @@
 package fr.polytech.melusine.models.dtos.responses;
 
-import fr.polytech.melusine.models.enums.ValidationStatus;
+import fr.polytech.melusine.models.enums.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,7 +20,7 @@ public class OrderItemResponse {
 
     private String orderId;
 
-    private ValidationStatus status;
+    private OrderStatus status;
 
     private OffsetDateTime createdAt;
 

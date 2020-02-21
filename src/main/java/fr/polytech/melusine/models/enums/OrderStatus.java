@@ -1,6 +1,6 @@
 package fr.polytech.melusine.models.enums;
 
-public enum ValidationStatus {
+public enum OrderStatus {
 
     PENDING,
     DELIVER,

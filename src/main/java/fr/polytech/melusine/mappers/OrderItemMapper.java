@@ -13,11 +13,11 @@ public class OrderItemMapper {
                 .name(name)
                 .price(orderItem.getPrice())
                 .quantity(orderItem.getQuantity())
-                .orderId(orderItem.getOrderId())
+                .orderId(orderItem.getOrder().getId())
                 .status(orderItem.getStatus())
                 .createdAt(orderItem.getCreatedAt())
                 .updatedAt(orderItem.getUpdatedAt())
                 .build();
     }
-    
+
 }

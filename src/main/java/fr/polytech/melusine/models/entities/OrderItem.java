@@ -1,6 +1,6 @@
 package fr.polytech.melusine.models.entities;
 
-import fr.polytech.melusine.models.enums.ValidationStatus;
+import fr.polytech.melusine.models.enums.OrderStatus;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -24,10 +24,12 @@ public class OrderItem {
 
     private long quantity;
 
-    private String orderId;
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 
     @Enumerated(EnumType.STRING)
-    private ValidationStatus status;
+    private OrderStatus status;
 
     @NonNull
     private OffsetDateTime createdAt;
