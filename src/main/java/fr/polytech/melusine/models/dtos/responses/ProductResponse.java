@@ -17,7 +17,7 @@ public class ProductResponse {
 
     private Category category;
 
-    private double price;
+    private Double price;
 
     private long quantity;
 

@@ -27,7 +27,7 @@ import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-import static fr.polytech.melusine.utils.PriceFormatter.formatToLong;
+import static fr.polytech.melusine.utils.MoneyFormatter.formatToLong;
 
 @Slf4j
 @Service
@@ -119,20 +119,21 @@ public class UserService {
         );
     }
 
-    public User creditUser(String userId, UserUpdateRequest request) {
+    public UserResponse creditUser(String userId, UserUpdateRequest request) {
         log.debug("Credit a user with ID : " + userId + " and amount : " + request.getCredit());
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, userId));
 
         long requestedCredit = formatToLong(request.getCredit());
-        long newCredit = formatToLong(user.getCredit() + requestedCredit);
-        User updatedUser = user.toBuilder()
+        long newCredit = user.getCredit() + requestedCredit;
+        User updatedUser = userRepository.save(user.toBuilder()
                 .credit(newCredit)
                 .updatedAt(OffsetDateTime.now(clock))
-                .build();
+                .build()
+        );
 
         log.info("End of credit a user");
-        return userRepository.save(updatedUser);
+        return userMapper.mapToUserResponse(updatedUser);
     }
 
     public Page<UserSearchResponse> searchUser(String name, Pageable pageable) {

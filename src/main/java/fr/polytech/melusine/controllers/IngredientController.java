@@ -20,8 +20,8 @@ public class IngredientController {
     }
 
     @PostMapping
-    public void createIngredient(@RequestBody IngredientRequest ingredientRequest) {
-        ingredientService.createIngredient(ingredientRequest);
+    public IngredientResponse createIngredient(@RequestBody IngredientRequest ingredientRequest) {
+        return ingredientService.createIngredient(ingredientRequest);
     }
 
     @GetMapping
@@ -35,7 +35,7 @@ public class IngredientController {
     }
 
     @PutMapping(path = "/{id}")
-    public Ingredient updateIngredient(@PathVariable String id, @RequestBody @Valid IngredientRequest ingredientRequest) {
+    public IngredientResponse updateIngredient(@PathVariable String id, @RequestBody @Valid IngredientRequest ingredientRequest) {
         return ingredientService.updateIngredient(id, ingredientRequest);
     }
 

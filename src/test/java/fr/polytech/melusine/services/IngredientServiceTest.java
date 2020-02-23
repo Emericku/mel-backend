@@ -48,7 +48,7 @@ public class IngredientServiceTest {
     public void createIngredient() {
         IngredientRequest request = IngredientRequest.builder()
                 .name("Jambon")
-                .price(1)
+                .price(100L)
                 .quantity(1)
                 .build();
 
@@ -117,7 +117,7 @@ public class IngredientServiceTest {
         Ingredient ingredient = TestData.INGREDIENT_CHEESE;
         IngredientRequest request = IngredientRequest.builder()
                 .name("cheese")
-                .price(2)
+                .price(200L)
                 .quantity(15)
                 .build();
 

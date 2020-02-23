@@ -30,12 +30,16 @@ public class AccountService {
      */
     public Account updateAccount(AccountRequest accountRequest) {
         log.debug("Update account with client ID: {} ", accountRequest.getClientId());
+
         Account account = accountRepository.findById(accountRequest.getClientId())
                 .orElseThrow(() -> new NotFoundException(AccountError.INVALID_CLIENT_ID, accountRequest.getClientId()));
 
         String requestedEmail = accountRequest.getEmail().trim().toLowerCase();
         boolean emailAlreadyExists = accountRepository.existsByEmail(requestedEmail);
-        if (emailAlreadyExists) throw new ConflictException(AccountError.CONFLICT_EMAIL, requestedEmail);
+
+        if (emailAlreadyExists) {
+            throw new ConflictException(AccountError.CONFLICT_EMAIL, requestedEmail);
+        }
 
         Account updatedAccount = account.toBuilder()
                 .email(accountRequest.getEmail())
@@ -51,7 +55,7 @@ public class AccountService {
      * @param email the email.
      */
     public void resendPassword(String email) {
-        log.debug("Resend password", email);
+        log.debug("Resend password for email {}", email);
         emailManager.resendPassword(email, "blarf");
     }
 

@@ -52,7 +52,7 @@ public class ProductService {
      * @param productRequest the request
      * @return a product
      */
-    public Product createProduct(ProductRequest productRequest) {
+    public ProductResponse createProduct(ProductRequest productRequest) {
         String name = Strings.capitalize(productRequest.getName().toLowerCase().trim());
         log.info("Create a product with name : " + name);
 
@@ -84,7 +84,8 @@ public class ProductService {
                 .build();
 
         log.info("End of product's creation with name : " + productRequest.getName() + " and category : " + productRequest.getCategory());
-        return productRepository.save(product);
+        Product createdProduct = productRepository.save(product);
+        return productMapper.mapProductToProductResponse(createdProduct, 1);
     }
 
     /**
@@ -142,7 +143,7 @@ public class ProductService {
         long quantity = product.getIngredients().stream()
                 .min(Comparator.comparingLong(Ingredient::getQuantity))
                 .map(Ingredient::getQuantity)
-                .orElse(0L);
+                .orElse(10L);
         return productMapper.mapProductToProductResponse(product, quantity);
     }
 

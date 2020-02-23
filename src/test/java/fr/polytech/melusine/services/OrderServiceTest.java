@@ -2,7 +2,9 @@ package fr.polytech.melusine.services;
 
 import fr.polytech.melusine.TestData;
 import fr.polytech.melusine.mappers.OrderItemMapper;
+import fr.polytech.melusine.mappers.OrderMapper;
 import fr.polytech.melusine.models.dtos.requests.OrderRequest;
+import fr.polytech.melusine.models.dtos.responses.OrderResponse;
 import fr.polytech.melusine.models.entities.Order;
 import fr.polytech.melusine.models.entities.OrderItem;
 import fr.polytech.melusine.models.entities.Product;
@@ -18,12 +20,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.time.Clock;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -39,6 +42,8 @@ public class OrderServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
+    private OrderMapper orderMapper;
+    @Mock
     private OrderItemMapper orderItemMapper;
     @Mock
     private Clock clock;
@@ -49,17 +54,20 @@ public class OrderServiceTest {
     public void setUp() throws Exception {
         when(clock.getZone()).thenReturn(ZoneOffset.UTC);
         when(clock.instant()).thenReturn(TestData.INSTANT_1.toInstant());
-        orderService = new OrderService(orderRepository, productRepository, orderItemRepository, userRepository, orderItemMapper, clock);
+        orderService = new OrderService(orderRepository, productRepository, orderItemRepository, userRepository, orderItemMapper, orderMapper, clock);
     }
 
     @Test
     public void createOrder() {
         User user = TestData.USER_BRUCE_WAYNE;
+        OffsetDateTime now = OffsetDateTime.now();
+
         OrderRequest request = OrderRequest.builder()
                 .name("displayName")
                 .items(List.of(TestData.ITEM_1))
                 .userId(user.getId())
                 .build();
+
         Order orderToSave = Order.builder()
                 .displayName("Displayname")
                 .user(user)
@@ -67,13 +75,23 @@ public class OrderServiceTest {
                 .updatedAt(TestData.INSTANT_1)
                 .build();
 
-        Order order = TestData.ODER_1;
         Product product = TestData.PRODUCT_1;
+
+        when(clock.instant()).thenReturn(now.toInstant());
+        when(clock.getZone()).thenReturn(ZoneId.of("Europe/Paris"));
 
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+        when(orderItemRepository.save(any(OrderItem.class))).then(returnsFirstArg());
+        when(orderRepository.save(any(Order.class))).then(returnsFirstArg());
+        when(orderMapper.mapToOrderResponse(any(Order.class))).thenCallRealMethod();
 
-        orderService.createOrder(request);
+        OrderResponse response = orderService.createOrder(request);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getTotal()).isEqualTo(1.2);
+        assertThat(response.getCreatedAt()).isEqualTo(now);
+        assertThat(response.getUpdatedAt()).isEqualTo(now);
 
         ArgumentCaptor<OrderItem> orderItemCaptor = ArgumentCaptor.forClass(OrderItem.class);
         verify(orderItemRepository).save(orderItemCaptor.capture());

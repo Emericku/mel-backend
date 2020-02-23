@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static fr.polytech.melusine.utils.MoneyFormatter.formatToDouble;
+
 @Component
 public class IngredientMapper {
 
@@ -14,7 +16,7 @@ public class IngredientMapper {
         return IngredientResponse.builder()
                 .id(ingredient.getId())
                 .name(ingredient.getName())
-                .price(ingredient.getPrice())
+                .price(formatToDouble(ingredient.getPrice()))
                 .image(ingredient.getImage())
                 .quantity(ingredient.getQuantity())
                 .type(ingredient.getType())

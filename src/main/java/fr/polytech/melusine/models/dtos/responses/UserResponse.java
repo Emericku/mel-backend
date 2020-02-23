@@ -10,6 +10,8 @@ import java.time.OffsetDateTime;
 @Builder
 public class UserResponse {
 
+    private String id;
+
     private String firstName;
 
     private String lastName;
@@ -18,7 +20,7 @@ public class UserResponse {
 
     private Section section;
 
-    private long credit;
+    private double credit;
 
     private boolean isMembership;
 
