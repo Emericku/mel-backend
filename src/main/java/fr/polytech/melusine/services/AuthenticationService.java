@@ -46,6 +46,7 @@ public class AuthenticationService {
      */
     public AuthenticationResponse withPassword(String email, String password) {
         log.debug("Authentication with username: {}", email);
+
         Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException(AccountError.INVALID_EMAIL, email));
 
@@ -54,6 +55,7 @@ public class AuthenticationService {
         if (!isMatching) {
             throw new UnauthorizedException(AuthenticationError.INVALID_CREDENTIALS);
         }
+
         return AuthenticationResponse.builder()
                 .accessToken(tokenManager.generateJWT(account))
                 .tokenType(BEARER)
@@ -71,10 +73,12 @@ public class AuthenticationService {
      */
     public Authentication withToken(Claims claims, String token) throws AuthenticationException {
         log.trace("Looking up for a user with subject: {}", claims.getSubject());
+
         Account account = accountRepository.findById(claims.getSubject())
                 .orElseThrow(() -> new BadCredentialsException("Unknown user <" + claims.getSubject() + ">"));
 
         log.debug("User: {} successfully authenticated", claims.getSubject());
+
         String sessionRandom = claims.get(CLAIM_SESSION_RANDOM, String.class);
         return new AuthenticationToken(account, List.of(), sessionRandom, token);
     }

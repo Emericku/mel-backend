@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @PatchMapping(path = "/{id}")
-    public User creditUser(@PathVariable String id, @RequestBody @Valid UserUpdateRequest request) {
+    public UserResponse creditUser(@PathVariable String id, @RequestBody @Valid UserUpdateRequest request) {
         return userService.creditUser(id, request);
     }
 

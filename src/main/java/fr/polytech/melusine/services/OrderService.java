@@ -6,10 +6,12 @@ import fr.polytech.melusine.exceptions.errors.OrderError;
 import fr.polytech.melusine.exceptions.errors.ProductError;
 import fr.polytech.melusine.exceptions.errors.UserError;
 import fr.polytech.melusine.mappers.OrderItemMapper;
+import fr.polytech.melusine.mappers.OrderMapper;
 import fr.polytech.melusine.models.Item;
 import fr.polytech.melusine.models.dtos.requests.OrderItemRequest;
 import fr.polytech.melusine.models.dtos.requests.OrderRequest;
 import fr.polytech.melusine.models.dtos.responses.OrderItemResponse;
+import fr.polytech.melusine.models.dtos.responses.OrderResponse;
 import fr.polytech.melusine.models.entities.Order;
 import fr.polytech.melusine.models.entities.OrderItem;
 import fr.polytech.melusine.models.entities.Product;
@@ -42,15 +44,24 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final UserRepository userRepository;
     private final OrderItemMapper orderItemMapper;
+    private final OrderMapper orderMapper;
     private final Clock clock;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository,
-                        OrderItemRepository orderItemRepository, UserRepository userRepository, OrderItemMapper orderItemMapper, Clock clock) {
+    public OrderService(
+            OrderRepository orderRepository,
+            ProductRepository productRepository,
+            OrderItemRepository orderItemRepository,
+            UserRepository userRepository,
+            OrderItemMapper orderItemMapper,
+            OrderMapper orderMapper,
+            Clock clock)
+    {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.orderItemRepository = orderItemRepository;
         this.userRepository = userRepository;
         this.orderItemMapper = orderItemMapper;
+        this.orderMapper = orderMapper;
         this.clock = clock;
     }
 
@@ -81,11 +92,16 @@ public class OrderService {
      * @return the order
      */
     @Transactional
-    public Order createOrder(OrderRequest orderRequest) {
+    public OrderResponse createOrder(OrderRequest orderRequest) {
         log.debug("Create order : " + orderRequest.getName());
-        if (orderRequest.getItems().isEmpty()) throw new BadRequestException(OrderError.INVALID_ORDER);
+
+        if (orderRequest.getItems().isEmpty()) {
+            throw new BadRequestException(OrderError.INVALID_ORDER);
+        }
+
         String displayName = Strings.capitalize(orderRequest.getName().toLowerCase().trim());
         User user = null;
+
         if (Objects.nonNull(orderRequest.getUserId())) {
             user = findUserById(orderRequest.getUserId());
             ensureUserCreditIsUpperThanZero(user);
@@ -119,16 +135,21 @@ public class OrderService {
 
         updateUserCredit(user, total);
 
-        return orderRepository.save(savedOrder);
+        Order createdOrder = orderRepository.save(savedOrder);
+        log.debug("End of order creation");
+
+        return orderMapper.mapToOrderResponse(createdOrder);
     }
 
     private void updateUserCredit(User user, long total) {
         if (Objects.nonNull(user)) {
             long newCredit = user.getCredit() - total;
+
             User updatedUser = user.toBuilder()
                     .credit(newCredit)
                     .updatedAt(OffsetDateTime.now(clock))
                     .build();
+
             userRepository.save(updatedUser);
             log.info("User saved with ID : " + updatedUser.getId() + " and new credit : " + newCredit);
         }
@@ -136,6 +157,7 @@ public class OrderService {
 
     private OrderItem saveOrderItem(Order order, Item item) {
         Product product = findProductById(item.getProductId());
+
         OrderItem orderItem = OrderItem.builder()
                 .order(order)
                 .price(product.getPrice())
@@ -144,6 +166,7 @@ public class OrderService {
                 .updatedAt(OffsetDateTime.now(clock))
                 .status(OrderStatus.PENDING)
                 .build();
+
         log.info("Order item saved with order ID : " + order.getId());
 
         return orderItemRepository.save(orderItem);
@@ -164,21 +187,24 @@ public class OrderService {
      */
     public OrderItem updateOrderStatus(String itemId, OrderItemRequest request) {
         log.debug("Cancel an item from with item id : " + itemId);
+
         OrderItem orderItem = findOrderItemById(itemId);
         ensureOrderItemIsPending(orderItem);
+
         Order order = findOrderById(orderItem.getOrder().getId());
         User user = findUserById(order.getUser().getId());
 
-        OrderItem updatedOrderItem = orderItem.toBuilder()
+        OrderItem orderItemToUpdate = orderItem.toBuilder()
                 .status(request.getStatus())
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
 
-        OrderItem savedOrder = orderItemRepository.save(updatedOrderItem);
+        OrderItem updatedOrderItem = orderItemRepository.save(orderItemToUpdate);
 
         calculateAndSaveOrderStatus(order);
 
         long newCredit = user.getCredit() + orderItem.getPrice() * orderItem.getQuantity();
+
         User updatedUser = user.toBuilder()
                 .credit(newCredit)
                 .updatedAt(OffsetDateTime.now(clock))
@@ -187,35 +213,41 @@ public class OrderService {
         userRepository.save(updatedUser);
 
         log.info("End of cancel");
-        return savedOrder;
+        return updatedOrderItem;
     }
 
     private void calculateAndSaveOrderStatus(Order order) {
         Order orderToUpdate = findOrderById(order.getId());
+
         boolean isPending = orderToUpdate.getItems().stream()
                 .map(OrderItem::getStatus)
                 .anyMatch(status -> status.equals(OrderStatus.PENDING));
+
         if (!isPending) {
             boolean isDeliver = orderToUpdate.getItems().stream()
                     .map(OrderItem::getStatus)
                     .anyMatch(status -> status.equals(OrderStatus.DELIVER));
+
             if (isDeliver) {
                 Order updatedOrder = orderToUpdate.toBuilder()
                         .status(OrderStatus.DELIVER)
                         .updatedAt(OffsetDateTime.now(clock))
                         .build();
+
                 orderRepository.save(updatedOrder);
             } else {
                 Order updatedOrder = orderToUpdate.toBuilder()
                         .status(OrderStatus.CANCEL)
                         .updatedAt(OffsetDateTime.now(clock))
                         .build();
+
                 orderRepository.save(updatedOrder);
             }
         } else {
             Order updatedOrder = orderToUpdate.toBuilder()
                     .updatedAt(OffsetDateTime.now(clock))
                     .build();
+
             orderRepository.save(updatedOrder);
         }
     }
@@ -228,8 +260,8 @@ public class OrderService {
 
     public Page<OrderItemResponse> getOrderItems(Pageable pageable) {
         log.debug("Find all order items");
-        Page<OrderItem> orderItems = orderItemRepository.findAll(pageable);
-        return orderItems.map(item -> {
+
+        return orderItemRepository.findAll(pageable).map(item -> {
             Order order = findOrderById(item.getOrder().getId());
             return orderItemMapper.mapToOrderItemResponse(item, order.getDisplayName());
         });

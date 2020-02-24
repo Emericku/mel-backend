@@ -2,9 +2,10 @@ package fr.polytech.melusine.mappers;
 
 import fr.polytech.melusine.models.dtos.responses.ProductResponse;
 import fr.polytech.melusine.models.entities.Product;
+import fr.polytech.melusine.utils.MoneyFormatter;
 import org.springframework.stereotype.Component;
 
-import static fr.polytech.melusine.utils.PriceFormatter.formatToDouble;
+import java.util.Optional;
 
 @Component
 public class ProductMapper {
@@ -20,7 +21,7 @@ public class ProductMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .category(product.getCategory())
-                .price(formatToDouble(product.getPrice()))
+                .price(Optional.ofNullable(product.getPrice()).map(MoneyFormatter::formatToDouble).orElse(null))
                 .quantity(quantity)
                 .ingredients(product.getIngredients())
                 .build();

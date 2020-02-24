@@ -72,7 +72,7 @@ public class TestData {
             .id("productId")
             .name("Mitch")
             .category(Category.FROID)
-            .price(120)
+            .price(120L)
             .isOriginal(true)
             .ingredients(List.of(INGREDIENT_CHEESE))
             .createdAt(INSTANT_1)

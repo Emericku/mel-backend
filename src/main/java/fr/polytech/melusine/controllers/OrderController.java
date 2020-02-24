@@ -3,6 +3,7 @@ package fr.polytech.melusine.controllers;
 import fr.polytech.melusine.models.dtos.requests.OrderItemRequest;
 import fr.polytech.melusine.models.dtos.requests.OrderRequest;
 import fr.polytech.melusine.models.dtos.responses.OrderItemResponse;
+import fr.polytech.melusine.models.dtos.responses.OrderResponse;
 import fr.polytech.melusine.models.entities.Order;
 import fr.polytech.melusine.models.entities.OrderItem;
 import fr.polytech.melusine.services.OrderService;
@@ -25,7 +26,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public Order createOrder(@RequestBody @Valid OrderRequest orderRequest) {
+    public OrderResponse createOrder(@RequestBody @Valid OrderRequest orderRequest) {
         return orderService.createOrder(orderRequest);
     }
 

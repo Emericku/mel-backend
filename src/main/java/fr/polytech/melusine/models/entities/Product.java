@@ -23,7 +23,7 @@ public class Product {
 
     private String name;
 
-    private long price;
+    private Long price;
 
     @Enumerated(EnumType.STRING)
     private Category category;

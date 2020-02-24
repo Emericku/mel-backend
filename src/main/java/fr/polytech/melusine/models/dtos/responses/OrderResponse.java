@@ -3,27 +3,29 @@ package fr.polytech.melusine.models.dtos.responses;
 import fr.polytech.melusine.models.enums.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 import java.time.OffsetDateTime;
 
 @Data
 @Builder
-public class OrderItemResponse {
+public class OrderResponse {
 
+    @NonNull
     private String id;
 
-    private String name;
+    @NonNull
+    private String displayName;
 
-    private double price;
+    private double total;
 
-    private long quantity;
-
-    private String orderId;
-
+    @NonNull
     private OrderStatus status;
 
+    @NonNull
     private OffsetDateTime createdAt;
 
+    @NonNull
     private OffsetDateTime updatedAt;
 
 }

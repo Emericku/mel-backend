@@ -110,12 +110,12 @@ VALUES
 
 INSERT INTO melusine.products
 (id, category, name, image, price, is_original, created_at, updated_at)
-VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce91', 'CUSTOM', 'Sandwich froid', '/assets/thumbnails/sandwich-froid.png', 380
+VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce91', 'CUSTOM', 'Sandwich froid', '/assets/thumbnails/sandwich-froid.png', NULL
 , 1, '2019-12-03 12:07:11', '2019-12-03 12:07:11'),
-('6510e418-a12a-4a8a-b7af-8df1f7bcce91', 'CUSTOM', 'Sandwich chaud', '/assets/thumbnails/sandwich-chaud.png', 180, 1,
+('6510e418-a12a-4a8a-b7af-8df1f7bcce91', 'CUSTOM', 'Sandwich chaud', '/assets/thumbnails/sandwich-chaud.png', NULL, 1,
 '2019-12-03 12:07:11',
 '2019-12-03 12:07:11'),
-('6511e418-a12a-4a8a-b7af-8df1f7bcce91', 'CUSTOM', 'Salade Gégé', '/assets/thumbnails/salade-gege.png', 400, 1,
+('6511e418-a12a-4a8a-b7af-8df1f7bcce91', 'CUSTOM', 'Salade Gégé', '/assets/thumbnails/salade-gege.png', NULL, 1,
 '2019-12-03 12:07:11',
 '2019-12-03 12:07:11'),
 ('6512e418-a12a-4a8a-b7af-8df1f7bcce91', 'CHAUD', 'Pizza', '/assets/thumbnails/pizza.png', 300, 1,
@@ -136,7 +136,7 @@ VALUES ('6509e418-a12a-4a8a-b7af-8df1f7bcce91', 'CUSTOM', 'Sandwich froid', '/as
 ('6517e418-a12a-4a8a-b7af-8df1f7bcce91', 'FROID', 'Jambon beurre', '/assets/thumbnails/jambon-beurre.png', 100, 1,
 '2019-12-03 12:07:11',
 '2019-12-03 12:07:11'),
-('6518e418-a12a-4a8a-b7af-8df1f7bcce91', 'FROID', 'Jambon tartare', '/assets/thumbnails/jambon-tartare.png', 1.20, 1,
+('6518e418-a12a-4a8a-b7af-8df1f7bcce91', 'FROID', 'Jambon tartare', '/assets/thumbnails/jambon-tartare.png', 120, 1,
 '2019-12-03 12:07:11',
 '2019-12-03 12:07:11'),
 ('6519e418-a12a-4a8a-b7af-8df1f7bcce91', 'FROID', 'Rosette', '/assets/thumbnails/rosette.png', 120, 1,

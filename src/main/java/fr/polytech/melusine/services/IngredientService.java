@@ -25,21 +25,17 @@ public class IngredientService {
     private final IngredientMapper ingredientMapper;
     private final Clock clock;
 
-
     public IngredientService(IngredientRepository ingredientRepository, IngredientMapper ingredientMapper, Clock clock) {
         this.ingredientRepository = ingredientRepository;
         this.ingredientMapper = ingredientMapper;
         this.clock = clock;
     }
 
-    private Ingredient findIngredientById(String id) {
-        return ingredientRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(IngredientError.NOT_FOUND, id));
-    }
-
-    public void createIngredient(IngredientRequest ingredientRequest) {
+    public IngredientResponse createIngredient(IngredientRequest ingredientRequest) {
         log.debug("Create ingredient : " + ingredientRequest.getName());
+
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
+
         String name = Strings.capitalize(ingredientRequest.getName().toLowerCase().trim());
 
         Ingredient ingredient = Ingredient.builder()
@@ -52,42 +48,53 @@ public class IngredientService {
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
 
+        Ingredient createdIngredient = ingredientRepository.save(ingredient);
         log.info("End of creation of an ingredient");
-        ingredientRepository.save(ingredient);
+
+        return ingredientMapper.mapIngredientToIngredientResponse(createdIngredient);
     }
 
     public List<IngredientResponse> getIngredients() {
         log.debug("Find ingredients");
+
         List<Ingredient> ingredients = ingredientRepository.findAll();
         return ingredientMapper.mapIngredientsToIngredientsResponse(ingredients);
     }
 
     public IngredientResponse getIngredient(String ingredientId) {
         log.debug("Find ingredient by id: {}", ingredientId);
+
         Ingredient ingredient = findIngredientById(ingredientId);
         return ingredientMapper.mapIngredientToIngredientResponse(ingredient);
     }
 
-    public Ingredient updateIngredient(String id, IngredientRequest ingredientRequest) {
+    public IngredientResponse updateIngredient(String id, IngredientRequest ingredientRequest) {
         log.debug("Update ingredient by id: {}", id);
+
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
-        Ingredient ingredient = findIngredientById(id);
 
-        String name = ingredientRequest.getName().isEmpty() ? ingredient.getName() : ingredientRequest.getName();
-
-        Ingredient updatedIngredient = ingredient.toBuilder()
-                .name(name)
+        Ingredient ingredientToUpdate = findIngredientById(id).toBuilder()
+                .name(ingredientRequest.getName())
                 .price(ingredientRequest.getPrice())
                 .quantity(ingredientRequest.getQuantity())
                 .type(ingredientRequest.getType())
                 .build();
 
+        Ingredient updatedIngredient = ingredientRepository.save(ingredientToUpdate);
+
         log.info("End of the update of an ingredient");
-        return ingredientRepository.save(updatedIngredient);
+        return ingredientMapper.mapIngredientToIngredientResponse(updatedIngredient);
     }
 
     private void ensurePriceUpperThanZero(long price) {
-        if (price <= 0) throw new BadRequestException(CreditError.INVALID_CREDIT, price);
+        if (price <= 0) {
+            throw new BadRequestException(CreditError.INVALID_CREDIT, price);
+        }
+    }
+
+    private Ingredient findIngredientById(String id) {
+        return ingredientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(IngredientError.NOT_FOUND, id));
     }
 
 }
