@@ -23,8 +23,9 @@ public class ProductMapper {
                 .category(product.getCategory())
                 .price(Optional.ofNullable(product.getPrice()).map(MoneyFormatter::formatToDouble).orElse(null))
                 .quantity(quantity)
+                .image(product.getImage())
                 .ingredients(product.getIngredients())
                 .build();
     }
-    
+
 }

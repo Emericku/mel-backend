@@ -17,4 +17,6 @@ public interface IngredientRepository extends PagingAndSortingRepository<Ingredi
 
     List<Ingredient> findByIdIn(List<String> ids);
 
+    Ingredient findByName(String name);
+
 }

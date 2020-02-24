@@ -21,7 +21,7 @@ public class Order {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
 
-    private String displayName;
+    private String clientName;
 
     @OneToOne
     @JoinColumn(name = "userId", referencedColumnName = "id", nullable = true)

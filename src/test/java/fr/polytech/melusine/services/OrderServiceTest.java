@@ -20,7 +20,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.time.*;
+import java.time.Clock;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,12 +67,12 @@ public class OrderServiceTest {
 
         OrderRequest request = OrderRequest.builder()
                 .name("displayName")
-                .items(List.of(TestData.ITEM_1))
+                .items(List.of(TestData.ITEM_1.getProductId()))
                 .userId(user.getId())
                 .build();
 
         Order orderToSave = Order.builder()
-                .displayName("Displayname")
+                .clientName("Displayname")
                 .user(user)
                 .createdAt(TestData.INSTANT_1)
                 .updatedAt(TestData.INSTANT_1)
@@ -102,10 +105,9 @@ public class OrderServiceTest {
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userRepository).save(userCaptor.capture());
 
-        assertThat(orderItemCaptor.getValue().getQuantity()).isEqualTo(1L);
         assertThat(orderItemCaptor.getValue().getPrice()).isEqualTo(120L);
 
-        assertThat(orderCaptor.getValue().getDisplayName()).isEqualTo(orderToSave.getDisplayName());
+        assertThat(orderCaptor.getValue().getClientName()).isEqualTo(orderToSave.getClientName());
         assertThat(orderCaptor.getValue().getUser()).isEqualTo(user);
         assertThat(orderCaptor.getValue().getTotal()).isEqualTo(120);
 

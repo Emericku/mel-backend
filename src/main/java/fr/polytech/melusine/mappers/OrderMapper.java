@@ -12,7 +12,7 @@ public class OrderMapper {
     public OrderResponse mapToOrderResponse(Order order) {
         return OrderResponse.builder()
                 .id(order.getId())
-                .displayName(order.getDisplayName())
+                .clientName(order.getClientName())
                 .status(order.getStatus())
                 .total(formatToDouble(order.getTotal()))
                 .createdAt(order.getCreatedAt())

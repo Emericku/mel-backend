@@ -7,7 +7,6 @@ import fr.polytech.melusine.exceptions.errors.ProductError;
 import fr.polytech.melusine.exceptions.errors.UserError;
 import fr.polytech.melusine.mappers.OrderItemMapper;
 import fr.polytech.melusine.mappers.OrderMapper;
-import fr.polytech.melusine.models.Item;
 import fr.polytech.melusine.models.dtos.requests.OrderItemRequest;
 import fr.polytech.melusine.models.dtos.requests.OrderRequest;
 import fr.polytech.melusine.models.dtos.responses.OrderItemResponse;
@@ -97,16 +96,19 @@ public class OrderService {
             throw new BadRequestException(OrderError.INVALID_ORDER);
         }
 
-        String displayName = Strings.capitalize(orderRequest.getName().toLowerCase().trim());
+        String clientName = Strings.capitalize(orderRequest.getName().toLowerCase().trim());
         User user = null;
 
         if (Objects.nonNull(orderRequest.getUserId())) {
             user = findUserById(orderRequest.getUserId());
+            clientName = Objects.nonNull(user.getNickName()) ?
+                    Strings.capitalize(user.getNickName().toLowerCase().trim()) :
+                    Strings.capitalize(user.getFirstName().toLowerCase().trim() + " " + user.getLastName().toLowerCase().trim());
             ensureUserCreditIsUpperThanZero(user);
         }
 
         Order order = Order.builder()
-                .displayName(displayName)
+                .clientName(clientName)
                 .user(user)
                 .total(0L)
                 .status(OrderStatus.PENDING)
@@ -121,7 +123,7 @@ public class OrderService {
                 .collect(Collectors.toList());
 
         long total = items.stream()
-                .map(item -> item.getPrice() * item.getQuantity())
+                .map(OrderItem::getPrice)
                 .mapToLong(Long::valueOf)
                 .sum();
 
@@ -155,13 +157,13 @@ public class OrderService {
         }
     }
 
-    private OrderItem saveOrderItem(Order order, Item item) {
-        Product product = findProductById(item.getProductId());
+    private OrderItem saveOrderItem(Order order, String productId) {
+        Product product = findProductById(productId);
 
         OrderItem orderItem = OrderItem.builder()
                 .order(order)
                 .price(product.getPrice())
-                .quantity(item.getQuantity())
+                .product(product)
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
                 .status(OrderStatus.PENDING)
@@ -211,7 +213,7 @@ public class OrderService {
     private void creditUserIfOrderStatusIsCancel(Order order, OrderItem orderItem) {
         if (orderItem.getStatus().equals(OrderStatus.CANCEL) && Objects.nonNull(order.getUser().getId())) {
             User user = findUserById(order.getUser().getId());
-            long newCredit = user.getCredit() + orderItem.getPrice() * orderItem.getQuantity();
+            long newCredit = user.getCredit() + orderItem.getPrice();
 
             User updatedUser = user.toBuilder()
                     .credit(newCredit)
@@ -267,7 +269,8 @@ public class OrderService {
     public Page<OrderItemResponse> getOrderItems(Pageable pageable) {
         log.debug("Find all order items");
         return orderItemRepository.findAllByStatus(pageable, OrderStatus.PENDING).map(item ->
-                orderItemMapper.mapToOrderItemResponse(item, item.getOrder().getDisplayName())
+
+                orderItemMapper.mapToOrderItemResponse(item)
         );
     }
 

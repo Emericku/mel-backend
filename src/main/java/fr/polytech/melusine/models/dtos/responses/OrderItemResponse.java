@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -12,13 +13,15 @@ public class OrderItemResponse {
 
     private String id;
 
-    private String name;
+    private String orderId;
+
+    private String productName;
+
+    private String clientName;
+
+    private List<String> ingredients;
 
     private double price;
-
-    private long quantity;
-
-    private String orderId;
 
     private OrderStatus status;
 

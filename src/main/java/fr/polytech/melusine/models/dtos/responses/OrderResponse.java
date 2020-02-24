@@ -15,7 +15,7 @@ public class OrderResponse {
     private String id;
 
     @NonNull
-    private String displayName;
+    private String clientName;
 
     private double total;
 

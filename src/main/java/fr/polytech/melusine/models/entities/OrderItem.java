@@ -22,7 +22,9 @@ public class OrderItem {
 
     private long price;
 
-    private long quantity;
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)

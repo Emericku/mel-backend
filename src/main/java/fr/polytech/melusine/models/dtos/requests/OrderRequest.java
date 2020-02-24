@@ -1,6 +1,5 @@
 package fr.polytech.melusine.models.dtos.requests;
 
-import fr.polytech.melusine.models.Item;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,6 +18,6 @@ public class OrderRequest {
     private String userId;
 
     @NotNull
-    private List<Item> items;
+    private List<String> items;
 
 }

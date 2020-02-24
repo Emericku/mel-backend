@@ -62,7 +62,7 @@ public class TestData {
 
     public static final Order ODER_1 = Order.builder()
             .id("orderId")
-            .displayName("displayName")
+            .clientName("displayName")
             .user(USER_BRUCE_WAYNE)
             .createdAt(INSTANT_1)
             .updatedAt(INSTANT_1)
