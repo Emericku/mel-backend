@@ -2,7 +2,7 @@ package fr.polytech.melusine.exceptions.errors;
 
 public enum AuthenticationError implements ErrorCode {
 
-    INVALID_CREDENTIALS("AU0001", "The supplied authentication is invalid");
+    INVALID_CREDENTIALS("AU0001", "L'authentification est invalide");
 
     private final String code;
     private final String description;

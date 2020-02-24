@@ -36,7 +36,7 @@ public class Product {
     )
     private List<Ingredient> ingredients;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGBLOB")
     private String image;
 
     private boolean isOriginal;

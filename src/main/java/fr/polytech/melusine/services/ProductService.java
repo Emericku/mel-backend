@@ -1,5 +1,6 @@
 package fr.polytech.melusine.services;
 
+import fr.polytech.melusine.configurations.Constants;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.exceptions.NotFoundException;
 import fr.polytech.melusine.exceptions.errors.ProductError;
@@ -29,11 +30,6 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
 
-    public static final String ASSETS_ICONS_CYCLONE_SVG = "/assets/icons/cyclone.svg";
-    public static final String ASSETS_ICONS_BELL_COVERING_HOT_DISH_SVG = "/assets/icons/bell-covering-hot-dish.svg";
-    public static final String ASSETS_ICONS_RESTAURANT_SVG = "/assets/icons/restaurant.svg";
-    public static final String ASSETS_ICONS_ORANGE_JUICE_SVG = "/assets/icons/orange-juice.svg";
-    public static final String ASSETS_ICONS_CUP_CAKE_SVG = "/assets/icons/cup-cake.svg";
     private final ProductRepository productRepository;
     private final IngredientRepository ingredientRepository;
     private final ProductMapper productMapper;
@@ -162,31 +158,31 @@ public class ProductService {
                 .build();
         if (category.equals(Category.FROID)) {
             return response.toBuilder()
-                    .icon(ASSETS_ICONS_CYCLONE_SVG)
+                    .icon(Constants.ICON_FROID_B64)
                     .color("#26A1CE")
                     .build();
         }
         if (category.equals(Category.CHAUD)) {
             return response.toBuilder()
-                    .icon(ASSETS_ICONS_BELL_COVERING_HOT_DISH_SVG)
+                    .icon(Constants.ICON_CHAUD_B64)
                     .color("#ED6E35")
                     .build();
         }
         if (category.equals(Category.CUSTOM)) {
             return response.toBuilder()
-                    .icon(ASSETS_ICONS_RESTAURANT_SVG)
+                    .icon(Constants.ICON_CUSTOM_B64)
                     .color("#EAB72E")
                     .build();
         }
         if (category.equals(Category.BOISSON)) {
             return response.toBuilder()
-                    .icon(ASSETS_ICONS_ORANGE_JUICE_SVG)
+                    .icon(Constants.ICON_BOISSOIN_B64)
                     .color("#E82D67")
                     .build();
         }
         if (category.equals(Category.DESSERT)) {
             return response.toBuilder()
-                    .icon(ASSETS_ICONS_CUP_CAKE_SVG)
+                    .icon(Constants.ICON_DESSERT_B64)
                     .color("#9A2AE0")
                     .build();
         }

@@ -2,7 +2,7 @@ package fr.polytech.melusine.exceptions.errors;
 
 public enum CreditError implements ErrorCode {
 
-    INVALID_CREDIT("CR0001", "The credit is under 0, you trying to add: %s");
+    INVALID_CREDIT("CR0001", "Le solde est inférieur à 0 : %s");
 
     private final String code;
     private final String description;

@@ -2,10 +2,10 @@ package fr.polytech.melusine.exceptions.errors;
 
 public enum AuthorizationError implements ErrorCode {
 
-    NOT_AUTHORIZED("A0001", "User is not authorized."),
-    JWT_INCOHERENT("A0002", "The JWT token is valid but the referenced user is not known in the system"),
-    JWT_INVALID("A0003", "The JWT token is missing or an invalid token was provided"),
-    JWT_EXPIRED("A0004", "The JWT token is expired");
+    NOT_AUTHORIZED("A0001", "L'utilisateur n'est pas authorisé."),
+    JWT_INCOHERENT("A0002", "Le JWT est incoherent"),
+    JWT_INVALID("A0003", "Le JWT est manquant ou invalide"),
+    JWT_EXPIRED("A0004", "La connexion est expirée");
 
     private final String code;
     private final String description;
@@ -17,12 +17,12 @@ public enum AuthorizationError implements ErrorCode {
 
     @Override
     public String getCode() {
-        return this.code;
+        return code;
     }
 
     @Override
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
 }

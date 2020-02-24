@@ -2,9 +2,9 @@ package fr.polytech.melusine.exceptions.errors;
 
 public enum UserError implements ErrorCode {
 
-    NOT_FOUND("US0001", "User is not found with ID : %s"),
-    CONFLICT("US0002", "User already exists with first name : %s, last name : %s and section : %s"),
-    USER_CREDIT_UNDER_ZERO("US0002", "User with ID : %s has a credit lower or equal to 0");
+    NOT_FOUND("US0001", "L'utilisateur avec l'ID : %s est introuvable"),
+    CONFLICT("US0002", "L'utilisateur avec le prénom: %s, et le nom: %s et la section : %s existe déjà"),
+    USER_CREDIT_UNDER_ZERO("US0002", "L'utilsateur avec l'ID : %s a un solde égale ou inférieur à 0");
 
     private final String code;
     private final String description;

@@ -2,12 +2,10 @@ package fr.polytech.melusine.exceptions.errors;
 
 public enum OrderError implements ErrorCode {
 
-    INVALID_ORDER_UUID("OR0001", "The order with the uuid: %s doesn't exists"),
-    INVALID_ORDER("OR0002", "The order has no products"),
-    ORDER_NOT_FOUND("OR0003", "The order with id %s is not found"),
-    ORDER_ITEM_NOT_FOUND("OR0004", "The order item with id %s is not found"),
-    ORDER_ALREADY_DELIVERED("OR0005", "The order with id : %s is already delivered"),
-    ORDER_ITEM_IS_NOT_PENDING("OR0006", "The order item with id : %s is already delivered or cancelled");
+    INVALID_ORDER("OR0001", "La commande n'a pas d'item"),
+    ORDER_NOT_FOUND("OR0002", "La commande avec l'ID : %s est introuvable"),
+    ORDER_ITEM_NOT_FOUND("OR0003", "L'item de commande avec l'ID : %s est introuvable"),
+    ORDER_ITEM_IS_NOT_PENDING("OR0004", "TL'item de commande avec l'ID : %s est déjà livré ou annulé");
 
     private final String code;
     private final String description;

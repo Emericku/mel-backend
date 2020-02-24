@@ -2,9 +2,9 @@ package fr.polytech.melusine.exceptions.errors;
 
 public enum ProductError implements ErrorCode {
 
-    INVALID_NAME("PR0001", "The product with the name: %s doesn't exists"),
-    NOT_FOUND("PR0002", "The product with the id: %s not found"),
-    CONFLICT("PR0003", "Product already exists with name: %s");
+    INVALID_NAME("PR0001", "Le produit avec le nom : %s est introuvable"),
+    NOT_FOUND("PR0002", "Le produit avec l'ID : %s  est introuvable"),
+    CONFLICT("PR0003", "Le produit avec le nom : %s existe déjà");
 
     private final String code;
     private final String description;

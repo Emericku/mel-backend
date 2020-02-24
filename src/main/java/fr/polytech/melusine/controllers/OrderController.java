@@ -4,7 +4,6 @@ import fr.polytech.melusine.models.dtos.requests.OrderItemRequest;
 import fr.polytech.melusine.models.dtos.requests.OrderRequest;
 import fr.polytech.melusine.models.dtos.responses.OrderItemResponse;
 import fr.polytech.melusine.models.dtos.responses.OrderResponse;
-import fr.polytech.melusine.models.entities.Order;
 import fr.polytech.melusine.models.entities.OrderItem;
 import fr.polytech.melusine.services.OrderService;
 import org.springframework.data.domain.Page;
@@ -41,8 +40,5 @@ public class OrderController {
     ) {
         return orderService.getOrderItems(pageable);
     }
-
-
-    // TODO Add incrementation decrementation of the quantity of an item
 
 }

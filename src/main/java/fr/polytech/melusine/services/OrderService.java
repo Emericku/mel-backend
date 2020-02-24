@@ -32,7 +32,6 @@ import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -54,8 +53,7 @@ public class OrderService {
             UserRepository userRepository,
             OrderItemMapper orderItemMapper,
             OrderMapper orderMapper,
-            Clock clock)
-    {
+            Clock clock) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.orderItemRepository = orderItemRepository;
@@ -108,7 +106,6 @@ public class OrderService {
         }
 
         Order order = Order.builder()
-                .id(UUID.randomUUID().toString())
                 .displayName(displayName)
                 .user(user)
                 .total(0L)
@@ -117,8 +114,10 @@ public class OrderService {
                 .updatedAt(OffsetDateTime.now(clock))
                 .build();
 
+        Order savedOrder = orderRepository.save(order);
+
         List<OrderItem> items = orderRequest.getItems().stream()
-                .map(item -> saveOrderItem(order, item))
+                .map(item -> saveOrderItem(savedOrder, item))
                 .collect(Collectors.toList());
 
         long total = items.stream()
@@ -126,17 +125,18 @@ public class OrderService {
                 .mapToLong(Long::valueOf)
                 .sum();
 
-        Order savedOrder = order.toBuilder()
+        Order finalOrder = savedOrder.toBuilder()
                 .items(items)
                 .total(total)
                 .build();
 
-        log.info("Order saved with ID : " + savedOrder.getId());
+        log.info("Order saved with ID : " + finalOrder.getId());
 
         updateUserCredit(user, total);
 
-        Order createdOrder = orderRepository.save(savedOrder);
+        Order createdOrder = orderRepository.save(finalOrder);
         log.debug("End of order creation");
+
 
         return orderMapper.mapToOrderResponse(createdOrder);
     }
@@ -192,7 +192,6 @@ public class OrderService {
         ensureOrderItemIsPending(orderItem);
 
         Order order = findOrderById(orderItem.getOrder().getId());
-        User user = findUserById(order.getUser().getId());
 
         OrderItem orderItemToUpdate = orderItem.toBuilder()
                 .status(request.getStatus())
@@ -203,17 +202,24 @@ public class OrderService {
 
         calculateAndSaveOrderStatus(order);
 
-        long newCredit = user.getCredit() + orderItem.getPrice() * orderItem.getQuantity();
-
-        User updatedUser = user.toBuilder()
-                .credit(newCredit)
-                .updatedAt(OffsetDateTime.now(clock))
-                .build();
-
-        userRepository.save(updatedUser);
+        creditUserIfOrderStatusIsCancel(order, orderItem);
 
         log.info("End of cancel");
         return updatedOrderItem;
+    }
+
+    private void creditUserIfOrderStatusIsCancel(Order order, OrderItem orderItem) {
+        if (orderItem.getStatus().equals(OrderStatus.CANCEL) && Objects.nonNull(order.getUser().getId())) {
+            User user = findUserById(order.getUser().getId());
+            long newCredit = user.getCredit() + orderItem.getPrice() * orderItem.getQuantity();
+
+            User updatedUser = user.toBuilder()
+                    .credit(newCredit)
+                    .updatedAt(OffsetDateTime.now(clock))
+                    .build();
+
+            userRepository.save(updatedUser);
+        }
     }
 
     private void calculateAndSaveOrderStatus(Order order) {
@@ -260,11 +266,9 @@ public class OrderService {
 
     public Page<OrderItemResponse> getOrderItems(Pageable pageable) {
         log.debug("Find all order items");
-
-        return orderItemRepository.findAll(pageable).map(item -> {
-            Order order = findOrderById(item.getOrder().getId());
-            return orderItemMapper.mapToOrderItemResponse(item, order.getDisplayName());
-        });
+        return orderItemRepository.findAllByStatus(pageable, OrderStatus.PENDING).map(item ->
+                orderItemMapper.mapToOrderItemResponse(item, item.getOrder().getDisplayName())
+        );
     }
 
 }

@@ -2,7 +2,7 @@ package fr.polytech.melusine.exceptions.errors;
 
 public enum SystemError implements ErrorCode {
 
-    TECHNICAL_ERROR("SY0001", "A technical error occurred: %s");
+    TECHNICAL_ERROR("SY0001", "Erreur technique : %s");
 
     private final String code;
     private final String description;
