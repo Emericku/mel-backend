@@ -11,7 +11,6 @@ import fr.polytech.melusine.models.dtos.requests.AccountRequest;
 import fr.polytech.melusine.models.dtos.requests.UserRegistrationRequest;
 import fr.polytech.melusine.models.dtos.requests.UserUpdateRequest;
 import fr.polytech.melusine.models.dtos.responses.UserResponse;
-import fr.polytech.melusine.models.dtos.responses.UserSearchResponse;
 import fr.polytech.melusine.models.entities.Account;
 import fr.polytech.melusine.models.entities.User;
 import fr.polytech.melusine.repositories.AccountRepository;
@@ -98,7 +97,7 @@ public class UserService {
     }
 
     /**
-     * Get all accounts by page.
+     * Get all users by page.
      *
      * @param pageable the page
      * @return a page object of user response
@@ -106,17 +105,7 @@ public class UserService {
     public Page<UserResponse> getUsers(Pageable pageable) {
         log.debug("Find accounts order by last name");
         Page<User> userPages = userRepository.findAll(pageable);
-        return userPages.map(userPage -> UserResponse.builder()
-                .firstName(userPage.getFirstName())
-                .lastName(userPage.getLastName())
-                .nickName(userPage.getNickName())
-                .credit(userPage.getCredit())
-                .section(userPage.getSection())
-                .isMembership(userPage.isMembership())
-                .updatedAt(userPage.getUpdatedAt())
-                .createdAt(userPage.getCreatedAt())
-                .build()
-        );
+        return userPages.map(userPage -> userMapper.mapToUserResponse(userPage));
     }
 
     public UserResponse creditUser(String userId, UserUpdateRequest request) {
@@ -136,7 +125,7 @@ public class UserService {
         return userMapper.mapToUserResponse(updatedUser);
     }
 
-    public Page<UserSearchResponse> searchUser(String name, Pageable pageable) {
+    public Page<UserResponse> searchUser(String name, Pageable pageable) {
         log.debug("Search user by this char : " + name);
         String formattedName = name.toLowerCase().trim();
         Page<User> users = userRepository.findAllByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContainingOrNickNameIgnoreCaseContaining(
@@ -145,6 +134,6 @@ public class UserService {
                 formattedName,
                 formattedName
         );
-        return users.map(user -> userMapper.mapToUserSearchResponse(user));
+        return users.map(user -> userMapper.mapToUserResponse(user));
     }
 }

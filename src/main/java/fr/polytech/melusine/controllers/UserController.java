@@ -3,7 +3,6 @@ package fr.polytech.melusine.controllers;
 import fr.polytech.melusine.models.dtos.requests.UserRegistrationRequest;
 import fr.polytech.melusine.models.dtos.requests.UserUpdateRequest;
 import fr.polytech.melusine.models.dtos.responses.UserResponse;
-import fr.polytech.melusine.models.dtos.responses.UserSearchResponse;
 import fr.polytech.melusine.models.entities.User;
 import fr.polytech.melusine.services.UserService;
 import org.springframework.data.domain.Page;
@@ -45,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/search")
-    public Page<UserSearchResponse> searchUser(
+    public Page<UserResponse> searchUser(
             @PageableDefault(size = 20, page = 0, sort = "lastName", direction = Sort.Direction.ASC) Pageable pageable,
             @RequestParam @Size(min = 3, max = 50) String name) {
         return userService.searchUser(name, pageable);
