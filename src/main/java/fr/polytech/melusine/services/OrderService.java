@@ -268,10 +268,7 @@ public class OrderService {
 
     public Page<OrderItemResponse> getOrderItems(Pageable pageable) {
         log.debug("Find all order items");
-        return orderItemRepository.findAllByStatus(pageable, OrderStatus.PENDING).map(item ->
-
-                orderItemMapper.mapToOrderItemResponse(item)
-        );
+        return orderItemRepository.findAllByStatus(pageable, OrderStatus.PENDING).map(orderItemMapper::mapToOrderItemResponse);
     }
 
 }

@@ -17,7 +17,7 @@ public class OrderItemMapper {
                 .id(orderItem.getId())
                 .productName(orderItem.getProduct().getName())
                 .clientName(orderItem.getOrder().getClientName())
-                .ingredients(orderItem.getProduct().getIngredients().stream().map(Ingredient::getName).collect(Collectors.toList()))
+                .ingredients(orderItem.getProduct().getIngredients().stream().map(Ingredient::getName).distinct().collect(Collectors.toList()))
                 .price(formatToDouble(orderItem.getPrice()))
                 .orderId(orderItem.getOrder().getId())
                 .status(orderItem.getStatus())
