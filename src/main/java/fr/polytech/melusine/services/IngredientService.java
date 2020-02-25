@@ -8,6 +8,7 @@ import fr.polytech.melusine.mappers.IngredientMapper;
 import fr.polytech.melusine.models.dtos.requests.IngredientRequest;
 import fr.polytech.melusine.models.dtos.responses.IngredientResponse;
 import fr.polytech.melusine.models.entities.Ingredient;
+import fr.polytech.melusine.models.enums.IngredientType;
 import fr.polytech.melusine.repositories.IngredientRepository;
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,7 @@ public class IngredientService {
     public List<IngredientResponse> getIngredients() {
         log.debug("Find ingredients");
 
-        List<Ingredient> ingredients = ingredientRepository.findAll();
+        List<Ingredient> ingredients = ingredientRepository.findAllByTypeIsNot(IngredientType.UNIQUE);
         return ingredientMapper.mapIngredientsToIngredientsResponse(ingredients);
     }
 

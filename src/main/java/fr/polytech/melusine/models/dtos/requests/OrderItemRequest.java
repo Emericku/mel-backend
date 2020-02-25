@@ -1,13 +1,14 @@
 package fr.polytech.melusine.models.dtos.requests;
 
 import fr.polytech.melusine.models.enums.OrderStatus;
-import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
-@Builder
 public class OrderItemRequest {
 
+    @NotNull
     private OrderStatus status;
 
 }

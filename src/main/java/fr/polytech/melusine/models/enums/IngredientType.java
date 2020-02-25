@@ -5,6 +5,7 @@ public enum IngredientType {
     BASE,
     VIANDE,
     SUPPLEMENT,
-    FROMAGE
+    FROMAGE,
+    UNIQUE
 
 }

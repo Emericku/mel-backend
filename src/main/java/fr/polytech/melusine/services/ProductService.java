@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
 
-    public static final String PAIN = "PAIN";
+    public static final String PAIN = "Pain";
     private final ProductRepository productRepository;
     private final IngredientRepository ingredientRepository;
     private final ProductMapper productMapper;
@@ -144,8 +144,8 @@ public class ProductService {
         if (optionalQuantity.isPresent())
             return productMapper.mapProductToProductResponse(product, optionalQuantity.get());
 
-        //Ingredient pain = ingredientRepository.findByName(PAIN);
-        return productMapper.mapProductToProductResponse(product, 1L);
+        Ingredient pain = ingredientRepository.findByName(PAIN);
+        return productMapper.mapProductToProductResponse(product, pain.getQuantity());
     }
 
     public List<CategoryResponse> getCategories() {
