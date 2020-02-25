@@ -105,7 +105,7 @@ VALUES
 (product_id, ingredient_id )
 VALUES
 -- Mitch
-('6510e418-a12a-4a8a-b7af-8df1f7bcce91', '6509e418-a12a-4a8a-b7af-8df1f7bcce00'),
+('6516e418-a12a-4a8a-b7af-8df1f7bcce91', '6509e418-a12a-4a8a-b7af-8df1f7bcce00'),
 ('6516e418-a12a-4a8a-b7af-8df1f7bcce91', '6509e418-a12a-4a8a-b7af-8df1f7bcce10'),
 -- Jambon Beurre
 ('6517e418-a12a-4a8a-b7af-8df1f7bcce91', '6509e418-a12a-4a8a-b7af-8df1f7bcce00'),
