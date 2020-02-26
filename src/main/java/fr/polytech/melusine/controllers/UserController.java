@@ -3,7 +3,6 @@ package fr.polytech.melusine.controllers;
 import fr.polytech.melusine.models.dtos.requests.UserRegistrationRequest;
 import fr.polytech.melusine.models.dtos.requests.UserUpdateRequest;
 import fr.polytech.melusine.models.dtos.responses.UserResponse;
-import fr.polytech.melusine.models.entities.User;
 import fr.polytech.melusine.services.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody @Valid UserRegistrationRequest userRegistrationRequest) {
+    public UserResponse createUser(@RequestBody @Valid UserRegistrationRequest userRegistrationRequest) {
         return userService.createUser(userRegistrationRequest);
     }
 

@@ -51,7 +51,7 @@ public class UserService {
         this.clock = clock;
     }
 
-    public User createUser(UserRegistrationRequest userRegistrationRequest) {
+    public UserResponse createUser(UserRegistrationRequest userRegistrationRequest) {
         log.debug("Creation of user with last name: " + userRegistrationRequest.getLastName() +
                 " first name: " + userRegistrationRequest.getFirstName());
         ensureCreditUpperThanZero(formatToLong(userRegistrationRequest.getCredit()));
@@ -92,7 +92,7 @@ public class UserService {
             accountRepository.save(account);
         }
         log.info("End of the creation of a user");
-        return user;
+        return userMapper.mapToUserResponse(savedUser);
     }
 
     private void ensureCreditUpperThanZero(Long credit) {
