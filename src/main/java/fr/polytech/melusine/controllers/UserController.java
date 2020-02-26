@@ -50,4 +50,14 @@ public class UserController {
         return userService.searchUser(name, pageable);
     }
 
+    @PutMapping(path = "/{id}")
+    public UserResponse updateUser(@PathVariable String id, @RequestBody @Valid UserUpdateRequest request) {
+        return userService.updateUser(id, request);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public void deleteUser(@PathVariable String id) {
+        userService.deleteUser(id);
+    }
+
 }

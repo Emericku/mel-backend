@@ -14,6 +14,7 @@ import fr.polytech.melusine.models.dtos.responses.UserResponse;
 import fr.polytech.melusine.models.entities.Account;
 import fr.polytech.melusine.models.entities.User;
 import fr.polytech.melusine.repositories.AccountRepository;
+import fr.polytech.melusine.repositories.OrderRepository;
 import fr.polytech.melusine.repositories.UserRepository;
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -36,15 +37,17 @@ public class UserService {
     private AccountRepository accountRepository;
     private PasswordService passwordService;
     private UserMapper userMapper;
+    private OrderRepository orderRepository;
     private Clock clock;
 
 
     public UserService(UserRepository userRepository, AccountRepository accountRepository, PasswordService passwordService,
-                       UserMapper userMapper, Clock clock) {
+                       UserMapper userMapper, OrderRepository orderRepository, Clock clock) {
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
         this.passwordService = passwordService;
         this.userMapper = userMapper;
+        this.orderRepository = orderRepository;
         this.clock = clock;
     }
 
@@ -136,4 +139,29 @@ public class UserService {
         );
         return users.map(user -> userMapper.mapToUserResponse(user));
     }
+
+    public UserResponse updateUser(String id, UserUpdateRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, id));
+        String firstName = Strings.capitalize(request.getFirstName().toLowerCase().trim());
+        String lastName = Strings.capitalize(request.getLastName().toLowerCase().trim());
+        String nickName = Strings.capitalize(request.getNickName().toLowerCase().trim());
+        User updatedUser = user.toBuilder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .nickName(nickName)
+                .section(request.getSection())
+                .build();
+
+        User savedUser = userRepository.save(updatedUser);
+        return userMapper.mapToUserResponse(savedUser);
+    }
+
+    public void deleteUser(String id) {
+        log.info("Deletion of order for user with ID: " + id);
+        orderRepository.deleteByUserId(id);
+        log.info("Deletion of user with ID:" + id);
+        userRepository.deleteById(id);
+    }
+
 }
