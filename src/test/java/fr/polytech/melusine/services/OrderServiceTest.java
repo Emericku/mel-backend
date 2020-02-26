@@ -9,10 +9,7 @@ import fr.polytech.melusine.models.entities.Order;
 import fr.polytech.melusine.models.entities.OrderItem;
 import fr.polytech.melusine.models.entities.Product;
 import fr.polytech.melusine.models.entities.User;
-import fr.polytech.melusine.repositories.OrderItemRepository;
-import fr.polytech.melusine.repositories.OrderRepository;
-import fr.polytech.melusine.repositories.ProductRepository;
-import fr.polytech.melusine.repositories.UserRepository;
+import fr.polytech.melusine.repositories.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +46,8 @@ public class OrderServiceTest {
     @Mock
     private OrderItemMapper orderItemMapper;
     @Mock
+    private IngredientRepository ingredientRepository;
+    @Mock
     private Clock clock;
 
     private OrderService orderService;
@@ -57,7 +56,7 @@ public class OrderServiceTest {
     public void setUp() throws Exception {
         when(clock.getZone()).thenReturn(ZoneOffset.UTC);
         when(clock.instant()).thenReturn(TestData.INSTANT_1.toInstant());
-        orderService = new OrderService(orderRepository, productRepository, orderItemRepository, userRepository, orderItemMapper, orderMapper, clock);
+        orderService = new OrderService(orderRepository, productRepository, orderItemRepository, userRepository, orderItemMapper, orderMapper, ingredientRepository, clock);
     }
 
     @Test

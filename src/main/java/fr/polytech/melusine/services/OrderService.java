@@ -16,10 +16,7 @@ import fr.polytech.melusine.models.entities.OrderItem;
 import fr.polytech.melusine.models.entities.Product;
 import fr.polytech.melusine.models.entities.User;
 import fr.polytech.melusine.models.enums.OrderStatus;
-import fr.polytech.melusine.repositories.OrderItemRepository;
-import fr.polytech.melusine.repositories.OrderRepository;
-import fr.polytech.melusine.repositories.ProductRepository;
-import fr.polytech.melusine.repositories.UserRepository;
+import fr.polytech.melusine.repositories.*;
 import io.jsonwebtoken.lang.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -43,6 +40,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final OrderItemMapper orderItemMapper;
     private final OrderMapper orderMapper;
+    private final IngredientRepository ingredientRepository;
     private final Clock clock;
 
     public OrderService(
@@ -52,13 +50,14 @@ public class OrderService {
             UserRepository userRepository,
             OrderItemMapper orderItemMapper,
             OrderMapper orderMapper,
-            Clock clock) {
+            IngredientRepository ingredientRepository, Clock clock) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.orderItemRepository = orderItemRepository;
         this.userRepository = userRepository;
         this.orderItemMapper = orderItemMapper;
         this.orderMapper = orderMapper;
+        this.ingredientRepository = ingredientRepository;
         this.clock = clock;
     }
 
@@ -193,7 +192,11 @@ public class OrderService {
         OrderItem orderItem = findOrderItemById(itemId);
         ensureOrderItemIsPending(orderItem);
 
-        Order order = findOrderById(orderItem.getOrder().getId());
+        if (request.getStatus().equals(OrderStatus.DELIVER)) {
+            orderItem.getProduct().getIngredients().stream()
+                    .map(ingredient -> ingredient.toBuilder().quantity(ingredient.getQuantity() - 1).build())
+                    .forEach(ingredientRepository::save);
+        }
 
         OrderItem orderItemToUpdate = orderItem.toBuilder()
                 .status(request.getStatus())
@@ -201,6 +204,8 @@ public class OrderService {
                 .build();
 
         OrderItem updatedOrderItem = orderItemRepository.save(orderItemToUpdate);
+
+        Order order = findOrderById(orderItem.getOrder().getId());
 
         calculateAndSaveOrderStatus(order);
 
