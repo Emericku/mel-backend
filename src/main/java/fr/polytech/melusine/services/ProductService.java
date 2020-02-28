@@ -66,7 +66,7 @@ public class ProductService {
         Product product = Product.builder()
                 .name(name)
                 .category(productRequest.getCategory())
-                .price(price)
+                .price(formatToLong(price))
                 .isOriginal(productRequest.isOriginal())
                 .ingredients(ingredients)
                 .image(productRequest.getImage())
@@ -85,7 +85,7 @@ public class ProductService {
                 .mapToLong(Long::valueOf)
                 .sum();
 
-        return Objects.nonNull(productRequest.getPrice()) ? productRequest.getPrice() : ingredientsPrice;
+        return Objects.nonNull(productRequest.getPrice()) ? formatToLong(productRequest.getPrice()) : ingredientsPrice;
     }
 
     private List<Ingredient> getIngredients(ProductRequest productRequest) {

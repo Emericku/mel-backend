@@ -36,14 +36,13 @@ public class IngredientService {
 
     public IngredientResponse createIngredient(IngredientRequest ingredientRequest) {
         log.debug("Create ingredient : " + ingredientRequest.getName());
-
         ensurePriceUpperThanZero(ingredientRequest.getPrice());
 
         String name = Strings.capitalize(ingredientRequest.getName().toLowerCase().trim());
 
         Ingredient ingredient = Ingredient.builder()
                 .name(name)
-                .price(ingredientRequest.getPrice())
+                .price(formatToLong(ingredientRequest.getPrice()))
                 .image(ingredientRequest.getImage())
                 .quantity(ingredientRequest.getQuantity())
                 .type(ingredientRequest.getType())
@@ -89,7 +88,7 @@ public class IngredientService {
         return ingredientMapper.mapIngredientToIngredientResponse(updatedIngredient);
     }
 
-    private void ensurePriceUpperThanZero(long price) {
+    private void ensurePriceUpperThanZero(double price) {
         if (price < 0) {
             throw new BadRequestException(CreditError.INVALID_CREDIT, price);
         }

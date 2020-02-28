@@ -19,7 +19,7 @@ public class ProductRequest {
     @NotNull
     private Category category;
 
-    private Long price;
+    private Double price;
 
     private List<String> ingredients;
 

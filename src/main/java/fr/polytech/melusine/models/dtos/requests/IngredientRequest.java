@@ -15,7 +15,7 @@ public class IngredientRequest {
     private String name;
 
     @NotNull
-    private Long price;
+    private Double price;
 
     private IngredientType type;
 
