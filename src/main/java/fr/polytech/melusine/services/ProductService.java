@@ -66,7 +66,7 @@ public class ProductService {
         Product product = Product.builder()
                 .name(name)
                 .category(productRequest.getCategory())
-                .price(formatToLong(price))
+                .price(price)
                 .isOriginal(productRequest.isOriginal())
                 .ingredients(ingredients)
                 .image(productRequest.getImage())
