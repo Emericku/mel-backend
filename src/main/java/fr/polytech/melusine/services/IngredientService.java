@@ -18,6 +18,8 @@ import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import static fr.polytech.melusine.utils.MoneyFormatter.formatToLong;
+
 @Slf4j
 @Service
 public class IngredientService {
@@ -76,7 +78,7 @@ public class IngredientService {
 
         Ingredient ingredientToUpdate = findIngredientById(id).toBuilder()
                 .name(ingredientRequest.getName())
-                .price(ingredientRequest.getPrice())
+                .price(formatToLong(ingredientRequest.getPrice()))
                 .quantity(ingredientRequest.getQuantity())
                 .type(ingredientRequest.getType())
                 .build();
@@ -88,7 +90,7 @@ public class IngredientService {
     }
 
     private void ensurePriceUpperThanZero(long price) {
-        if (price <= 0) {
+        if (price < 0) {
             throw new BadRequestException(CreditError.INVALID_CREDIT, price);
         }
     }

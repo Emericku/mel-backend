@@ -26,6 +26,8 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static fr.polytech.melusine.utils.MoneyFormatter.formatToLong;
+
 @Slf4j
 @Service
 public class ProductService {
@@ -57,17 +59,9 @@ public class ProductService {
             throw new ConflictException(ProductError.CONFLICT, productRequest.getName());
         }
 
-        List<Ingredient> ingredients = Optional.ofNullable(productRequest.getIngredients())
-                .filter(Predicate.not(List::isEmpty))
-                .map(ingredientRepository::findByIdIn)
-                .orElse(List.of());
+        List<Ingredient> ingredients = getIngredients(productRequest);
 
-        long ingredientsPrice = ingredients.stream()
-                .map(Ingredient::getPrice)
-                .mapToLong(Long::longValue)
-                .sum();
-
-        long price = Objects.nonNull(productRequest.getPrice()) ? productRequest.getPrice() : ingredientsPrice;
+        long price = getProductPrice(productRequest, ingredients);
 
         Product product = Product.builder()
                 .name(name)
@@ -83,6 +77,22 @@ public class ProductService {
         log.info("End of product's creation with name : " + productRequest.getName() + " and category : " + productRequest.getCategory());
         Product createdProduct = productRepository.save(product);
         return productMapper.mapProductToProductResponse(createdProduct, 1);
+    }
+
+    private long getProductPrice(ProductRequest productRequest, List<Ingredient> ingredients) {
+        long ingredientsPrice = ingredients.stream()
+                .map(Ingredient::getPrice)
+                .mapToLong(Long::valueOf)
+                .sum();
+
+        return Objects.nonNull(productRequest.getPrice()) ? productRequest.getPrice() : ingredientsPrice;
+    }
+
+    private List<Ingredient> getIngredients(ProductRequest productRequest) {
+        return Optional.ofNullable(productRequest.getIngredients())
+                .filter(Predicate.not(List::isEmpty))
+                .map(ingredientRepository::findByIdIn)
+                .orElse(List.of());
     }
 
     /**
@@ -111,9 +121,13 @@ public class ProductService {
 
         String name = productRequest.getName().isEmpty() ? product.getName() : productRequest.getName();
 
+        List<Ingredient> ingredients = getIngredients(productRequest);
+        long price = getProductPrice(productRequest, ingredients);
+
         Product updatedProduct = product.toBuilder()
                 .name(name)
-                .price(product.getPrice())
+                .price(formatToLong(price))
+                .ingredients(ingredients)
                 .image(productRequest.getImage())
                 .build();
 

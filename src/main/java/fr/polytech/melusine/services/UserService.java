@@ -60,13 +60,14 @@ public class UserService {
         String nickName = Strings.capitalize(userRegistrationRequest.getNickName().toLowerCase().trim());
         if (userRepository.existsByFirstNameAndLastNameAndSection(firstName, lastName, userRegistrationRequest.getSection()))
             throw new ConflictException(UserError.CONFLICT, firstName, lastName, userRegistrationRequest.getSection());
-
+        long requestedCredit = formatToLong(userRegistrationRequest.getCredit());
+        long credit = requestedCredit + getMembershipBonus(userRegistrationRequest.getCredit());
         User user = User.builder()
                 .firstName(firstName)
                 .lastName(lastName)
                 .nickName(nickName)
                 .section(userRegistrationRequest.getSection())
-                .credit(formatToLong(userRegistrationRequest.getCredit()))
+                .credit(credit)
                 .isMembership(userRegistrationRequest.isMembership())
                 .createdAt(OffsetDateTime.now(clock))
                 .updatedAt(OffsetDateTime.now(clock))
@@ -117,7 +118,7 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, userId));
 
         long requestedCredit = formatToLong(request.getCredit());
-        long newCredit = user.getCredit() + requestedCredit;
+        long newCredit = user.getCredit() + requestedCredit + getMembershipBonus(requestedCredit);
         User updatedUser = userRepository.save(user.toBuilder()
                 .credit(newCredit)
                 .updatedAt(OffsetDateTime.now(clock))
@@ -126,6 +127,10 @@ public class UserService {
 
         log.info("End of credit a user");
         return userMapper.mapToUserResponse(updatedUser);
+    }
+
+    private long getMembershipBonus(long requestedCredit) {
+        return (requestedCredit * 10) / 100;
     }
 
     public Page<UserResponse> searchUser(String name, Pageable pageable) {
