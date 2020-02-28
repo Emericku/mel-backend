@@ -61,7 +61,7 @@ public class UserService {
         if (userRepository.existsByFirstNameAndLastNameAndSection(firstName, lastName, userRegistrationRequest.getSection()))
             throw new ConflictException(UserError.CONFLICT, firstName, lastName, userRegistrationRequest.getSection());
         long requestedCredit = formatToLong(userRegistrationRequest.getCredit());
-        long credit = requestedCredit + getMembershipBonus(userRegistrationRequest.getCredit());
+        long credit = requestedCredit + getMembershipBonus(requestedCredit);
         User user = User.builder()
                 .firstName(firstName)
                 .lastName(lastName)
