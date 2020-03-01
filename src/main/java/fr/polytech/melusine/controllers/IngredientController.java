@@ -2,7 +2,6 @@ package fr.polytech.melusine.controllers;
 
 import fr.polytech.melusine.models.dtos.requests.IngredientRequest;
 import fr.polytech.melusine.models.dtos.responses.IngredientResponse;
-import fr.polytech.melusine.models.entities.Ingredient;
 import fr.polytech.melusine.services.IngredientService;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +24,8 @@ public class IngredientController {
     }
 
     @GetMapping
-    public List<IngredientResponse> getIngredients() {
-        return ingredientService.getIngredients();
+    public List<IngredientResponse> getIngredientsWithoutUnique() {
+        return ingredientService.getIngredientsWithoutUnique();
     }
 
     @GetMapping(path = "/{id}")
@@ -37,6 +36,16 @@ public class IngredientController {
     @PutMapping(path = "/{id}")
     public IngredientResponse updateIngredient(@PathVariable String id, @RequestBody @Valid IngredientRequest ingredientRequest) {
         return ingredientService.updateIngredient(id, ingredientRequest);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public void deleteIngredient(@PathVariable String id) {
+        ingredientService.deleteIngredient(id);
+    }
+
+    @GetMapping(path = "/all")
+    public List<IngredientResponse> getAllIngredients() {
+        return ingredientService.getIngredients();
     }
 
 }

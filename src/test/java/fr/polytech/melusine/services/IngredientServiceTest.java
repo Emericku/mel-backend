@@ -7,6 +7,7 @@ import fr.polytech.melusine.models.dtos.requests.IngredientRequest;
 import fr.polytech.melusine.models.dtos.responses.IngredientResponse;
 import fr.polytech.melusine.models.entities.Ingredient;
 import fr.polytech.melusine.repositories.IngredientRepository;
+import fr.polytech.melusine.repositories.ProductRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +34,8 @@ public class IngredientServiceTest {
     @Mock
     private IngredientMapper ingredientMapper;
     @Mock
+    private ProductRepository productRepository;
+    @Mock
     private Clock clock;
 
     private IngredientService ingredientService;
@@ -41,7 +44,7 @@ public class IngredientServiceTest {
     public void setUp() throws Exception {
         when(clock.getZone()).thenReturn(ZoneOffset.UTC);
         when(clock.instant()).thenReturn(TestData.INSTANT_1.toInstant());
-        ingredientService = new IngredientService(ingredientRepository, ingredientMapper, clock);
+        ingredientService = new IngredientService(ingredientRepository, ingredientMapper, productRepository, clock);
     }
 
     @Test
@@ -73,10 +76,10 @@ public class IngredientServiceTest {
                 .quantity(ingredient.getQuantity())
                 .build();
 
-        when(ingredientRepository.findAll()).thenReturn(List.of(ingredient));
+        when(ingredientRepository.findByIsDeletedFalse()).thenReturn(List.of(ingredient));
         when(ingredientMapper.mapIngredientsToIngredientsResponse(eq(List.of(ingredient)))).thenReturn(List.of(response));
 
-        List<IngredientResponse> actual = ingredientService.getIngredients();
+        List<IngredientResponse> actual = ingredientService.getIngredientsWithoutUnique();
 
         assertThat(actual.size()).isEqualTo(1);
         assertThat(actual.get(0)).isEqualTo(response);
@@ -95,7 +98,7 @@ public class IngredientServiceTest {
                 .quantity(ingredient.getQuantity())
                 .build();
 
-        when(ingredientRepository.findById(eq(ingredientId))).thenReturn(Optional.of(ingredient));
+        when(ingredientRepository.findByIdAndIsDeletedFalse(eq(ingredientId))).thenReturn(Optional.of(ingredient));
         when(ingredientMapper.mapIngredientToIngredientResponse(eq(ingredient))).thenReturn(expected);
         IngredientResponse actual = ingredientService.getIngredient(ingredientId);
 
@@ -121,7 +124,7 @@ public class IngredientServiceTest {
                 .quantity(15)
                 .build();
 
-        when(ingredientRepository.findById(eq(ingredientId))).thenReturn(Optional.of(ingredient));
+        when(ingredientRepository.findByIdAndIsDeletedFalse(eq(ingredientId))).thenReturn(Optional.of(ingredient));
 
         ingredientService.updateIngredient(ingredientId, request);
 

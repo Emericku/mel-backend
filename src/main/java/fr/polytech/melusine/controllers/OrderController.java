@@ -35,7 +35,7 @@ public class OrderController {
 
     @GetMapping(path = "/items")
     public Page<OrderItemResponse> getOrderItems(
-            @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return orderService.getOrderItems(pageable);
     }

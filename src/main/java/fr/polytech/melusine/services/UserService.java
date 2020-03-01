@@ -57,7 +57,10 @@ public class UserService {
         ensureCreditUpperThanZero(formatToLong(userRegistrationRequest.getCredit()));
         String firstName = Strings.capitalize(userRegistrationRequest.getFirstName().toLowerCase().trim());
         String lastName = Strings.capitalize(userRegistrationRequest.getLastName().toLowerCase().trim());
-        String nickName = Strings.capitalize(userRegistrationRequest.getNickName().toLowerCase().trim());
+        String nickName = null;
+        if (Objects.nonNull(userRegistrationRequest.getNickName())) {
+            nickName = Strings.capitalize(userRegistrationRequest.getNickName().toLowerCase().trim());
+        }
         if (userRepository.existsByFirstNameAndLastNameAndSection(firstName, lastName, userRegistrationRequest.getSection()))
             throw new ConflictException(UserError.CONFLICT, firstName, lastName, userRegistrationRequest.getSection());
         long requestedCredit = formatToLong(userRegistrationRequest.getCredit());
@@ -164,9 +167,12 @@ public class UserService {
 
     public void deleteUser(String id) {
         log.info("Deletion of order for user with ID: " + id);
-        orderRepository.deleteByUserId(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, id));
+        orderRepository.deleteByUser(user);
         log.info("Deletion of user with ID:" + id);
-        userRepository.deleteById(id);
+        accountRepository.deleteByUser(user);
+        userRepository.deleteById(user.getId());
     }
 
 }

@@ -5,6 +5,7 @@ import fr.polytech.melusine.models.enums.IngredientType;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IngredientRepository extends PagingAndSortingRepository<Ingredient, String> {
 
@@ -13,13 +14,12 @@ public interface IngredientRepository extends PagingAndSortingRepository<Ingredi
      *
      * @return a list of ingredients
      */
-    @Override
-    List<Ingredient> findAll();
+    List<Ingredient> findByIsDeletedFalse();
 
-    List<Ingredient> findByIdIn(List<String> ids);
+    List<Ingredient> findByIdInAndIsDeletedFalse(List<String> ids);
 
-    List<Ingredient> findAllByTypeIsNot(IngredientType type);
+    List<Ingredient> findAllByTypeIsNotAndIsDeletedFalse(IngredientType type);
 
-    Ingredient findByName(String name);
+    Optional<Ingredient> findByIdAndIsDeletedFalse(String id);
 
 }

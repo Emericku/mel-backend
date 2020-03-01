@@ -32,6 +32,8 @@ public class Ingredient {
     @Column(columnDefinition = "LONGBLOB")
     private String image;
 
+    private boolean isDeleted;
+
     @NonNull
     private OffsetDateTime createdAt;
 

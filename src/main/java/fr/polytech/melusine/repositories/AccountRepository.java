@@ -1,6 +1,7 @@
 package fr.polytech.melusine.repositories;
 
 import fr.polytech.melusine.models.entities.Account;
+import fr.polytech.melusine.models.entities.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
@@ -31,5 +32,7 @@ public interface AccountRepository extends CrudRepository<Account, String> {
      * @return a boolean
      */
     boolean existsByEmail(String email);
+
+    void deleteByUser(User user);
 
 }

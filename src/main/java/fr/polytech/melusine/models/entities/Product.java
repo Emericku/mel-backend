@@ -41,6 +41,8 @@ public class Product {
 
     private boolean isOriginal;
 
+    private boolean isDeleted;
+
     @NonNull
     private OffsetDateTime createdAt;
 

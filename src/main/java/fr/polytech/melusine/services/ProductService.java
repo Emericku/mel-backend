@@ -3,6 +3,7 @@ package fr.polytech.melusine.services;
 import fr.polytech.melusine.configurations.Constants;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.exceptions.NotFoundException;
+import fr.polytech.melusine.exceptions.errors.IngredientError;
 import fr.polytech.melusine.exceptions.errors.ProductError;
 import fr.polytech.melusine.mappers.ProductMapper;
 import fr.polytech.melusine.models.dtos.requests.ProductRequest;
@@ -32,7 +33,7 @@ import static fr.polytech.melusine.utils.MoneyFormatter.formatToLong;
 @Service
 public class ProductService {
 
-    public static final String PAIN = "Pain";
+    public static final String PAIN_UUID = "6509e418-a12a-4a8a-b7af-8df1f7bcce00";
     private final ProductRepository productRepository;
     private final IngredientRepository ingredientRepository;
     private final ProductMapper productMapper;
@@ -55,7 +56,7 @@ public class ProductService {
         String name = Strings.capitalize(productRequest.getName().toLowerCase().trim());
         log.info("Create a product with name : " + name);
 
-        if (productRepository.existsByNameAndIsOriginalTrue(name)) {
+        if (productRepository.existsByNameAndIsOriginalTrueAndIsDeletedFalse(name)) {
             throw new ConflictException(ProductError.CONFLICT, productRequest.getName());
         }
 
@@ -85,13 +86,13 @@ public class ProductService {
                 .mapToLong(Long::valueOf)
                 .sum();
 
-        return Objects.nonNull(productRequest.getPrice()) ? formatToLong(productRequest.getPrice()) : ingredientsPrice;
+        return Objects.nonNull(productRequest.getPrice()) && productRequest.getPrice() != 0 ? formatToLong(productRequest.getPrice()) : ingredientsPrice;
     }
 
     private List<Ingredient> getIngredients(ProductRequest productRequest) {
         return Optional.ofNullable(productRequest.getIngredients())
                 .filter(Predicate.not(List::isEmpty))
-                .map(ingredientRepository::findByIdIn)
+                .map(ingredientRepository::findByIdInAndIsDeletedFalse)
                 .orElse(List.of());
     }
 
@@ -103,7 +104,7 @@ public class ProductService {
      */
     public ProductResponse getProduct(String productId) {
         log.debug("Find product by id: {}", productId);
-        Product product = productRepository.findById(productId)
+        Product product = productRepository.findByIdAndIsDeletedFalse(productId)
                 .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, productId));
         return getProductResponse(product);
     }
@@ -120,14 +121,15 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, id));
 
         String name = productRequest.getName().isEmpty() ? product.getName() : productRequest.getName();
+        boolean isCustom = productRequest.getCategory().equals(Category.CUSTOM);
 
         List<Ingredient> ingredients = getIngredients(productRequest);
         long price = getProductPrice(productRequest, ingredients);
 
         Product updatedProduct = product.toBuilder()
                 .name(name)
-                .price(formatToLong(price))
-                .ingredients(ingredients)
+                .price(isCustom ? null : price)
+                .ingredients(isCustom ? null : ingredients)
                 .image(productRequest.getImage())
                 .build();
 
@@ -143,7 +145,7 @@ public class ProductService {
      */
     public List<ProductResponse> getProducts() {
         log.debug("Find all products by original true");
-        List<Product> products = productRepository.findByIsOriginalTrue();
+        List<Product> products = productRepository.findByIsOriginalTrueAndIsDeletedFalse();
 
         return products.stream()
                 .map(this::getProductResponse)
@@ -158,7 +160,8 @@ public class ProductService {
         if (optionalQuantity.isPresent())
             return productMapper.mapProductToProductResponse(product, optionalQuantity.get());
 
-        Ingredient pain = ingredientRepository.findByName(PAIN);
+        Ingredient pain = ingredientRepository.findByIdAndIsDeletedFalse(PAIN_UUID)
+                .orElseThrow(() -> new NotFoundException(IngredientError.NOT_FOUND, PAIN_UUID));
         return productMapper.mapProductToProductResponse(product, pain.getQuantity());
     }
 
@@ -168,7 +171,6 @@ public class ProductService {
         return categories.stream()
                 .map(this::getCategoryResponse)
                 .collect(Collectors.toList());
-
     }
 
     private CategoryResponse getCategoryResponse(Category category) {
@@ -207,4 +209,16 @@ public class ProductService {
         }
         return null;
     }
+
+    public void deleteProduct(String id) {
+        log.info("Logic deletion of product with id: " + id);
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, id));
+        Product deletedProduct = product.toBuilder()
+                .isDeleted(true)
+                .build();
+        productRepository.save(deletedProduct);
+    }
+
+
 }
