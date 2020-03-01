@@ -5,14 +5,12 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
 @Builder
 public class AccountRequest {
 
-    @NotNull
     private String clientId;
 
     @NotEmpty
