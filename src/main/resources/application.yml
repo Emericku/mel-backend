@@ -25,5 +25,8 @@ melusine.jwt:
   header-name: Authorization
   time-to-live: 36000
 
+server:
+  port: 8080
+  
 melusine.path:
   base: /tmp
