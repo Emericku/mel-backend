@@ -6,6 +6,7 @@ import fr.polytech.melusine.mappers.IngredientMapper;
 import fr.polytech.melusine.models.dtos.requests.IngredientRequest;
 import fr.polytech.melusine.models.dtos.responses.IngredientResponse;
 import fr.polytech.melusine.models.entities.Ingredient;
+import fr.polytech.melusine.models.enums.IngredientType;
 import fr.polytech.melusine.repositories.IngredientRepository;
 import fr.polytech.melusine.repositories.ProductRepository;
 import org.junit.Before;
@@ -61,7 +62,7 @@ public class IngredientServiceTest {
         verify(ingredientRepository).save(captor.capture());
 
         assertThat(captor.getValue().getName()).isEqualTo(request.getName());
-        assertThat(captor.getValue().getPrice()).isEqualTo(request.getPrice());
+        assertThat(captor.getValue().getPrice()).isEqualTo(1050L);
         assertThat(captor.getValue().getQuantity()).isEqualTo(request.getQuantity());
     }
 
@@ -76,7 +77,7 @@ public class IngredientServiceTest {
                 .quantity(ingredient.getQuantity())
                 .build();
 
-        when(ingredientRepository.findByIsDeletedFalse()).thenReturn(List.of(ingredient));
+        when(ingredientRepository.findAllByTypeIsNotAndIsDeletedFalse(IngredientType.UNIQUE)).thenReturn(List.of(ingredient));
         when(ingredientMapper.mapIngredientsToIngredientsResponse(eq(List.of(ingredient)))).thenReturn(List.of(response));
 
         List<IngredientResponse> actual = ingredientService.getIngredientsWithoutUnique();
@@ -111,7 +112,7 @@ public class IngredientServiceTest {
 
         assertThatExceptionOfType(NotFoundException.class)
                 .isThrownBy(() -> ingredientService.getIngredient(ingredientId))
-                .withMessage("The ingredient with the id: ingredientId not found");
+                .withMessage("L'ingredient avec l'ID : ingredientId est introuvable");
     }
 
     @Test
@@ -133,7 +134,7 @@ public class IngredientServiceTest {
 
         assertThat(captor.getValue().getName()).isEqualTo(request.getName());
         assertThat(captor.getValue().getQuantity()).isEqualTo(request.getQuantity());
-        assertThat(captor.getValue().getPrice()).isEqualTo(request.getPrice());
+        assertThat(captor.getValue().getPrice()).isEqualTo(2050L);
     }
 
 }

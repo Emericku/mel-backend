@@ -32,6 +32,10 @@ spring.mail:
   password: smtp-password
 ```
 
+# Start application in production 
+
+```java -jar app.jar --spring.config.location=file:///Users/home/config/jdbc.properties```
+
 # Releases
 ### Release 1.0.0
 

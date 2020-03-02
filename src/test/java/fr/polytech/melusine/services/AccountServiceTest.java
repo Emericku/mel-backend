@@ -69,7 +69,7 @@ public class AccountServiceTest {
 
         assertThatExceptionOfType(ConflictException.class)
                 .isThrownBy(() -> accountService.updateAccount(request))
-                .withMessage("An account already exists with this email: bruce.wayne@gmail.com");
+                .withMessage("Le compte avec l'email : bruce.wayne@gmail.com est déjà existant");
     }
 
 }

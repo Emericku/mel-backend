@@ -12,6 +12,7 @@
     <artifactId>melusine</artifactId>
     <version>1.0.0</version>
     <name>melusine</name>
+    <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
 
     <properties>
