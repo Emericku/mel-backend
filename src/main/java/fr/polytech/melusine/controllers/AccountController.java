@@ -15,9 +15,14 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping
+    @PatchMapping
     public Account updateAccount(@RequestBody AccountRequest accountRequest) {
         return accountService.updateAccount(accountRequest);
+    }
+
+    @PostMapping
+    public Account createAccount(@RequestBody AccountRequest accountRequest) {
+        return accountService.createAccount(accountRequest);
     }
 
     @PostMapping(path = "/{email}/resend")

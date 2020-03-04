@@ -22,6 +22,7 @@ import org.apache.shiro.authc.credential.PasswordService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
@@ -96,7 +97,7 @@ public class UserService {
             accountRepository.save(account);
         }
         log.info("End of the creation of a user");
-        return userMapper.mapToUserResponse(savedUser);
+        return userMapper.mapToUserResponse(savedUser, null, null);
     }
 
     private void ensureCreditUpperThanZero(Long credit) {
@@ -112,7 +113,16 @@ public class UserService {
     public Page<UserResponse> getUsers(Pageable pageable) {
         log.debug("Find accounts order by last name");
         Page<User> userPages = userRepository.findAll(pageable);
-        return userPages.map(userPage -> userMapper.mapToUserResponse(userPage));
+        return userPages.map(this::getUserResponse);
+    }
+
+    private UserResponse getUserResponse(User user) {
+        Account account = accountRepository.findByUser(user)
+                .orElse(null);
+        String email = Objects.nonNull(account) ? account.getEmail() : null;
+        boolean isBarman = Objects.nonNull(account) ? account.isBarman() : false;
+
+        return userMapper.mapToUserResponse(user, email, isBarman);
     }
 
     public UserResponse creditUser(String userId, UserUpdateRequest request) {
@@ -129,7 +139,7 @@ public class UserService {
         );
 
         log.info("End of credit a user");
-        return userMapper.mapToUserResponse(updatedUser);
+        return getUserResponse(updatedUser);
     }
 
     private long getMembershipBonus(long requestedCredit) {
@@ -145,7 +155,7 @@ public class UserService {
                 formattedName,
                 formattedName
         );
-        return users.map(user -> userMapper.mapToUserResponse(user));
+        return users.map(this::getUserResponse);
     }
 
     public UserResponse updateUser(String id, UserUpdateRequest request) {
@@ -162,9 +172,10 @@ public class UserService {
                 .build();
 
         User savedUser = userRepository.save(updatedUser);
-        return userMapper.mapToUserResponse(savedUser);
+        return getUserResponse(savedUser);
     }
 
+    @Transactional
     public void deleteUser(String id) {
         log.info("Deletion of order for user with ID: " + id);
         User user = userRepository.findById(id)

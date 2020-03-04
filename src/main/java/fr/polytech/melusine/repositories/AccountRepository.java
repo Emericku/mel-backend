@@ -33,6 +33,10 @@ public interface AccountRepository extends CrudRepository<Account, String> {
      */
     boolean existsByEmail(String email);
 
+    boolean existsByEmailAndUserIsNot(String email, User user);
+
     void deleteByUser(User user);
+
+    Optional<Account> findByUser(User user);
 
 }

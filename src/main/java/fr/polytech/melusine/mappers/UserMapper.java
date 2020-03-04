@@ -9,7 +9,7 @@ import static fr.polytech.melusine.utils.MoneyFormatter.formatToDouble;
 @Component
 public class UserMapper {
 
-    public UserResponse mapToUserResponse(User user) {
+    public UserResponse mapToUserResponse(User user, String email, Boolean isBarman) {
         return UserResponse.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
@@ -20,6 +20,8 @@ public class UserMapper {
                 .isMembership((user.isMembership()))
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
+                .isBarman(isBarman)
+                .email(email)
                 .build();
     }
 

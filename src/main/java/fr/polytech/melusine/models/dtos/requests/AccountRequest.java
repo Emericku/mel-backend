@@ -11,9 +11,10 @@ import javax.validation.constraints.Size;
 @Builder
 public class AccountRequest {
 
+    private String id;
+
     private String clientId;
 
-    @NotEmpty
     @Size(min = 8)
     private String password;
 

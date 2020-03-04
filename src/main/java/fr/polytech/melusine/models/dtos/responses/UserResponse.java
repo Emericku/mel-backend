@@ -24,6 +24,10 @@ public class UserResponse {
 
     private boolean isMembership;
 
+    private boolean isBarman;
+
+    private String email;
+
     private OffsetDateTime createdAt;
 
     private OffsetDateTime updatedAt;

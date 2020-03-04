@@ -6,6 +6,8 @@ import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.models.dtos.requests.AccountRequest;
 import fr.polytech.melusine.models.entities.Account;
 import fr.polytech.melusine.repositories.AccountRepository;
+import fr.polytech.melusine.repositories.UserRepository;
+import org.apache.shiro.authc.credential.PasswordService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.Clock;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,13 +30,19 @@ public class AccountServiceTest {
     @Mock
     private AccountRepository accountRepository;
     @Mock
+    private UserRepository userRepository;
+    @Mock
+    private PasswordService passwordService;
+    @Mock
     private EmailManager emailManager;
+    @Mock
+    private Clock clock;
 
     private AccountService accountService;
 
     @Before
     public void setUp() {
-        accountService = new AccountService(accountRepository, emailManager);
+        accountService = new AccountService(accountRepository, userRepository, passwordService, emailManager, clock);
     }
 
     @Test
