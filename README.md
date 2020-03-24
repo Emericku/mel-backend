@@ -48,3 +48,6 @@ Features:
 - Order : Create, Get
 - Item of an order: Update
 - Product : Create, Update, Delete, Get
+
+### Release 1.1.0
+- User : create and update account
