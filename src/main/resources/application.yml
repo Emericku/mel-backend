@@ -1,14 +1,14 @@
 spring.datasource:
-  url: jdbc:$DATABASE_URL
+  url: jdbc:mysql://localhost:3306/melusine
   username: root
   password: root
-  initialization-mode: never
+  initialization-mode: always #never
   sqlScriptEncoding: UTF-8
 
 spring.jpa:
   properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
   generate-ddl: true
-  hibernate.ddl-auto: none
+  hibernate.ddl-auto: create #none
   show-sql: false
 
 spring.mail:

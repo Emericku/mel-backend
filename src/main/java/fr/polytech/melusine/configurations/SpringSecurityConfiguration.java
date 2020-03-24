@@ -99,7 +99,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/account/**/resend").permitAll()
+                .antMatchers(HttpMethod.GET, "/orders/items").permitAll()
 
                 // All other requests need to be authenticated
                 .anyRequest().authenticated().and()

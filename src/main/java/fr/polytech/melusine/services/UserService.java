@@ -78,18 +78,19 @@ public class UserService {
                 .build();
 
         User savedUser = userRepository.save(user);
-
+        boolean isBarman = false;
         AccountRequest accountRequest = userRegistrationRequest.getAccount();
         if (Objects.nonNull(accountRequest)) {
             String encryptedPassword = passwordService.encryptPassword(accountRequest.getPassword().trim());
             String email = accountRequest.getEmail().trim().toLowerCase();
+
             if (accountRepository.existsByEmail(email))
                 throw new ConflictException(AccountError.CONFLICT_EMAIL, email);
-
+            isBarman = accountRequest.isBarman();
             Account account = Account.builder()
                     .password(encryptedPassword)
                     .email(email)
-                    .isBarman(accountRequest.isBarman())
+                    .isBarman(isBarman)
                     .user(savedUser)
                     .createdAt(OffsetDateTime.now(clock))
                     .updatedAt(OffsetDateTime.now(clock))
@@ -97,7 +98,8 @@ public class UserService {
             accountRepository.save(account);
         }
         log.info("End of the creation of a user");
-        return userMapper.mapToUserResponse(savedUser, null, null);
+
+        return userMapper.mapToUserResponse(savedUser, null, isBarman);
     }
 
     private void ensureCreditUpperThanZero(Long credit) {
