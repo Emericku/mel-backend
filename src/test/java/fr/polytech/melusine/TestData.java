@@ -46,6 +46,7 @@ public class TestData {
             .user(TestData.USER_BRUCE_WAYNE)
             .createdAt(INSTANT_1)
             .updatedAt(INSTANT_1)
+            .isAdmin(true)
             .build();
 
     public static final AccountRequest ACCOUNT_REQUEST_BRUCE_WAYNE = AccountRequest.builder()

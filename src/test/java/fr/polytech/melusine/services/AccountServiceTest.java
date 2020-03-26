@@ -1,6 +1,7 @@
 package fr.polytech.melusine.services;
 
 import fr.polytech.melusine.TestData;
+import fr.polytech.melusine.components.AuthenticationToken;
 import fr.polytech.melusine.components.EmailManager;
 import fr.polytech.melusine.exceptions.ConflictException;
 import fr.polytech.melusine.models.dtos.requests.AccountRequest;
@@ -14,9 +15,11 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.Clock;
 import java.time.ZoneOffset;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,6 +51,16 @@ public class AccountServiceTest {
         accountService = new AccountService(accountRepository, userRepository, passwordService, emailManager, clock);
     }
 
+    private Account givenAuthenticatedAs(Account account) {
+        AuthenticationToken token = givenAuthentication(account);
+        SecurityContextHolder.getContext().setAuthentication(token);
+        return account;
+    }
+
+    protected AuthenticationToken givenAuthentication(Account account) {
+        return new AuthenticationToken(account, Collections.emptyList(), "sessionRandom", "token");
+    }
+
     @Test
     public void test_updateAccount() {
         String clientId = "clientId";
@@ -55,6 +68,7 @@ public class AccountServiceTest {
         Account account = TestData.ACCOUNT_BRUCE_WAYNE.toBuilder()
                 .password("botmon")
                 .build();
+        givenAuthenticatedAs(account);
 
         when(userRepository.findById(eq(clientId))).thenReturn(Optional.of(TestData.USER_BRUCE_WAYNE));
         when(accountRepository.findByUser(eq(TestData.USER_BRUCE_WAYNE))).thenReturn(Optional.of(account));
@@ -76,6 +90,7 @@ public class AccountServiceTest {
         String clientId = "clientId";
         AccountRequest request = TestData.ACCOUNT_REQUEST_BRUCE_WAYNE;
         Account account = TestData.ACCOUNT_BRUCE_WAYNE;
+        givenAuthenticatedAs(account);
 
         when(userRepository.findById(eq(clientId))).thenReturn(Optional.of(TestData.USER_BRUCE_WAYNE));
         when(accountRepository.findByUser(eq(TestData.USER_BRUCE_WAYNE))).thenReturn(Optional.of(account));
