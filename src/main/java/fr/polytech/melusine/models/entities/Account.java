@@ -29,6 +29,8 @@ public class Account {
 
     private boolean isBarman;
 
+    private boolean isAdmin;
+
     @NonNull
     @OneToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")

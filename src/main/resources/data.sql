@@ -145,15 +145,15 @@ VALUES
 ('6513e418-a12a-4a8a-b7af-8df1f7bcce91', '6509e418-a12a-4a8a-b7af-8df1f7bcce22');
 
 INSERT INTO melusine.accounts
-(id, email, password, is_barman, created_at, updated_at, user_id)
+(id, email, password, is_barman, is_admin, created_at, updated_at, user_id)
 VALUES ('8fa3aca1-c0bf-4586-b519-a7878d6577c0', 'hoerner.emeric@gmail.com',
-'$shiro1$SHA-256$500000$Ml7/U9aYWT8YwZvSuDiBcA==$29cKm4zPNGkGMU7U//N9mrIoW/5tNJBIHi8JVXaCdGE=', 1,
+'$shiro1$SHA-256$500000$Ml7/U9aYWT8YwZvSuDiBcA==$29cKm4zPNGkGMU7U//N9mrIoW/5tNJBIHi8JVXaCdGE=', 1, 1,
 '2019-11-26 15:03:40', '2019-11-26 15:03:40', '6509e418-a12a-4a8a-b7af-8df1f7bcce85'),
 ('8fa3aca1-c0bf-4586-b519-a7878d6577c1', 'jason.mangin@gmail.com',
-'$shiro1$SHA-256$500000$Ml7/U9aYWT8YwZvSuDiBcA==$29cKm4zPNGkGMU7U//N9mrIoW/5tNJBIHi8JVXaCdGE=', 1,
+'$shiro1$SHA-256$500000$Ml7/U9aYWT8YwZvSuDiBcA==$29cKm4zPNGkGMU7U//N9mrIoW/5tNJBIHi8JVXaCdGE=', 1, 0,
 '2019-11-26 15:03:40', '2019-11-26 15:03:40', '6509e418-a12a-4a8a-b7af-8df1f7bcce86'),
 ('8fa3aca1-c0bf-4586-b519-a7878d6577c2', 'stephane.mazzei@gmail.com',
-'$shiro1$SHA-256$500000$Ml7/U9aYWT8YwZvSuDiBcA==$29cKm4zPNGkGMU7U//N9mrIoW/5tNJBIHi8JVXaCdGE=', 1,
+'$shiro1$SHA-256$500000$Ml7/U9aYWT8YwZvSuDiBcA==$29cKm4zPNGkGMU7U//N9mrIoW/5tNJBIHi8JVXaCdGE=', 1, 0,
 '2019-11-26 15:03:40', '2019-11-26 15:03:40', '6509e418-a12a-4a8a-b7af-8df1f7bcce87');
 
 INSERT INTO melusine.users

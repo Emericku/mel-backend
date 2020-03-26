@@ -19,6 +19,8 @@ import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
+import static fr.polytech.melusine.utils.AuthenticatedFinder.ensureAuthenticatedUserIsAdmin;
+
 @Slf4j
 @Service
 public class AccountService {
@@ -45,6 +47,7 @@ public class AccountService {
      */
     public Account updateAccount(AccountRequest accountRequest) {
         log.debug("Update account with client ID: {} ", accountRequest.getClientId());
+        ensureAuthenticatedUserIsAdmin();
         if (Objects.nonNull(accountRequest.getClientId())) {
             String email = accountRequest.getEmail().trim().toLowerCase();
             User user = userRepository.findById(accountRequest.getClientId())
@@ -70,6 +73,7 @@ public class AccountService {
 
     public Account createAccount(AccountRequest accountRequest) {
         log.debug("Create account with client ID: {} ", accountRequest.getClientId());
+        ensureAuthenticatedUserIsAdmin();
         if (Objects.nonNull(accountRequest.getClientId()) &&
                 Objects.nonNull(accountRequest.getPassword())) {
             String email = accountRequest.getEmail().trim().toLowerCase();

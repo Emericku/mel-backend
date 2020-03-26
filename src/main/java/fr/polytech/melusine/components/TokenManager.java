@@ -19,6 +19,7 @@ import java.util.Date;
 public class TokenManager {
 
     private static final String CLAIM_EMAIL = "email";
+    private static final String CLAIM_IS_ADMIN = "isAdmin";
 
     private final JwtProperties jwtProperties;
     private final Clock clock;
@@ -42,6 +43,7 @@ public class TokenManager {
                 .setExpiration(Date.from(clock.instant().plusSeconds(jwtProperties.getTimeToLive())))
                 .setSubject(account.getId())
                 .claim(CLAIM_EMAIL, account.getEmail())
+                .claim(CLAIM_IS_ADMIN, account.isAdmin())
                 .compact();
     }
 
@@ -61,11 +63,7 @@ public class TokenManager {
      * @return the parsed token
      */
     public Claims parseAndValidateJwtToken(String token) {
-        log.trace("Parsing JWT token " + token.substring(0, Math.min(token.length(), 10)) + "[...]");
-        Jws<Claims> jws = Jwts.parser()
-                .setSigningKey(jwtProperties.getSignKey())
-                .parseClaimsJws(token);
-        Claims claims = jws.getBody();
+        Claims claims = getClaims(token);
 
         log.trace("JWT token content: " + claims.toString());
         assertClaimPresent(claims, Claims.ISSUER);
@@ -73,6 +71,7 @@ public class TokenManager {
         assertClaimPresent(claims, Claims.EXPIRATION);
         assertClaimPresent(claims, Claims.SUBJECT);
         assertClaimPresent(claims, CLAIM_EMAIL);
+        assertClaimPresent(claims, CLAIM_IS_ADMIN);
 
         return claims;
     }
@@ -81,6 +80,14 @@ public class TokenManager {
         if (claims.get(key) == null) {
             throw new SecurityException("JWT token does not contain claim <" + key + ">");
         }
+    }
+
+    private Claims getClaims(String token) {
+        log.trace("Parsing JWT token " + token.substring(0, Math.min(token.length(), 10)) + "[...]");
+        Jws<Claims> jws = Jwts.parser()
+                .setSigningKey(jwtProperties.getSignKey())
+                .parseClaimsJws(token);
+        return jws.getBody();
     }
 
 }

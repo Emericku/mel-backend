@@ -28,6 +28,8 @@ import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
+import static fr.polytech.melusine.utils.AuthenticatedFinder.ensureAuthenticatedUserIsAdmin;
+import static fr.polytech.melusine.utils.AuthenticatedFinder.getAuthenticatedUser;
 import static fr.polytech.melusine.utils.MoneyFormatter.formatToLong;
 
 @Slf4j
@@ -80,7 +82,7 @@ public class UserService {
         User savedUser = userRepository.save(user);
         boolean isBarman = false;
         AccountRequest accountRequest = userRegistrationRequest.getAccount();
-        if (Objects.nonNull(accountRequest)) {
+        if (getAuthenticatedUser().isAdmin() && Objects.nonNull(accountRequest)) {
             String encryptedPassword = passwordService.encryptPassword(accountRequest.getPassword().trim());
             String email = accountRequest.getEmail().trim().toLowerCase();
 
@@ -179,6 +181,7 @@ public class UserService {
 
     @Transactional
     public void deleteUser(String id) {
+        ensureAuthenticatedUserIsAdmin();
         log.info("Deletion of order for user with ID: " + id);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(UserError.NOT_FOUND, id));
@@ -186,6 +189,7 @@ public class UserService {
         log.info("Deletion of user with ID:" + id);
         accountRepository.deleteByUser(user);
         userRepository.deleteById(user.getId());
+
     }
 
 }

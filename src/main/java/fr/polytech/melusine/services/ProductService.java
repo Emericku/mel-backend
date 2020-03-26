@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static fr.polytech.melusine.utils.AuthenticatedFinder.ensureAuthenticatedUserIsAdmin;
 import static fr.polytech.melusine.utils.MoneyFormatter.formatToLong;
 
 @Slf4j
@@ -212,6 +213,7 @@ public class ProductService {
 
     public void deleteProduct(String id) {
         log.info("Logic deletion of product with id: " + id);
+        ensureAuthenticatedUserIsAdmin();
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ProductError.NOT_FOUND, id));
         Product deletedProduct = product.toBuilder()

@@ -21,6 +21,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static fr.polytech.melusine.utils.AuthenticatedFinder.ensureAuthenticatedUserIsAdmin;
 import static fr.polytech.melusine.utils.MoneyFormatter.formatToLong;
 
 @Slf4j
@@ -141,6 +142,7 @@ public class IngredientService {
     }
 
     public void deleteIngredient(String id) {
+        ensureAuthenticatedUserIsAdmin();
         log.info("Start of the logic deletion of a product");
         Ingredient ingredient = findIngredientById(id);
 
