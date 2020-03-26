@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,16 +25,19 @@ public class OrderController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public OrderResponse createOrder(@RequestBody @Valid OrderRequest orderRequest) {
         return orderService.createOrder(orderRequest);
     }
 
     @PostMapping(path = "/items/{itemId}")
+    @ResponseStatus(HttpStatus.OK)
     public void updateOrderStatus(@PathVariable String itemId, @RequestBody OrderItemRequest request) {
         orderService.updateOrderStatus(itemId, request);
     }
 
     @GetMapping(path = "/items")
+    @ResponseStatus(HttpStatus.OK)
     public Page<OrderItemResponse> getOrderItems(
             @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable
     ) {

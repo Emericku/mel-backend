@@ -3,6 +3,7 @@ package fr.polytech.melusine.controllers;
 import fr.polytech.melusine.models.dtos.requests.AccountRequest;
 import fr.polytech.melusine.models.entities.Account;
 import fr.polytech.melusine.services.AccountService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,11 +17,13 @@ public class AccountController {
     }
 
     @PatchMapping
+    @ResponseStatus(HttpStatus.OK)
     public Account updateAccount(@RequestBody AccountRequest accountRequest) {
         return accountService.updateAccount(accountRequest);
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Account createAccount(@RequestBody AccountRequest accountRequest) {
         return accountService.createAccount(accountRequest);
     }
