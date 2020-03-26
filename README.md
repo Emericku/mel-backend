@@ -51,3 +51,7 @@ Features:
 
 ### Release 1.1.0
 - User : create and update account
+
+### Release 1.2.0
+- Ajouter une gestion admin
+- Ajouter un reformateur d'exceptions
