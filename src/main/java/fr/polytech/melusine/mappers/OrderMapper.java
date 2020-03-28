@@ -1,5 +1,6 @@
 package fr.polytech.melusine.mappers;
 
+import fr.polytech.melusine.models.charts.OrderPoint;
 import fr.polytech.melusine.models.dtos.responses.OrderResponse;
 import fr.polytech.melusine.models.entities.Order;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,13 @@ public class OrderMapper {
                 .total(formatToDouble(order.getTotal()))
                 .createdAt(order.getCreatedAt())
                 .updatedAt(order.getUpdatedAt())
+                .build();
+    }
+
+    public OrderPoint mapToOrderChart(Order order) {
+        return OrderPoint.builder()
+                .total(order.getTotal())
+                .time(order.getUpdatedAt())
                 .build();
     }
 
