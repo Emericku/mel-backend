@@ -46,7 +46,7 @@ public class ChartService {
         orderRepository.findByCreatedAtBetweenAndStatus(start, now, OrderStatus.DELIVER).stream()
                 .map(orderMapper::mapToOrderChart)
                 .map(orderPoint -> getChartPoint(chartRequest.getInterval(), orderPoint))
-                .collect(groupingBy(ChartPoint::getOrdinate))
+                .collect(groupingBy(ChartPoint::getAbscissa))
                 .forEach((time, total) -> addChartPointInList(orderCharts, time, total));
 
         return ChartResponse.builder()
@@ -56,20 +56,20 @@ public class ChartService {
 
     private void addChartPointInList(List<ChartPoint> orderCharts, Serializable time, List<? extends ChartPoint<? extends Serializable>> total) {
         double newTotal = total.stream()
-                .map(ChartPoint::getAbscissa)
+                .map(ChartPoint::getOrdinate)
                 .mapToDouble(Double::valueOf)
                 .sum();
         if (time instanceof Integer) {
             orderCharts.add(
                     ChartPointInteger.builder()
-                            .abscissa(newTotal)
-                            .ordinate((Integer) time)
+                            .ordinate(newTotal)
+                            .abscissa((Integer) time)
                             .build());
         }
         if (time instanceof String) {
             orderCharts.add(ChartPointString.builder()
-                    .abscissa(newTotal)
-                    .ordinate((String) time)
+                    .ordinate(newTotal)
+                    .abscissa((String) time)
                     .build());
         }
     }
@@ -77,33 +77,34 @@ public class ChartService {
     private ChartPoint<? extends Serializable> getChartPoint(Interval interval, OrderPoint orderPoint) {
         if (interval.equals(Interval.DECADE)) {
             return ChartPointInteger.builder()
-                    .abscissa(formatToDouble(orderPoint.getTotal()))
-                    .ordinate(orderPoint.getTime().getYear())
+                    .ordinate(formatToDouble(orderPoint.getTotal()))
+                    .abscissa(orderPoint.getTime().getYear())
                     .build();
         }
         if (interval.equals(Interval.YEAR)) {
             return ChartPointString.builder()
-                    .abscissa(formatToDouble(orderPoint.getTotal()))
-                    .ordinate(orderPoint.getTime().getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE))
+                    .ordinate(formatToDouble(orderPoint.getTotal()))
+                    .abscissa(orderPoint.getTime().getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE))
                     .build();
         }
         if (interval.equals(Interval.MONTH)) {
             return ChartPointString.builder()
-                    .abscissa(formatToDouble(orderPoint.getTotal()))
-                    .ordinate(orderPoint.getTime().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRANCE)
+                    .ordinate(formatToDouble(orderPoint.getTotal()))
+                    .abscissa(orderPoint.getTime().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRANCE)
                             + " " + orderPoint.getTime().getDayOfMonth())
                     .build();
         }
         if (interval.equals(Interval.WEEK)) {
             return ChartPointString.builder()
-                    .abscissa(formatToDouble(orderPoint.getTotal()))
-                    .ordinate(orderPoint.getTime().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRANCE))
+                    .ordinate(formatToDouble(orderPoint.getTotal()))
+                    .abscissa(orderPoint.getTime().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRANCE)
+                            + " " + orderPoint.getTime().getDayOfMonth())
                     .build();
         }
         if (interval.equals(Interval.DAY)) {
             return ChartPointInteger.builder()
-                    .abscissa(formatToDouble(orderPoint.getTotal()))
-                    .ordinate(orderPoint.getTime().getHour())
+                    .ordinate(formatToDouble(orderPoint.getTotal()))
+                    .abscissa(orderPoint.getTime().getHour())
                     .build();
         }
         throw new InternalServerErrorException(SystemError.TECHNICAL_ERROR);

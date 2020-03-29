@@ -7,8 +7,8 @@ import lombok.Value;
 @Builder
 public class ChartPointString implements ChartPoint<String> {
 
-    double abscissa;
+    double ordinate;
 
-    String ordinate;
+    String abscissa;
 
 }

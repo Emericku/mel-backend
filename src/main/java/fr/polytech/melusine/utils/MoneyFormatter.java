@@ -6,7 +6,7 @@ public final class MoneyFormatter {
     }
 
     public static Double formatToDouble(long price) {
-        return price / 100.0;
+        return Math.round(price) / 100.0;
     }
 
     public static long formatToLong(double credit) {
