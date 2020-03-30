@@ -5,9 +5,9 @@ import lombok.Value;
 
 @Value
 @Builder
-public class ChartPointString implements ChartPoint<String> {
+public class ChartPointString implements ChartPoint<Double, String> {
 
-    double ordinate;
+    Double ordinate;
 
     String abscissa;
 

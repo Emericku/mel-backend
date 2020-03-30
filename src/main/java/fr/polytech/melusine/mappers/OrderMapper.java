@@ -21,10 +21,10 @@ public class OrderMapper {
                 .build();
     }
 
-    public OrderPoint mapToOrderChart(Order order) {
+    public OrderPoint mapToOrderPoint(Order order) {
         return OrderPoint.builder()
-                .total(order.getTotal())
-                .time(order.getUpdatedAt())
+                .ordinate(order.getTotal())
+                .abscissa(order.getUpdatedAt())
                 .build();
     }
 

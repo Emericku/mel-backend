@@ -1,9 +1,9 @@
-package fr.polytech.melusine.models.enums;
+package fr.polytech.melusine.models.charts;
 
 /**
  * Frequency of the chart
  */
-public enum Interval {
+public enum ChartInterval {
     DAY,
     WEEK,
     MONTH,

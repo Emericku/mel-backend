@@ -1,16 +1,21 @@
 package fr.polytech.melusine.models.dtos.requests;
 
-import fr.polytech.melusine.models.charts.ChartType;
-import fr.polytech.melusine.models.enums.Interval;
+import fr.polytech.melusine.models.charts.ChartInterval;
+import fr.polytech.melusine.models.enums.Category;
 import lombok.Builder;
 import lombok.Data;
+
+import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @Builder
 public class ChartRequest {
 
-    Interval interval;
+    ChartInterval interval;
 
-    ChartType type;
-    
+    OffsetDateTime from;
+
+    List<Category> categories;
+
 }

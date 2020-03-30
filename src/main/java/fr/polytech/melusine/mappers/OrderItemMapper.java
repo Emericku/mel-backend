@@ -1,5 +1,6 @@
 package fr.polytech.melusine.mappers;
 
+import fr.polytech.melusine.models.charts.OrderItemPoint;
 import fr.polytech.melusine.models.dtos.responses.OrderItemResponse;
 import fr.polytech.melusine.models.entities.Ingredient;
 import fr.polytech.melusine.models.entities.OrderItem;
@@ -23,6 +24,13 @@ public class OrderItemMapper {
                 .status(orderItem.getStatus())
                 .createdAt(orderItem.getCreatedAt())
                 .updatedAt(orderItem.getUpdatedAt())
+                .build();
+    }
+
+    public OrderItemPoint mapToOrderItemPoint(OrderItem orderItem) {
+        return OrderItemPoint.builder()
+                .ordinate(orderItem.getUpdatedAt())
+                .abscissa(orderItem.getProduct().getName())
                 .build();
     }
 

@@ -7,10 +7,10 @@ import java.time.OffsetDateTime;
 
 @Data
 @Builder
-public class OrderPoint implements ChartPoint<Long, OffsetDateTime> {
+public class OrderItemPoint implements ChartPoint<OffsetDateTime, String> {
 
-    private Long ordinate;
+    private OffsetDateTime ordinate;
 
-    private OffsetDateTime abscissa;
+    private String abscissa;
 
 }

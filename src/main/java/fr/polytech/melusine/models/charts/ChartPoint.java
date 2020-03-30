@@ -1,8 +1,8 @@
 package fr.polytech.melusine.models.charts;
 
-public interface ChartPoint<T> {
+public interface ChartPoint<R, T> {
 
-    double getOrdinate();
+    R getOrdinate();
 
     T getAbscissa();
 

@@ -19,10 +19,16 @@ public class ChartController {
         this.chartService = chartService;
     }
 
-    @PostMapping
+    @PostMapping(path = "/revenues")
     @ResponseStatus(HttpStatus.OK)
-    public ChartResponse findChart(@RequestBody @Valid ChartRequest chartRequest) {
-        return chartService.findChart(chartRequest);
+    public ChartResponse findRevenuesChart(@RequestBody @Valid ChartRequest chartRequest) {
+        return chartService.findRevenuesChart(chartRequest);
+    }
+
+    @PostMapping(path = "/consumptions")
+    @ResponseStatus(HttpStatus.OK)
+    public ChartResponse findConsumptionsChart(@RequestBody @Valid ChartRequest chartRequest) {
+        return chartService.findConsumptionsChart(chartRequest);
     }
 
 }
