@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-
 @RestController
 @RequestMapping(path = "/charts", produces = "application/json; charset=UTF-8")
 public class ChartController {

@@ -9,6 +9,7 @@ public final class MoneyFormatter {
         return Math.round(price) / 100.0;
     }
 
+
     public static long formatToLong(double credit) {
         return Math.round(credit * 100);
     }
