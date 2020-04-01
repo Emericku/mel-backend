@@ -55,3 +55,9 @@ Features:
 ### Release 1.2.0
 - Ajouter une gestion admin
 - Ajouter un reformateur d'exceptions
+
+### Release 2.0.0
+- Ajouter les statistiques chiffre d'affaires
+- Ajouter les statistiques consommation
+- Ajouter l'import csv des clients
+- Ajouter l'export csv des clients
