@@ -4,6 +4,7 @@ import fr.polytech.melusine.models.charts.OrderItemPoint;
 import fr.polytech.melusine.models.dtos.responses.OrderItemResponse;
 import fr.polytech.melusine.models.entities.Ingredient;
 import fr.polytech.melusine.models.entities.OrderItem;
+import fr.polytech.melusine.models.enums.Category;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -28,6 +29,13 @@ public class OrderItemMapper {
     }
 
     public OrderItemPoint mapToOrderItemPoint(OrderItem orderItem) {
+        if (orderItem.getProduct().getCategory().equals(Category.CUSTOM)) {
+            return OrderItemPoint.builder()
+                    .ordinate(orderItem.getUpdatedAt())
+                    .abscissa(orderItem.getProduct().getCategory().toString())
+                    .build();
+        }
+
         return OrderItemPoint.builder()
                 .ordinate(orderItem.getUpdatedAt())
                 .abscissa(orderItem.getProduct().getName())
